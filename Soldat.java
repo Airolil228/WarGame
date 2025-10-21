@@ -1,4 +1,4 @@
 package wargame;
 
-public class Soldat {
+public class Soldat implement ISoldat{
 }
