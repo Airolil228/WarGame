@@ -1,6 +1,6 @@
 package wargame;
 
-public class Element {
+public abstract class Element {
 	private Object o;
 	private Position p;
 	public Element(object o,Position po) {

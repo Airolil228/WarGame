@@ -1,4 +1,4 @@
 package wargame;
 
-public class Soldat implement ISoldat{
+public abstract class Soldat extends Element implements ISoldat{
 }
