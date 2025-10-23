@@ -1,24 +1,38 @@
 package wargame;
 
 public abstract class Element {
-	private Object o;
-	private Position p;
-	public Element(object o,Position po) {
-		this.o = o;
-		this.p = new Position(po.getX(), po.getY());
+	private boolean estVisible;
+	private Position pos;
+	private Carte carte;
+	public Element(Carte carte, int pts/* ??? */, Position pos) {
+		this.carte = carte;
+		this.pos.setX(pos.getX());
+		this.pos.setY(pos.getY());
 	}
-	public Element(object o,int x, int y) {
-		this.o = o;
-		this.p = new Position(x, y);
+	public Position getP() {
+		return pos;
 	}
-	public object getElement(){
-		return o;
+	public void setP(Position p2) {
+		this.pos.setX(p2.getX());
+		this.pos.setY(p2.getY());
 	}
-	public void setPosition(Position po) {
-		this.p = new Position(po.getX(), po.getY());
+	public boolean isEstVisible() {
+		return estVisible;
 	}
-	public String toString() {
-		message = "";
-		message = message + "Object o : " + "pos x :" + p.getX() + "pos y :" + p.getY();
+	public void setEstVisible(boolean estVisible) {
+		this.estVisible = estVisible;
 	}
+	public Position getPos() {
+		return pos;
+	}
+	public void setPos(Position pos) {
+		this.pos = pos;
+	}
+	public Carte getCarte() {
+		return carte;
+	}
+	public void setCarte(Carte carte) {
+		this.carte = carte;
+	}
+	
 }

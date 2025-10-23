@@ -1,11 +1,9 @@
 package wargame;
 
+
 public class FenetreJeu {
-	public void static main() {
-		Soldat s = new Soldat();
-		Element e = new Element(s,0,0);
+	public static void main() {
+		Carte map = new Carte(15,25);
 		
-		System.out.println(""+e);
-		return ;
 	}
 }
