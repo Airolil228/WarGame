@@ -1,5 +1,6 @@
 package wargame;
-/*public interface ISoldat {
+
+public interface ISoldat {
    static enum TypesH {
       HUMAIN (40,3,10,2), NAIN (80,1,20,0), ELF (70,5,10,6), HOBBIT (20,3,5,2);
       private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
@@ -34,4 +35,4 @@ PUISSANCE = puissance; TIR = tir;
    void joueTour(int tour);
    void combat(Soldat soldat);
    void seDeplace(Position newPos);
-}*/
+}
