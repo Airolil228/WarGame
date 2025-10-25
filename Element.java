@@ -1,8 +1,9 @@
 package wargame;
 
-public abstract class Element {
+public abstract class Element{
 	private boolean estVisible;
 	private String nom;
+	private Position pos;
 	public Element() {
 		this.estVisible = true;
 		this.nom = "vide";
@@ -19,5 +20,10 @@ public abstract class Element {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	
+	public Position getPos() {
+		return pos;
+	}
+	public void setPos(Position pos) {
+		this.pos = pos;
+	}
 }

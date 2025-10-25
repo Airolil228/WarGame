@@ -1,6 +1,6 @@
 package wargame;
 
-public class Heros extends Soldat implements ISoldat{
+public class Heros extends Soldat{
 	private final String NOM;
 	private final TypesH TYPE;
 	
@@ -10,29 +10,5 @@ public class Heros extends Soldat implements ISoldat{
 		NOM = nom; TYPE = type;
 	}
 	
-	
-	public int getPoints() {
-		return 0; /* A remplacer */
-	}
-	
-	public int getTour() {
-		return 0; /* A remplacer */
-	}
-	
-	public int getPortee() {
-		return 0; /* A remplacer */
-	}
-	
-	public void joueTour(int tour) {
-		
-	}
-	
-	public void combat(Soldat soldat) {
-		
-	}
-
-	public void seDeplace(Position newPos) {
-		
-	}
 	
 }

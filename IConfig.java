@@ -1,5 +1,5 @@
 package wargame;
-/*import java.awt.Color;
+import java.awt.Color;
 
 public interface IConfig {
 	int LARGEUR_CARTE = 25; int HAUTEUR_CARTE = 15; // en nombre de cases
@@ -10,4 +10,5 @@ public interface IConfig {
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRES = Color.black;
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = Color.pink;
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
-}*/
+	Color COULEUR_PLAINE = Color.green;
+}

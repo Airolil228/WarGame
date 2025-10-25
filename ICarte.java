@@ -1,5 +1,5 @@
 package wargame;
-/*import java.awt.Graphics;
+import java.awt.Graphics;
 
 public interface ICarte {
 	Element getElement(Position pos);
@@ -14,4 +14,4 @@ public interface ICarte {
 	boolean actionHeros(Position pos, Position pos2);
 	void jouerSoldats(PanneauJeu pj);
 	void toutDessiner(Graphics g);
-}*/
+}
