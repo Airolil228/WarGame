@@ -1,0 +1,116 @@
+<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><help_text></help_text><element><id>UMLClass</id><coordinates><x>375</x><y>25</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Interface : IConfig
+(Paramètres principaux du jeu)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>415</x><y>210</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Interface : ICarte
+(Méthode de Carte)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>490</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Interface : ISoldat
+(Méthode de Soldat)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>385</x><y>335</y><w>150</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Carte
+(Gère la carte et les éléments qui y figurent)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>335</y><w>125</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Position
+(Gère la position d'un élément sur la carte)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>400</x><y>515</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Element
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>555</x><y>605</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Soldat
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>675</x><y>815</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Heros
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>535</x><y>815</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Monstre
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>395</x><y>700</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Obstacle
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>510</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : PanneauJeu
+(gère l'affichage de la carte)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>510</y><w>180</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : FenetreJeu
+(contient le main et affiche la carte et d'autres informations)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>795</x><y>260</y><w>315</w><h>70</h></coordinates><panel_attributes>fontsize=19
+
+Squelette des trois interface et des classes Position et Obstacle dans :
+
+POO L3 -&gt; Projet -&gt; wargame.zip</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>525</y><w>130</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>240;10;10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>300</y><w>15</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>425</y><w>15</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>470</y><w>15</w><h>55</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>110</x><y>115</y><w>330</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>640;10;640;120;10;120;10;790</additional_attributes></element><element><id>Relation</id><coordinates><x>485</x><y>425</y><w>175</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;180;10;120;330;120;330;10</additional_attributes></element><element><id>Relation</id><coordinates><x>425</x><y>170</y><w>210</w><h>175</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;400;10;400;330</additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>700</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Plaine
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>585</x><y>695</y><w>15</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>585</x><y>735</y><w>140</w><h>90</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;260;10;260;160</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>605</y><w>15</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>635</y><w>115</w><h>15</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;210;10</additional_attributes></element><element><id>Relation</id><coordinates><x>315</x><y>635</y><w>150</w><h>75</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;130;10;10;280;10</additional_attributes></element></diagram>
