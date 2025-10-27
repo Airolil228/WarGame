@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><help_text></help_text><element><id>UMLClass</id><coordinates><x>370</x><y>55</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><help_text></help_text><element><id>UMLClass</id><coordinates><x>370</x><y>0</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Interface : IConfig
 (Paramètres principaux du jeu)
@@ -6,7 +6,7 @@ Interface : IConfig
 
 --
 
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>405</x><y>295</y><w>105</w><h>65</h></coordinates><panel_attributes>Package::wargame
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>405</x><y>240</y><w>105</w><h>65</h></coordinates><panel_attributes>Package::wargame
 
 Interface : ICarte
 (Méthode de Carte)
@@ -15,7 +15,7 @@ Interface : ICarte
 --
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>670</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>615</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Interface : ISoldat
 (Méthode de Soldat)
@@ -24,7 +24,7 @@ Interface : ISoldat
 --
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>385</x><y>430</y><w>150</w><h>180</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>385</x><y>375</y><w>150</w><h>180</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Carte
 (Gère la carte et les éléments qui y figurent)
@@ -49,7 +49,7 @@ Classe : Carte
 +void jouerSoldats(PanneauJeu pj) 
 +void toutDessiner(Graphics g) 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>485</y><w>125</w><h>125</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>430</y><w>125</w><h>125</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Position
 (Gère la position d'un élément sur la carte)
@@ -67,7 +67,7 @@ Classe : Position
 +boolean estVoisine(Position pos) 
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>400</x><y>680</y><w>105</w><h>110</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>400</x><y>625</y><w>105</w><h>110</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Element
 --
@@ -83,7 +83,7 @@ Classe : Element
 +Position getPos()
 +void setPos(Position pos)
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>555</x><y>740</y><w>105</w><h>140</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>555</x><y>685</y><w>140</w><h>140</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Soldat
 --
@@ -95,7 +95,7 @@ Classe : Soldat
 -carte : Carte
 -pos : Position 
 --
-+Soldat(Carte carte, int pts, int portee, int puiss, int tir, Position pos)
++Soldat(carte, pts, portee, puiss, tir, pos)
 +int getPoints()
 +int getTour() 
 +int getPortee()
@@ -103,7 +103,7 @@ Classe : Soldat
 +void combat(Soldat soldat)
 +void seDeplace(Position newPos)
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>750</x><y>995</y><w>175</w><h>95</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>750</x><y>940</y><w>175</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Heros
 --
@@ -112,7 +112,7 @@ Classe : Heros
 --	
 +Heros(Carte carte, TypesH type, String nom, Position pos)
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>535</x><y>995</y><w>180</w><h>95</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>535</x><y>940</y><w>180</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Monstre
 --
@@ -121,7 +121,7 @@ Classe : Monstre
 --
 +Monstre(Carte carte, TypesM type, String nom, Position pos)
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>395</x><y>880</y><w>130</w><h>95</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>395</x><y>825</y><w>130</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Obstacle
 --
@@ -135,7 +135,7 @@ Classe : Obstacle
 Obstacle(TypeObstacle type, Position pos)
 +String toString()
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>690</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>190</x><y>635</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Classe : PanneauJeu
 (gère l'affichage de la carte)
@@ -144,7 +144,7 @@ Classe : PanneauJeu
 --
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>690</y><w>180</w><h>95</h></coordinates><panel_attributes>Package::wargame
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>635</y><w>180</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Classe : FenetreJeu
 (contient le main et affiche la carte et d'autres informations)
@@ -153,11 +153,11 @@ Classe : FenetreJeu
 --
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>755</x><y>80</y><w>315</w><h>70</h></coordinates><panel_attributes>fontsize=19
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>755</x><y>25</y><w>315</w><h>70</h></coordinates><panel_attributes>fontsize=19
 
 Squelette des trois interface et des classes Position et Obstacle dans :
 
-POO L3 -&gt; Projet -&gt; wargame.zip</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>705</y><w>130</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>240;10;10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>355</y><w>15</w><h>85</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>605</y><w>15</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>650</y><w>15</w><h>40</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>110</x><y>145</y><w>325</w><h>555</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>630;10;630;200;10;200;10;1090</additional_attributes></element><element><id>Relation</id><coordinates><x>485</x><y>605</y><w>175</w><h>85</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;150;10;90;330;90;330;10</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>240</y><w>215</w><h>255</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;410;10;410;490</additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>880</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
+POO L3 -&gt; Projet -&gt; wargame.zip</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>650</y><w>130</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>240;10;10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>300</y><w>15</w><h>85</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>550</y><w>15</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>595</y><w>15</w><h>40</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>110</x><y>90</y><w>325</w><h>555</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>630;10;630;200;10;200;10;1090</additional_attributes></element><element><id>Relation</id><coordinates><x>485</x><y>550</y><w>175</w><h>85</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;150;10;90;330;90;330;10</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>185</y><w>215</w><h>255</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;410;10;410;490</additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>825</y><w>105</w><h>95</h></coordinates><panel_attributes>Package::wargame
 
 Classe : Plaine
 --
@@ -165,7 +165,7 @@ Classe : Plaine
 --
 
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>585</x><y>875</y><w>15</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>585</x><y>915</y><w>220</w><h>90</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;420;10;420;160</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>785</y><w>15</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>815</y><w>115</w><h>15</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;210;10</additional_attributes></element><element><id>Relation</id><coordinates><x>315</x><y>815</y><w>150</w><h>75</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;130;10;10;280;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>755</x><y>215</y><w>320</w><h>210</h></coordinates><panel_attributes>fontsize=19
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>585</x><y>820</y><w>15</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>585</x><y>860</y><w>220</w><h>90</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;420;10;420;160</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>730</y><w>15</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>760</y><w>115</w><h>15</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;210;10</additional_attributes></element><element><id>Relation</id><coordinates><x>315</x><y>760</y><w>150</w><h>75</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;130;10;10;280;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>755</x><y>160</y><w>320</w><h>210</h></coordinates><panel_attributes>fontsize=19
 
 A faire :
 - Gestion de l'affichage du jeu (biblio graphique | classe PanneauJeu)
