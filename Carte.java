@@ -221,6 +221,43 @@ public class Carte implements ICarte, IConfig{
 		
 	}
 	
+	public void initArmeeHeros() {
+		for (int i = 0; i< NB_HEROS;i++) {
+			Position p = trouvePositionVide();
+			Heros h = new Heros(this, ISoldat.TypesH.HUMAIN, "Robert", p);
+			armeeHeros[i] = h;
+			tab[p.getY()][p.getX()] = h;
+		}
+	}
+	
+	public void initArmeeMonstre() {
+		for (int i = 0; i< NB_MONSTRES;i++) {
+			Position p = trouvePositionVide();
+			Monstre m = new Monstre(this, ISoldat.TypesM.GOBELIN, "Patrick", p);
+			armeeMonstre[i] = m;
+			tab[p.getY()][p.getX()] = m;
+		}
+	}
+	
+	public void initObstacleAlea(int nb_ob) {
+		for (int i = 0; i< nb_ob;i++) {
+			Position p = trouvePositionVide();
+			tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.ROCHER, p);
+		}
+	}
+	
+	public void initRiviereAlea(int nb_riv) {
+		Position p = trouvePositionVide();
+		tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
+		nb_riv --;
+		
+		while (nb_riv > 0) {
+			p = trouvePositionVide(p);
+			tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
+			nb_riv --;
+		}
+	}
+	
 	public boolean actionHeros(Position pos, Position pos2) {
 		return false;  // 
 	}
