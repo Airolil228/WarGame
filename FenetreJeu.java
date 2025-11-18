@@ -25,7 +25,7 @@ public class FenetreJeu implements IConfig{
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.LINE_AXIS));
         panelBoutons.setPreferredSize(new Dimension(150, 200)); // largeur fixe
 
-        panelBoutons.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panelBoutons.setLayout(new FlowLayout(FlowLayout.LEFT));
        
         // Ajout au panel
         panelBoutons.add(boutonAttaquer);
@@ -126,3 +126,4 @@ public class FenetreJeu implements IConfig{
         });
     }
 }
+
