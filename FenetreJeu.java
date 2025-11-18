@@ -17,45 +17,68 @@ public class FenetreJeu implements IConfig{
     private static JButton boutonDeplacer;
     
     
-    private static void creationBoutonsHeros(JPanel panelBoutons) {
+    private static void creationBoutonsHeros(JPanel panelBoutons, Carte map) {
 
         boutonAttaquer = new JButton("Attaquer");
         boutonDeplacer = new JButton("Déplacer");
         
-        panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.Y_AXIS));
+        panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.LINE_AXIS));
         panelBoutons.setPreferredSize(new Dimension(150, 200)); // largeur fixe
 
-        panelBoutons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        
-        
-
+        panelBoutons.setLayout(new FlowLayout(FlowLayout.CENTER));
+       
         // Ajout au panel
         panelBoutons.add(boutonAttaquer);
         panelBoutons.add(boutonDeplacer);
+        
+        
+        boutonAttaquer.addActionListener(e -> actionAttaquer(map));
+        boutonDeplacer.addActionListener(e -> actionDeplacer(map));
 
         panelBoutons.getParent().revalidate();
         panelBoutons.getParent().repaint();
+    }
+    
+    private static void actionAttaquer(Carte map) {
+    	Position p = map.getSelect();
+    	Element e = map.getElement(p);
+    	if (e instanceof Heros) {
+    		System.out.println("→ Action : ATTAQUER");// ici tu mets ton code pour attaquer
+    	}
+    	
+    }
+
+    private static void actionDeplacer(Carte map) {
+    	Position p = map.getSelect();
+    	Element e = map.getElement(p);
+    	if (e instanceof Heros) {
+    		System.out.println("→ Action : DEPLACER");// ici code pour déplacer un héros
+    	}
     }
     
     
 	public static void main(String[] args) {
 		Carte map = new Carte(HAUTEUR_CARTE,LARGEUR_CARTE);
 		
-		
-		
         JFrame jeu = new JFrame("Jeu");
         jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
+        
+        
+        JPanel main = new JPanel();
+        main.setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
+        
         
         JPanel panel = new PanneauJeu(map);
         
-
-        jeu.add(panel);
+        
+        jeu.add(main);
+        main.add(panel);
+        creationBoutonsHeros(main,map);
         jeu.pack();
         jeu.setLocationRelativeTo(null);
         jeu.setVisible(true);
         
-        creationBoutonsHeros(panel);
         
         
      // Listener des clics

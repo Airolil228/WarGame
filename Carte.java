@@ -261,13 +261,6 @@ public class Carte implements ICarte, IConfig{
 			nb_riv --;
 		}
 	}
-	
-	public boolean actionHeros(Position pos, Position pos2) {
-		return false;  // 
-	}
-	public void jouerSoldats(PanneauJeu pj) {
-		
-	}
 	public void toutDessiner(Graphics g) {
 		// TODO Stub de la méthode généré automatiquement
 		for (int x = 0; x < HAUTEUR_CARTE; x++) {
@@ -297,7 +290,7 @@ public class Carte implements ICarte, IConfig{
             }
         }
 		g.setColor(COULEUR_SELECTION);
-		if (select.getY() != -1) { // Si pas de selecetion x = -1 et y = -1
+		if (select.getY() != -1) { // Si pas de selection x = -1 et y = -1
 			if (select.getX() >= 0 && select.getX() < hauteur && select.getY() >= 0 && select.getY() < largeur ) {
 				g.drawRect(select.getY() * NB_PIX_CASE, select.getX() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); // Draw : Y puis X
 				if (tab[select.getX()][select.getY()] instanceof Heros) {  // Position getX getY
@@ -308,7 +301,18 @@ public class Carte implements ICarte, IConfig{
 			}
 		}
 	}
+	public Position getSelect() {
+		Position p = new Position(select.getX(),select.getY());
+		return p;
+	}
 	public void marquerCase(int y, int x) {
 	    select = new Position(y,x);
+	}
+	// A faire
+	public boolean actionHeros(Position pos, Position pos2) {
+		return false;  // 
+	}
+	public void jouerSoldats(PanneauJeu pj) {
+		
 	}
 }

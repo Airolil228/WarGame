@@ -24,12 +24,4 @@ public class PanneauJeu extends JPanel implements IConfig{
         map.toutDessiner(g);
     }
 	
-    
-    private static void actionAttaquer() {
-        System.out.println("→ Action : ATTAQUER");// ici tu mets ton code pour attaquer
-    }
-
-    private static void actionDeplacer() {
-        System.out.println("→ Action : DEPLACER");// ici code pour déplacer un héros
-    }
 }
