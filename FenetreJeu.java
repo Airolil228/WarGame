@@ -1,10 +1,43 @@
 package wargame;
-import java.awt.Color;
-import java.awt.Graphics;
+
+
+import java.awt.event.*;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import java.awt.*;
 
 public class FenetreJeu implements IConfig{
+    private static boolean running = true;
+    private static int lastClickX = -1;
+    private static int lastClickY = -1;
+    private static JButton boutonAttaquer;
+    private static JButton boutonDeplacer;
+    
+    
+    private static void creationBoutonsHeros(JPanel panelBoutons) {
+
+        boutonAttaquer = new JButton("Attaquer");
+        boutonDeplacer = new JButton("Déplacer");
+        
+        panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.Y_AXIS));
+        panelBoutons.setPreferredSize(new Dimension(150, 200)); // largeur fixe
+
+        panelBoutons.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        
+        
+
+        // Ajout au panel
+        panelBoutons.add(boutonAttaquer);
+        panelBoutons.add(boutonDeplacer);
+
+        panelBoutons.getParent().revalidate();
+        panelBoutons.getParent().repaint();
+    }
+    
+    
 	public static void main(String[] args) {
 		Carte map = new Carte(HAUTEUR_CARTE,LARGEUR_CARTE);
 		
@@ -14,45 +47,59 @@ public class FenetreJeu implements IConfig{
         jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         
-        JPanel panel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
+        JPanel panel = new PanneauJeu(map);
+        
 
-                // Dessin du tableau
-                for (int x = 0; x < HAUTEUR_CARTE; x++) {
-                    for (int y = 0; y < LARGEUR_CARTE; y++) {
-                    	switch (map.getElement(x,y).getClass().getSimpleName()) {
-                    	case ("Plaine"):
-	                        g.setColor(COULEUR_PLAINE);
-	                        g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-	                        break;
-                    	case ("Obstacle"):
-	                        g.setColor(COULEUR_ROCHER); // Obstacle: prendre en compte si c'est de l'eau, un rocher, une forêt (dans Obstacle.java)
-	                        g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-	                        break;
-                    	case ("Heros"):
-	                        g.setColor(COULEUR_HEROS);  // Prendre en compte les héros déjà joués également
-	                        g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-	                        break;
-                    	case ("Monstre"):
-	                        g.setColor(COULEUR_MONSTRES);
-	                        g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-	                        break;
-                    	}
-                    	
-
-                        g.setColor(COULEUR_TEXTE); // contour
-                        g.drawRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-                    }
-                }
-            }
-        };
-
-        panel.setPreferredSize(new java.awt.Dimension(LARGEUR_CARTE * NB_PIX_CASE, HAUTEUR_CARTE * NB_PIX_CASE));
         jeu.add(panel);
         jeu.pack();
         jeu.setLocationRelativeTo(null);
         jeu.setVisible(true);
+        
+        creationBoutonsHeros(panel);
+        
+        
+     // Listener des clics
+        jeu.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                lastClickX = e.getX() / NB_PIX_CASE;
+                lastClickY = (e.getY() / NB_PIX_CASE) - 2;
+                System.out.println("Clic détecté: " + lastClickX + ", " + lastClickY);
+                
+                map.marquerCase(lastClickY, lastClickX);
+                panel.repaint();
+            }
+        });
+
+        jeu.setVisible(true);
+
+        // Thread du jeu (boucle infinie tant que la fenêtre est ouverte)
+        Thread gameLoop = new Thread(() -> {
+            while (running) {
+
+                // Exemple : si un clic a eu lieu
+                if (lastClickX != -1) {
+                    System.out.println("Traitement du clic...");
+                    lastClickX = -1; // On "consomme" le clic
+                }
+
+                // Ton code de mise à jour du jeu ici
+                // ...
+
+                try { Thread.sleep(16); } catch (InterruptedException ignored) {}
+            }
+            System.out.println("Boucle de jeu arrêtée.");
+        });
+
+        gameLoop.start();
+
+        // Quand la fenêtre se ferme → arrêter la boucle
+        jeu.addWindowListener(new WindowAdapter() {
+        	public void windowClosing(WindowEvent e) {
+                running = false;   // ARRÊTE LA BOUCLE
+                try {
+                    gameLoop.join();  // attend que le thread s'arrête proprement
+                } catch (InterruptedException ex) {}
+            }
+        });
     }
 }

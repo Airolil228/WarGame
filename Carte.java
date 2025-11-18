@@ -1,5 +1,7 @@
 package wargame;
 
+import java.awt.Graphics;
+
 //import java.awt.Graphics;
 
 import wargame.ISoldat.TypesH;
@@ -12,7 +14,9 @@ public class Carte implements ICarte, IConfig{
 	private int nbMonstreVivant;
 	private int hauteur;
 	private int largeur;
+	private Position select;
 	public Carte(int hauteur, int largeur) {
+		select = new Position(-1,-1);
 		int i,j;
 		this.hauteur = hauteur;
 		this.largeur = largeur;
@@ -264,7 +268,47 @@ public class Carte implements ICarte, IConfig{
 	public void jouerSoldats(PanneauJeu pj) {
 		
 	}
-/*	public void toutDessiner(Graphics g) {
-		
-	}*/
+	public void toutDessiner(Graphics g) {
+		// TODO Stub de la méthode généré automatiquement
+		for (int x = 0; x < HAUTEUR_CARTE; x++) {
+            for (int y = 0; y < LARGEUR_CARTE; y++) {
+            	switch (getElement(x,y).getClass().getSimpleName()) {
+            	case ("Plaine"):
+                    g.setColor(COULEUR_PLAINE);
+                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+                    break;
+            	case ("Obstacle"):
+                    g.setColor(COULEUR_ROCHER); // Obstacle: prendre en compte si c'est de l'eau, un rocher, une forêt (dans Obstacle.java)
+                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+                    break;
+            	case ("Heros"):
+                    g.setColor(COULEUR_HEROS);  // Prendre en compte les héros déjà joués également
+                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+                    break;
+            	case ("Monstre"):
+                    g.setColor(COULEUR_MONSTRES);
+                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+                    break;
+            	}
+            	
+
+                g.setColor(COULEUR_TEXTE); // contour
+                g.drawRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+            }
+        }
+		g.setColor(COULEUR_SELECTION);
+		if (select.getY() != -1) { // Si pas de selecetion x = -1 et y = -1
+			if (select.getX() >= 0 && select.getX() < hauteur && select.getY() >= 0 && select.getY() < largeur ) {
+				g.drawRect(select.getY() * NB_PIX_CASE, select.getX() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); // Draw : Y puis X
+				if (tab[select.getX()][select.getY()] instanceof Heros) {  // Position getX getY
+					Heros h = (Heros) tab[select.getX()][select.getY()];
+					System.out.println(" Espèce : " + h.getTYPE() + ", nom :" + h.getNom());
+					
+				}
+			}
+		}
+	}
+	public void marquerCase(int y, int x) {
+	    select = new Position(y,x);
+	}
 }
