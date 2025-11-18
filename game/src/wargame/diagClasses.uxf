@@ -1,0 +1,178 @@
+<diagram program="umletino" version="15.1"><zoom_level>1</zoom_level><help_text></help_text><element><id>UMLClass</id><coordinates><x>74</x><y>338</y><w>21</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Interface : IConfig
+(Paramètres principaux du jeu)
+--
+
+--
+
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>81</x><y>386</y><w>21</w><h>13</h></coordinates><panel_attributes>Package::wargame
+
+Interface : ICarte
+(Méthode de Carte)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>144</x><y>461</y><w>21</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Interface : ISoldat
+(Méthode de Soldat)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>77</x><y>413</y><w>30</w><h>36</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Carte
+(Gère la carte et les éléments qui y figurent)
+--
+-tab : Element[][]
+-hauteur : int
+-largeur : int
+--
++Carte(hauteur, largeur)
++getJeu()
++setJeu(jeu)
++afficherCarteConsole()
++getElement(pos)
++getElement(x,y)
++Position trouvePositionVide()
++Position trouvePositionVide(Position pos)
++Heros trouveHeros()
++Heros trouveHeros(Position pos)
++boolean deplaceSoldat(Position pos, Soldat soldat) 
++void mort(Soldat perso) 
++boolean actionHeros(Position pos, Position pos2)
++void jouerSoldats(PanneauJeu pj) 
++void toutDessiner(Graphics g) 
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>424</y><w>25</w><h>25</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Position
+(Gère la position d'un élément sur la carte)
+--
+-x : int
+-y : int
+--
++Position(int x, int y) 
++int getX() 
++int getY() 
++void setX(int x) 
++void setY(int y) 
++boolean estValide()
++String toString()
++boolean estVoisine(Position pos) 
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>80</x><y>463</y><w>21</w><h>22</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Element
+--
+-boolean estVisible;
+-String nom; (peut être à enlever ?)
+-Position pos;
+--
++Element()
++boolean EstVisible() 
++void setEstVisible(boolean estVisible)
++String getNom()
++void setNom(String nom)
++Position getPos()
++void setPos(Position pos)
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>111</x><y>475</y><w>28</w><h>28</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Soldat
+--
+-POINTS_DE_VIE_MAX : int 
+-PUISSANCE : int 
+-TIR : int 
+-PORTEE_VISUELLE : int
+-pointsDeVie : int
+-carte : Carte
+-pos : Position 
+--
++Soldat(carte, pts, portee, puiss, tir, pos)
++int getPoints()
++int getTour() 
++int getPortee()
++void joueTour(int tour)
++void combat(Soldat soldat)
++void seDeplace(Position newPos)
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>150</x><y>526</y><w>35</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Heros
+--
+-NOM : String
+-TYPE : TypesH 
+--	
++Heros(Carte carte, TypesH type, String nom, Position pos)
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>107</x><y>526</y><w>36</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Monstre
+--
+-NOM : String
+-TYPE : TypesM
+--
++Monstre(Carte carte, TypesM type, String nom, Position pos)
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>79</x><y>503</y><w>26</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Obstacle
+--
++enum TypeObstacle
+        -COULEUR : Color
+        TypeObstacle(Color couleur)
+        +static TypeObstacle getObstacleAlea()
+
+-TYPE : TypeObstacle 
+--
+Obstacle(TypeObstacle type, Position pos)
++String toString()
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>38</x><y>465</y><w>21</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Classe : PanneauJeu
+(gère l'affichage de la carte)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>465</y><w>36</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Classe : FenetreJeu
+(contient le main et affiche la carte et d'autres informations)
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>151</x><y>343</y><w>63</w><h>14</h></coordinates><panel_attributes>fontsize=19
+
+Squelette des trois interface et des classes Position et Obstacle dans :
+
+POO L3 -&gt; Projet -&gt; wargame.zip</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>120</x><y>468</y><w>26</w><h>9</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>240;10;10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>92</x><y>398</y><w>3</w><h>17</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>448</y><w>3</w><h>12</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>457</y><w>3</w><h>8</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>22</x><y>356</y><w>65</w><h>111</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>630;10;630;200;10;200;10;1090</additional_attributes></element><element><id>Relation</id><coordinates><x>97</x><y>448</y><w>35</w><h>17</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;150;10;90;330;90;330;10</additional_attributes></element><element><id>Relation</id><coordinates><x>84</x><y>375</y><w>43</w><h>51</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;410;10;410;490</additional_attributes></element><element><id>UMLClass</id><coordinates><x>52</x><y>503</y><w>21</w><h>19</h></coordinates><panel_attributes>Package::wargame
+
+Classe : Plaine
+--
+
+--
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>117</x><y>502</y><w>3</w><h>26</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;240</additional_attributes></element><element><id>Relation</id><coordinates><x>117</x><y>510</y><w>44</w><h>18</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;420;10;420;160</additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>484</y><w>3</w><h>21</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>490</y><w>23</w><h>3</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;210;10</additional_attributes></element><element><id>Relation</id><coordinates><x>63</x><y>490</y><w>30</w><h>15</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;130;10;10;280;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>153</x><y>369</y><w>64</w><h>42</h></coordinates><panel_attributes>fontsize=19
+
+A faire :
+- Gestion de l'affichage du jeu (biblio graphique | classe PanneauJeu)
+- Toutes les fonctions prédéfinies mais non remplies 
+(dans Element, Soldat et Carte)
+- Gestion de l'apparition des éléments au début du jeu
+(Aléatoires controlés :
+- Apparition Héros / Monstres
+- Rivières continues
+- Obstacles non bloquants )</panel_attributes><additional_attributes></additional_attributes></element></diagram>
