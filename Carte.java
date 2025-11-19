@@ -30,8 +30,9 @@ public class Carte implements ICarte, IConfig{
 				tab[i][j] = new Plaine();
 			}
 		}
-		tab[5][5] = new Heros(this,ISoldat.TypesH.HUMAIN,"BLOUP BLOUP",new Position(5,5));
-		
+		//tab[5][5] = new Heros(this,ISoldat.TypesH.HUMAIN,"BLOUP BLOUP",new Position(5,5));
+		initArmeeHeros();
+		initArmeeMonstre();
 	}
 	public Element[][] getJeu() {
 		return tab;
@@ -83,7 +84,41 @@ public class Carte implements ICarte, IConfig{
 				b = true;
 			}
 		}
-		Position p = new Position(y,x);
+		Position p = new Position(x,y);
+		return p;
+	}
+	public Position trouvePositionVideHeros() {
+		// Trouve aléatoirement une position vide sur la carte
+		boolean b = false;
+		int x = -1;
+		int y = -1;
+		
+		while (!b) {
+			x = (int) (Math.random() * (LARGEUR_CARTE/2));
+			y = (int) (Math.random() * HAUTEUR_CARTE);
+			
+			if (tab[y][x] instanceof Plaine) {
+				b = true;
+			}
+		}
+		Position p = new Position(x,y);
+		return p;
+	}
+	public Position trouvePositionVideMonstre() {
+		// Trouve aléatoirement une position vide sur la carte
+		boolean b = false;
+		int x = -1;
+		int y = -1;
+		
+		while (!b) {
+			x = (int) ((Math.random() * (LARGEUR_CARTE/2))+(LARGEUR_CARTE/2));
+			y = (int) (Math.random() * HAUTEUR_CARTE);
+			
+			if (tab[y][x] instanceof Plaine) {
+				b = true;
+			}
+		}
+		Position p = new Position(x,y);
 		return p;
 	}
 	
@@ -227,8 +262,27 @@ public class Carte implements ICarte, IConfig{
 	
 	public void initArmeeHeros() {
 		for (int i = 0; i< NB_HEROS;i++) {
-			Position p = trouvePositionVide();
-			Heros h = new Heros(this, ISoldat.TypesH.HUMAIN, "Robert", p);
+			Position p = trouvePositionVideHeros();
+			int type = (int) (Math.random() * ISoldat.nbTypeHeros);
+			ISoldat.TypesH th = ISoldat.TypesH.ELF;
+			switch (type) {
+			case(0):
+				th = ISoldat.TypesH.ELF;
+				break;
+			case(1):
+				th = ISoldat.TypesH.HOBBIT;
+				break;
+			case(2):
+				th = ISoldat.TypesH.HUMAIN;
+				break;
+			case(3):
+				th = ISoldat.TypesH.NAIN;
+				break;
+			default:
+				;
+			}
+			
+			Heros h = new Heros(this, th, "Robert", p);
 			armeeHeros[i] = h;
 			tab[p.getY()][p.getX()] = h;
 		}
@@ -236,8 +290,24 @@ public class Carte implements ICarte, IConfig{
 	
 	public void initArmeeMonstre() {
 		for (int i = 0; i< NB_MONSTRES;i++) {
-			Position p = trouvePositionVide();
-			Monstre m = new Monstre(this, ISoldat.TypesM.GOBELIN, "Patrick", p);
+			Position p = trouvePositionVideMonstre();
+			int type = (int) (Math.random() * ISoldat.nbTypeMonstre);
+			ISoldat.TypesM th = ISoldat.TypesM.GOBELIN;
+			switch (type) {
+			case(0):
+				th = ISoldat.TypesM.GOBELIN;
+				break;
+			case(1):
+				th = ISoldat.TypesM.ORC;
+				break;
+			case(2):
+				th = ISoldat.TypesM.TROLL;
+				break;
+			default:
+				;
+			}
+			
+			Monstre m = new Monstre(this, th, "Patrick", p);
 			armeeMonstre[i] = m;
 			tab[p.getY()][p.getX()] = m;
 		}
@@ -293,9 +363,17 @@ public class Carte implements ICarte, IConfig{
 		if (select.getY() != -1) { // Si pas de selection x = -1 et y = -1
 			if (select.getX() >= 0 && select.getX() < hauteur && select.getY() >= 0 && select.getY() < largeur ) {
 				g.drawRect(select.getY() * NB_PIX_CASE, select.getX() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); // Draw : Y puis X
+				
+				
 				if (tab[select.getX()][select.getY()] instanceof Heros) {  // Position getX getY
 					Heros h = (Heros) tab[select.getX()][select.getY()];
 					System.out.println(" Espèce : " + h.getTYPE() + ", nom :" + h.getNom());
+					
+				}
+				
+				if (tab[select.getX()][select.getY()] instanceof Monstre) {  // Position getX getY
+					Monstre m = (Monstre) tab[select.getX()][select.getY()];
+					System.out.println(" Espèce : " + m.getTYPE() + ", nom :" + m.getNom());
 					
 				}
 			}
@@ -308,6 +386,7 @@ public class Carte implements ICarte, IConfig{
 	public void marquerCase(int y, int x) {
 	    select = new Position(y,x);
 	}
+	
 	// A faire
 	public boolean actionHeros(Position pos, Position pos2) {
 		return false;  // 

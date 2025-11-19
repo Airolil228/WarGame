@@ -1,5 +1,6 @@
 package wargame;
 
+import wargame.ISoldat.TypesH;
 
 public class Monstre extends Soldat{
 	private final String NOM;
@@ -11,4 +12,7 @@ public class Monstre extends Soldat{
 		NOM = nom; TYPE = type;
 	}
 	
+	public TypesM getTYPE() {
+		return TYPE;
+	}
 }
