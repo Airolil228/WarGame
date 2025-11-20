@@ -33,6 +33,10 @@ public class Carte implements ICarte, IConfig{
 		//tab[5][5] = new Heros(this,ISoldat.TypesH.HUMAIN,"BLOUP BLOUP",new Position(5,5));
 		initArmeeHeros();
 		initArmeeMonstre();
+		initObstacleAlea();
+		initRiviereAlea(7);
+		initRiviereAlea(6);
+		initRiviereAlea(5);
 	}
 	public Element[][] getJeu() {
 		return tab;
@@ -122,6 +126,22 @@ public class Carte implements ICarte, IConfig{
 		return p;
 	}
 	
+	private boolean verifRivierePossible(Position p) {
+		int y,x;
+		for (int i = -1;i<=1;i++) {
+			y = p.getY() + i;
+			for (int j = -1;j<=1;j++) {
+				x = p.getX() + j;
+				if ((x >= 0 && x < LARGEUR_CARTE) && (y >= 0 && y < HAUTEUR_CARTE) )  {
+					if (tab[y][x] instanceof Plaine) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public Position trouvePositionVide(Position pos) {
 		// Trouve une position vide choisie
 		// al�atoirement parmi les 8 positions adjacentes de pos
@@ -129,17 +149,23 @@ public class Carte implements ICarte, IConfig{
 		int x = -1;
 		int y = -1;
 		
-		while (!b) {
-			x = (int) (Math.random() * 3 - 1);  // entre -1 et 1
-			y = (int) (Math.random() * 3 - 1);
-			
-			if (tab[pos.getY()+y][pos.getX()+x] instanceof Plaine) {
-				b = true;
+		if (verifRivierePossible(pos)) { // Si on ne peut pas mettre de rivière on doit pas entrer dans la boucle
+		
+			while (!b) {
+				x = ((int) (Math.random() * 3 - 1)) + pos.getX();  // entre -1 et 1
+				y = ((int) (Math.random() * 3 - 1)) + pos.getY();
+				
+				if ((x >= 0 && x < LARGEUR_CARTE) && (y >= 0 && y < HAUTEUR_CARTE) )  {
+					if (tab[y][x] instanceof Plaine) {
+						b = true;
+					}
+				}
 			}
+			
 		}
 		
 		
-		Position p = new Position(y,x);
+		Position p = new Position(x,y);
 		return p;
 	}
 	public Heros trouveHeros() {
@@ -313,17 +339,34 @@ public class Carte implements ICarte, IConfig{
 		}
 	}
 	
-	public void initObstacleAlea(int nb_ob) {
-		for (int i = 0; i< nb_ob;i++) {
+	public void initObstacleAlea() {
+		for (int i = 0; i< NB_OBSTACLES;i++) {
 			Position p = trouvePositionVide();
-			tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.ROCHER, p);
+			
+			int type = (int) (Math.random() * Obstacle.nbObstacle);
+			Obstacle.TypeObstacle th = Obstacle.TypeObstacle.ROCHER;
+			switch (type) {
+			case(0):
+				th = Obstacle.TypeObstacle.ROCHER;
+				break;
+			case(1):
+				th = Obstacle.TypeObstacle.FORET;
+				break;
+			case(2):
+				th = Obstacle.TypeObstacle.EAU;
+				break;
+			default:
+				;
+			}
+			
+			tab[p.getY()][p.getX()] = new Obstacle(th, p);
 		}
 	}
 	
-	public void initRiviereAlea(int nb_riv) {
+	public void initRiviereAlea(int tailleRiviere) {
+		int nb_riv = tailleRiviere;
 		Position p = trouvePositionVide();
-		tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
-		nb_riv --;
+		
 		
 		while (nb_riv > 0) {
 			p = trouvePositionVide(p);
@@ -340,8 +383,20 @@ public class Carte implements ICarte, IConfig{
                     g.setColor(COULEUR_PLAINE);
                     g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
                     break;
-            	case ("Obstacle"):
-                    g.setColor(COULEUR_ROCHER); // Obstacle: prendre en compte si c'est de l'eau, un rocher, une forêt (dans Obstacle.java)
+            	case ("Obstacle"): // Obstacle: prendre en compte si c'est de l'eau, un rocher, une forêt (dans Obstacle.java)
+            		Obstacle o = (Obstacle) getElement(x,y);
+            		Obstacle.TypeObstacle to = o.getTYPE();
+            		switch (to) {
+					case EAU:
+						g.setColor(COULEUR_EAU);
+						break;
+					case FORET:
+						g.setColor(COULEUR_FORET);
+						break;
+					case ROCHER:
+						g.setColor(COULEUR_ROCHER);
+						break;
+            		}
                     g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
                     break;
             	case ("Heros"):
@@ -364,6 +419,7 @@ public class Carte implements ICarte, IConfig{
 			if (select.getX() >= 0 && select.getX() < hauteur && select.getY() >= 0 && select.getY() < largeur ) {
 				g.drawRect(select.getY() * NB_PIX_CASE, select.getX() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); // Draw : Y puis X
 				
+				System.out.println(" Case : " + tab[select.getX()][select.getY()].getClass().getSimpleName());
 				
 				if (tab[select.getX()][select.getY()] instanceof Heros) {  // Position getX getY
 					Heros h = (Heros) tab[select.getX()][select.getY()];
@@ -376,6 +432,13 @@ public class Carte implements ICarte, IConfig{
 					System.out.println(" Espèce : " + m.getTYPE() + ", nom :" + m.getNom());
 					
 				}
+				
+				if (tab[select.getX()][select.getY()] instanceof Obstacle) {  // Position getX getY
+					Obstacle o = (Obstacle) tab[select.getX()][select.getY()];
+					System.out.println(" Type : " + o.getTYPE());
+					
+				}
+				
 			}
 		}
 	}
