@@ -145,6 +145,7 @@ public class Carte implements ICarte, IConfig{
 	public Position trouvePositionVide(Position pos) {
 		// Trouve une position vide choisie
 		// al�atoirement parmi les 8 positions adjacentes de pos
+		Position p;
 		boolean b = false;
 		int x = -1;
 		int y = -1;
@@ -162,10 +163,11 @@ public class Carte implements ICarte, IConfig{
 				}
 			}
 			
+			p = new Position(x,y);
+			
+		}else {
+			p = pos;
 		}
-		
-		
-		Position p = new Position(x,y);
 		return p;
 	}
 	public Heros trouveHeros() {
