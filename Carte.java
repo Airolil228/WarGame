@@ -132,7 +132,7 @@ public class Carte implements ICarte, IConfig{
 			y = p.getY() + i;
 			for (int j = -1;j<=1;j++) {
 				x = p.getX() + j;
-				if ((x >= 0 && x < LARGEUR_CARTE) && (y >= 0 && y < HAUTEUR_CARTE) )  {
+				if ((x >= 0 && x < LARGEUR_CARTE) && (y >= 0 && y < HAUTEUR_CARTE) && ((x==0) && (y==0)) )  {
 					if (tab[y][x] instanceof Plaine) {
 						return true;
 					}
