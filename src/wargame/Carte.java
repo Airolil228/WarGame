@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import wargame.ISoldat.TypesH;
 
 public class Carte implements ICarte, IConfig{
+	private int[][] brouillard; // 0 : pas de brouillard, 1 : brouillard
 	private Element[][] tab;
 	private Heros[] armeeHeros;
 	private Monstre[] armeeMonstre;
@@ -20,6 +21,7 @@ public class Carte implements ICarte, IConfig{
 		int i,j;
 		this.hauteur = hauteur;
 		this.largeur = largeur;
+		brouillard = new int[hauteur][largeur];
 		nbHerosVivant = NB_HEROS;
 		nbMonstreVivant = NB_MONSTRES;
 		tab = new Element[hauteur][largeur];
@@ -31,12 +33,14 @@ public class Carte implements ICarte, IConfig{
 			}
 		}
 		//tab[5][5] = new Heros(this,ISoldat.TypesH.HUMAIN,"BLOUP BLOUP",new Position(5,5));
+		//initBrouillard(); -> Pour mettre toutes les cases en brouillard
 		initArmeeHeros();
 		initArmeeMonstre();
 		initObstacleAlea();
-		initRiviereAlea(7);
-		initRiviereAlea(6);
-		initRiviereAlea(5);
+		//initRiviereAlea(7);
+		//initRiviereAlea(7);
+		//initRiviereAlea(6);
+		// Générer trop de rivières peut empêcher la page de s'ouvrir.
 	}
 	public Element[][] getJeu() {
 		return tab;
@@ -81,8 +85,8 @@ public class Carte implements ICarte, IConfig{
 		int y = -1;
 		
 		while (!b) {
-			x = (int) (Math.random() * LARGEUR_CARTE);
-			y = (int) (Math.random() * HAUTEUR_CARTE);
+			x = (int) (Math.random() * largeur);
+			y = (int) (Math.random() * hauteur);
 			
 			if (tab[y][x] instanceof Plaine) {
 				b = true;
@@ -98,8 +102,8 @@ public class Carte implements ICarte, IConfig{
 		int y = -1;
 		
 		while (!b) {
-			x = (int) (Math.random() * (LARGEUR_CARTE/2));
-			y = (int) (Math.random() * HAUTEUR_CARTE);
+			x = (int) (Math.random() * (largeur/2));
+			y = (int) (Math.random() * hauteur);
 			
 			if (tab[y][x] instanceof Plaine) {
 				b = true;
@@ -115,8 +119,8 @@ public class Carte implements ICarte, IConfig{
 		int y = -1;
 		
 		while (!b) {
-			x = (int) ((Math.random() * (LARGEUR_CARTE/2))+(LARGEUR_CARTE/2));
-			y = (int) (Math.random() * HAUTEUR_CARTE);
+			x = (int) ((Math.random() * (largeur/2))+(largeur/2));
+			y = (int) (Math.random() * hauteur);
 			
 			if (tab[y][x] instanceof Plaine) {
 				b = true;
@@ -124,22 +128,6 @@ public class Carte implements ICarte, IConfig{
 		}
 		Position p = new Position(x,y);
 		return p;
-	}
-	
-	private boolean verifRivierePossible(Position p) {
-		int y,x;
-		for (int i = -1;i<=1;i++) {
-			y = p.getY() + i;
-			for (int j = -1;j<=1;j++) {
-				x = p.getX() + j;
-				if ((x >= 0 && x < LARGEUR_CARTE) && (y >= 0 && y < HAUTEUR_CARTE) && ((i!=0) || (j!=0)) )  {
-					if (tab[y][x] instanceof Plaine) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
 	}
 	
 	public Position trouvePositionVide(Position pos) {
@@ -150,24 +138,20 @@ public class Carte implements ICarte, IConfig{
 		int x = -1;
 		int y = -1;
 		
-		if (verifRivierePossible(pos)) { // Si on ne peut pas mettre de rivière on doit pas entrer dans la boucle
-		
-			while (!b) {
-				x = ((int) (Math.random() * 3 - 1)) + pos.getX();  // entre -1 et 1
-				y = ((int) (Math.random() * 3 - 1)) + pos.getY();
+		while (!b) {
+			x = ((int) (Math.random() * 3 - 1)) + pos.getX();  // entre -1 et 1
+			y = ((int) (Math.random() * 3 - 1)) + pos.getY();
 				
-				if ((x >= 0 && x < LARGEUR_CARTE) && (y >= 0 && y < HAUTEUR_CARTE) )  {
-					if (tab[y][x] instanceof Plaine) {
-						b = true;
-					}
+			if ((x >= 0 && x < largeur) && (y >= 0 && y < hauteur) )  {
+				if (tab[y][x] instanceof Plaine) {
+					b = true;
 				}
 			}
-			
-			p = new Position(x,y);
-			
-		}else {
-			p = pos;
 		}
+			
+			
+		p = new Position(x,y);
+			
 		return p;
 	}
 	public Heros trouveHeros() {
@@ -365,51 +349,128 @@ public class Carte implements ICarte, IConfig{
 		}
 	}
 	
+	private boolean verifRivierePossible(Position p) {
+		int y,x;
+		for (int i = -1;i<=1;i++) {
+			y = p.getY() + i;
+			for (int j = -1;j<=1;j++) {
+				x = p.getX() + j;
+				if (((x >= 0 && x < largeur) && (y >= 0 && y < hauteur)) && ((i!=0) || (j!=0)) )  {
+					if (tab[y][x] instanceof Plaine) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void initRiviereAlea(int tailleRiviere) {
-		int nb_riv = tailleRiviere;
+		int nb_riv;
+		if (tailleRiviere > 0) {
+			nb_riv = tailleRiviere;
+		}else {
+			nb_riv = 0;
+		}
 		Position p = trouvePositionVide();
+		tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
+		nb_riv --;
 		
 		
-		while (nb_riv > 0) {
+		while (nb_riv > 0 && verifRivierePossible(p)) {
 			p = trouvePositionVide(p);
 			tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
 			nb_riv --;
 		}
 	}
+	
+	
+	public void initBrouillard() {
+		int i,j;
+		for (i=0;i<hauteur;i++) {
+			for (j=0;j<largeur;j++) {
+				brouillard[i][j] = 1;
+			}
+		}
+	}
+	
+	
 	public void toutDessiner(Graphics g) {
 		// TODO Stub de la méthode généré automatiquement
-		for (int x = 0; x < HAUTEUR_CARTE; x++) {
-            for (int y = 0; y < LARGEUR_CARTE; y++) {
-            	switch (getElement(x,y).getClass().getSimpleName()) {
-            	case ("Plaine"):
-                    g.setColor(COULEUR_PLAINE);
-                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-                    break;
-            	case ("Obstacle"): // Obstacle: prendre en compte si c'est de l'eau, un rocher, une forêt (dans Obstacle.java)
-            		Obstacle o = (Obstacle) getElement(x,y);
-            		Obstacle.TypeObstacle to = o.getTYPE();
-            		switch (to) {
-					case EAU:
-						g.setColor(COULEUR_EAU);
-						break;
-					case FORET:
-						g.setColor(COULEUR_FORET);
-						break;
-					case ROCHER:
-						g.setColor(COULEUR_ROCHER);
-						break;
-            		}
-                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-                    break;
-            	case ("Heros"):
-                    g.setColor(COULEUR_HEROS);  // Prendre en compte les héros déjà joués également
-                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-                    break;
-            	case ("Monstre"):
-                    g.setColor(COULEUR_MONSTRES);
-                    g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-                    break;
+		for (int x = 0; x < hauteur; x++) {
+            for (int y = 0; y < largeur; y++) {
+            	if (brouillard[x][y] == 0) {
+	            	switch (getElement(x,y).getClass().getSimpleName()) {
+	            	case ("Plaine"):
+	                    //g.setColor(COULEUR_PLAINE);
+	            		g.drawImage(PLAINE.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+	                    break;
+	            	case ("Obstacle"): // Obstacle: prendre en compte si c'est de l'eau, un rocher, une forêt (dans Obstacle.java)
+	            		Obstacle o = (Obstacle) getElement(x,y);
+	            		Obstacle.TypeObstacle to = o.getTYPE();
+	            		switch (to) {
+						case EAU:
+							//g.setColor(COULEUR_EAU);
+							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+							g.drawImage(EAU.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+						case FORET:
+							//g.setColor(COULEUR_FORET);
+							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+							g.drawImage(FORET.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+						case ROCHER:
+							//g.setColor(COULEUR_ROCHER);
+							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+							g.drawImage(ROCHER.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+	            		}
+	                    break;
+	            	case ("Heros"):    // Prendre en compte les héros déjà joués également
+	                    //g.setColor(COULEUR_HEROS);
+	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+	            		
+	            		Heros h = (Heros) getElement(x,y);
+	            		ISoldat.TypesH th = h.getTYPE();
+	            		switch (th) {
+						case ELF:
+							g.drawImage(ELF.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+						case NAIN:
+							g.drawImage(NAIN.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+						case HUMAIN:
+							g.drawImage(HUMAIN.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+						case HOBBIT:
+							g.drawImage(HOBBIT.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+	            		}
+	                    break;
+	            	case ("Monstre"):
+	                    //g.setColor(COULEUR_MONSTRES);
+	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+	            		
+	            		Monstre m = (Monstre) getElement(x,y);
+	            		ISoldat.TypesM tm = m.getTYPE();
+		        		switch (tm) {
+						case TROLL:
+							g.drawImage(TROLL.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+						case ORC:
+							g.drawImage(ORC.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+						case GOBELIN:
+							g.drawImage(GOBELIN.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							break;
+		        		}
+	                    break;
+	            	}
+            	}else {
+            		g.drawImage(BROUILLARD.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
             	}
+            	
             	
 
                 g.setColor(COULEUR_TEXTE); // contour
@@ -444,10 +505,12 @@ public class Carte implements ICarte, IConfig{
 			}
 		}
 	}
+	
 	public Position getSelect() {
 		Position p = new Position(select.getX(),select.getY());
 		return p;
 	}
+	
 	public void marquerCase(int y, int x) {
 	    select = new Position(y,x);
 	}

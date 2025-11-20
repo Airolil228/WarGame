@@ -1,6 +1,5 @@
 package wargame;
 
-
 import java.awt.event.*;
 
 import javax.swing.JButton;
