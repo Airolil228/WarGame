@@ -37,9 +37,9 @@ public class Carte implements ICarte, IConfig{
 		initArmeeHeros();
 		initArmeeMonstre();
 		initObstacleAlea();
-		//initRiviereAlea(7);
-		//initRiviereAlea(7);
-		//initRiviereAlea(6);
+		for (int x = 0; x < 10; x++) {
+			initRiviereAlea(3);
+		}
 		// Générer trop de rivières peut empêcher la page de s'ouvrir.
 	}
 	public Element[][] getJeu() {
@@ -137,8 +137,11 @@ public class Carte implements ICarte, IConfig{
 		boolean b = false;
 		int x = -1;
 		int y = -1;
+		int compteur = 40;
 		
-		while (!b) {
+		while (!b  && compteur > 0) { // rajout du compteur pour sortir dans tout les cas, au bout de 10 essais on sort
+			compteur --;
+			
 			x = ((int) (Math.random() * 3 - 1)) + pos.getX();  // entre -1 et 1
 			y = ((int) (Math.random() * 3 - 1)) + pos.getY();
 				
@@ -149,8 +152,10 @@ public class Carte implements ICarte, IConfig{
 			}
 		}
 			
-			
-		p = new Position(x,y);
+		if (compteur > 0)
+			p = new Position(x,y);
+		else
+			p = pos;
 			
 		return p;
 	}
@@ -369,18 +374,18 @@ public class Carte implements ICarte, IConfig{
 		int nb_riv;
 		if (tailleRiviere > 0) {
 			nb_riv = tailleRiviere;
-		}else {
-			nb_riv = 0;
-		}
-		Position p = trouvePositionVide();
-		tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
-		nb_riv --;
-		
-		
-		while (nb_riv > 0 && verifRivierePossible(p)) {
-			p = trouvePositionVide(p);
+			
+			Position p = trouvePositionVide();
 			tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
 			nb_riv --;
+			
+			
+			while (nb_riv > 0 && verifRivierePossible(p)) {
+				p = trouvePositionVide(p);
+				tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
+				nb_riv --;
+			}
+			
 		}
 	}
 	

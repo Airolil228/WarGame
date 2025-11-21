@@ -83,8 +83,8 @@ public class FenetreJeu implements IConfig{
      // Listener des clics
         jeu.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                lastClickX = e.getX() / NB_PIX_CASE;
-                lastClickY = (e.getY() / NB_PIX_CASE) - 2;
+                lastClickX = (e.getX()-5) / NB_PIX_CASE;
+                lastClickY = (e.getY()-45) / NB_PIX_CASE;
                 System.out.println("Clic détecté: " + lastClickX + ", " + lastClickY);
                 
                 map.marquerCase(lastClickY, lastClickX);
