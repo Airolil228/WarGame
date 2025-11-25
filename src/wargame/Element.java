@@ -7,6 +7,7 @@ public abstract class Element{
 	public Element() {
 		this.estVisible = true;
 		this.nom = "vide";
+		this.pos = new Position(-1,-1);
 	}
 	public boolean EstVisible() {
 		return estVisible;
@@ -24,6 +25,11 @@ public abstract class Element{
 		return pos;
 	}
 	public void setPos(Position pos) {
-		this.pos = pos;
+		this.pos.setY(pos.getY());
+		this.pos.setX(pos.getX());
+	}
+	public void setPos(int x, int y) {
+		this.pos.setY(y);
+		this.pos.setX(x);
 	}
 }

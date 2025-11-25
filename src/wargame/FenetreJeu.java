@@ -87,7 +87,7 @@ public class FenetreJeu implements IConfig{
                 lastClickY = (e.getY()-45) / NB_PIX_CASE;
                 System.out.println("Clic détecté: " + lastClickX + ", " + lastClickY);
                 
-                map.marquerCase(lastClickY, lastClickX);
+                map.marquerCase(lastClickX, lastClickY);
                 panel.repaint();
             }
         });

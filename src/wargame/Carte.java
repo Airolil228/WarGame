@@ -2,9 +2,7 @@ package wargame;
 
 import java.awt.Graphics;
 
-//import java.awt.Graphics;
-
-import wargame.ISoldat.TypesH;
+// Il reste jouerSoldats à faire (?)
 
 public class Carte implements ICarte, IConfig{
 	private int[][] brouillard; // 0 : pas de brouillard, 1 : brouillard
@@ -30,6 +28,7 @@ public class Carte implements ICarte, IConfig{
 		for (i=0;i<hauteur;i++) {
 			for (j=0;j<largeur;j++) {
 				tab[i][j] = new Plaine();
+				tab[i][j].setPos(j,i);
 			}
 		}
 		//tab[5][5] = new Heros(this,ISoldat.TypesH.HUMAIN,"BLOUP BLOUP",new Position(5,5));
@@ -41,6 +40,7 @@ public class Carte implements ICarte, IConfig{
 			initRiviereAlea(3);
 		}
 		// Générer trop de rivières peut empêcher la page de s'ouvrir.
+		actuBrouillard(); //-> Pour actualiser le brouillard
 	}
 	public Element[][] getJeu() {
 		return tab;
@@ -72,10 +72,18 @@ public class Carte implements ICarte, IConfig{
 		}
 	}
 	public Element getElement(Position pos) {
-		return tab[pos.getX()][pos.getY()];
+		return tab[pos.getY()][pos.getX()];
 	}
 	public Element getElement(int x,int y) {
-		return tab[x][y];
+		return tab[y][x];
+	}
+	
+	public void setElement(Element e,Position p) {
+		tab[p.getY()][p.getX()] = e;
+	}
+	
+	public void setElement(Element e,int y,int x) {
+		tab[y][x] = e;
 	}
 	
 	public Position trouvePositionVide() {
@@ -203,7 +211,7 @@ public class Carte implements ICarte, IConfig{
 		return h;
 	}
 	
-	public boolean deplaceSoldat(Position pos, Soldat soldat) {
+	/*public boolean deplaceSoldat(Position pos, Soldat soldat) {
 		int dx=0;
 		int dy=0;
 		
@@ -222,14 +230,21 @@ public class Carte implements ICarte, IConfig{
 		// Possibilités de déplacement
 		if ((dx > dy && dx < soldat.getPortee())||(dx < dy && dy < soldat.getPortee())) {
 			// On peut se deplacer donc on se deplace
-			tab[pos.getY()][pos.getX()] = soldat;
-			tab[soldat.getPos().getY()][soldat.getPos().getX()] = new Plaine();
+			setElement(soldat,pos);
+			setElement(new Plaine(), soldat.getPos());
 			soldat.setPos(pos);
 			return true;
 		}
 		
 		return false;
+	}*/
+	
+	public boolean deplaceSoldat(Position pos, Soldat soldat) {
+		setElement(soldat,pos);
+		setElement(new Plaine(), soldat.getPos());
+		return true;
 	}
+	
 	public void mort(Soldat perso) {
 		
 		if (perso instanceof Heros) {
@@ -248,7 +263,7 @@ public class Carte implements ICarte, IConfig{
 				}
 			}
 			
-			tab[perso.getPos().getY()][perso.getPos().getX()] = new Plaine(); // Joueur mort donc il n'est plus là
+			setElement(new Plaine(), perso.getPos()); // Joueur mort donc il n'est plus là
 			nbHerosVivant --;
 			
 		}
@@ -270,7 +285,7 @@ public class Carte implements ICarte, IConfig{
 				}
 			}
 			
-			tab[perso.getPos().getY()][perso.getPos().getX()] = new Plaine(); // Joueur mort donc il n'est plus là
+			setElement(new Plaine(), perso.getPos()); // Joueur mort donc il n'est plus là
 			nbMonstreVivant --;
 			
 		}
@@ -326,7 +341,7 @@ public class Carte implements ICarte, IConfig{
 			
 			Monstre m = new Monstre(this, th, "Patrick", p);
 			armeeMonstre[i] = m;
-			tab[p.getY()][p.getX()] = m;
+			setElement(m,p);
 		}
 	}
 	
@@ -350,7 +365,7 @@ public class Carte implements ICarte, IConfig{
 				;
 			}
 			
-			tab[p.getY()][p.getX()] = new Obstacle(th, p);
+			setElement(new Obstacle(th, p),p);
 		}
 	}
 	
@@ -376,13 +391,13 @@ public class Carte implements ICarte, IConfig{
 			nb_riv = tailleRiviere;
 			
 			Position p = trouvePositionVide();
-			tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
+			setElement(new Obstacle(Obstacle.TypeObstacle.EAU, p),p);
 			nb_riv --;
 			
 			
 			while (nb_riv > 0 && verifRivierePossible(p)) {
 				p = trouvePositionVide(p);
-				tab[p.getY()][p.getX()] = new Obstacle(Obstacle.TypeObstacle.EAU, p);
+				setElement(new Obstacle(Obstacle.TypeObstacle.EAU, p),p);
 				nb_riv --;
 			}
 			
@@ -399,12 +414,40 @@ public class Carte implements ICarte, IConfig{
 		}
 	}
 	
+	public void actuBrouillard() {
+		int k,i,j;
+		
+		initBrouillard(); // On remet tout le brouillard
+		
+		for (k=0;k<nbHerosVivant;k++) {
+			Heros h = armeeHeros[k];
+			int portee_visuel = h.getPortee();
+			Position pos = h.getPos();
+			if (pos != null) {
+				int y = pos.getY();
+				int x = pos.getX();
+				
+				for (i=(y - portee_visuel);i<=(y + portee_visuel);i++) {
+					for (j=(x - portee_visuel);j<=(x + portee_visuel);j++) {
+						if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
+							brouillard[i][j] = 0;
+						}
+					}
+				}
+			}
+			
+		}
+	}
 	
 	public void toutDessiner(Graphics g) {
 		// TODO Stub de la méthode généré automatiquement
-		for (int x = 0; x < hauteur; x++) {
-            for (int y = 0; y < largeur; y++) {
-            	if (brouillard[x][y] == 0) {
+		
+		actuBrouillard();
+		
+		
+		for (int y = 0; y < hauteur; y++) {
+            for (int x = 0; x < largeur; x++) {
+            	if (brouillard[y][x] == 0) {
 	            	switch (getElement(x,y).getClass().getSimpleName()) {
 	            	case ("Plaine"):
 	                    //g.setColor(COULEUR_PLAINE);
@@ -484,25 +527,43 @@ public class Carte implements ICarte, IConfig{
         }
 		g.setColor(COULEUR_SELECTION);
 		if (select.getY() != -1) { // Si pas de selection x = -1 et y = -1
-			if (select.getX() >= 0 && select.getX() < hauteur && select.getY() >= 0 && select.getY() < largeur ) {
+			if (select.getY() >= 0 && select.getY() < hauteur && select.getX() >= 0 && select.getX() < largeur ) {
 				g.drawRect(select.getY() * NB_PIX_CASE, select.getX() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); // Draw : Y puis X
 				
-				System.out.println(" Case : " + tab[select.getX()][select.getY()].getClass().getSimpleName());
+				System.out.println(" Case : " + getElement(select).getClass().getSimpleName());
 				
-				if (tab[select.getX()][select.getY()] instanceof Heros) {  // Position getX getY
-					Heros h = (Heros) tab[select.getX()][select.getY()];
+				if (getElement(select) instanceof Heros) {  // Position getX getY
+					Heros h = (Heros) getElement(select);
 					System.out.println(" Espèce : " + h.getTYPE() + ", nom :" + h.getNom());
+					
+					
+					int i,j;
+					int portee = h.getPortee();
+					
+					int y = select.getY();
+					int x = select.getX();
+						
+					for (i=(y - portee);i<=(y + portee);i++) {
+						for (j=(x - portee);j<=(x + portee);j++) {
+							if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
+								g.setColor(COULEUR_CHAMP_ACTION);
+								g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+							}
+						}
+					}
+					
+					
 					
 				}
 				
-				if (tab[select.getX()][select.getY()] instanceof Monstre) {  // Position getX getY
-					Monstre m = (Monstre) tab[select.getX()][select.getY()];
+				if (getElement(select) instanceof Monstre) {  // Position getX getY
+					Monstre m = (Monstre) getElement(select);
 					System.out.println(" Espèce : " + m.getTYPE() + ", nom :" + m.getNom());
 					
 				}
 				
-				if (tab[select.getX()][select.getY()] instanceof Obstacle) {  // Position getX getY
-					Obstacle o = (Obstacle) tab[select.getX()][select.getY()];
+				if (getElement(select) instanceof Obstacle) {  // Position getX getY
+					Obstacle o = (Obstacle) getElement(select);
 					System.out.println(" Type : " + o.getTYPE());
 					
 				}
@@ -517,13 +578,56 @@ public class Carte implements ICarte, IConfig{
 	}
 	
 	public void marquerCase(int y, int x) {
-	    select = new Position(y,x);
+		if (select.getY() < 0 && select.getX() < 0) {
+			select = new Position(x,y);
+			return;
+		}
+		// Coordonnées valides
+		
+		Position pos = new Position(x,y);
+		if (getElement(select) instanceof Heros) {      
+			// Le click précédent était sur un héros
+			
+			if ((getElement(pos) instanceof Obstacle) || (getElement(pos) instanceof Heros)) {
+				// Si on selectionne un obstacle ou un héros, on n'utilise pas le héros.
+				select = pos;
+			}else {
+				// Si on clique sur une plaine ou un monstre alors on va faire une action
+				if (!actionHeros(select,pos)) {
+					select = pos; // ActionHeros n'a pas conduit à un déplacement ou attaque 
+				}
+			}
+			
+		}else {
+			select = pos;
+		}
 	}
 	
-	// A faire
+	
 	public boolean actionHeros(Position pos, Position pos2) {
-		return false;  // 
+		// On a la pos du héros dans pos et la pos du click d'après dans pos2
+		Heros h = (Heros) getElement(pos);
+		int portee = h.getPortee();
+		if ((pos2.getY() <= pos.getY()+portee) && (pos2.getY() >= pos.getY()-portee) && (pos2.getX() <= pos.getX()+portee) && (pos2.getX() >= pos.getX()-portee)){
+			if (getElement(pos2) instanceof Plaine) {
+				System.out.println("Déplacement");
+				deplaceSoldat(pos2,h);
+				h.seDeplace(pos2);
+				return true;
+			}
+			if (getElement(pos2) instanceof Monstre) {
+				System.out.println("Attaque");
+				// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
+				Monstre m = (Monstre) getElement(pos2);
+				//h.peutAttaquer(pos2);
+				h.combat(m);
+				return true;
+			}
+		}
+		// Si on a ni attaquer ni deplacer, on a pas cliqué dans le champ d'action
+		return false;
 	}
+	
 	public void jouerSoldats(PanneauJeu pj) {
 		
 	}
