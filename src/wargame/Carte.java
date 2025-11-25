@@ -451,7 +451,7 @@ public class Carte implements ICarte, IConfig{
 	            	switch (getElement(x,y).getClass().getSimpleName()) {
 	            	case ("Plaine"):
 	                    //g.setColor(COULEUR_PLAINE);
-	            		g.drawImage(PLAINE.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+	            		g.drawImage(PLAINE.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
 	                    break;
 	            	case ("Obstacle"): // Obstacle: prendre en compte si c'est de l'eau, un rocher, une forêt (dans Obstacle.java)
@@ -461,17 +461,17 @@ public class Carte implements ICarte, IConfig{
 						case EAU:
 							//g.setColor(COULEUR_EAU);
 							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-							g.drawImage(EAU.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(EAU.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case FORET:
 							//g.setColor(COULEUR_FORET);
 							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-							g.drawImage(FORET.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(FORET.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case ROCHER:
 							//g.setColor(COULEUR_ROCHER);
 							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-							g.drawImage(ROCHER.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(ROCHER.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 	            		}
 	                    break;
@@ -483,16 +483,16 @@ public class Carte implements ICarte, IConfig{
 	            		ISoldat.TypesH th = h.getTYPE();
 	            		switch (th) {
 						case ELF:
-							g.drawImage(ELF.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(ELF.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case NAIN:
-							g.drawImage(NAIN.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(NAIN.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case HUMAIN:
-							g.drawImage(HUMAIN.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(HUMAIN.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case HOBBIT:
-							g.drawImage(HOBBIT.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(HOBBIT.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 	            		}
 	                    break;
@@ -504,31 +504,31 @@ public class Carte implements ICarte, IConfig{
 	            		ISoldat.TypesM tm = m.getTYPE();
 		        		switch (tm) {
 						case TROLL:
-							g.drawImage(TROLL.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(TROLL.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case ORC:
-							g.drawImage(ORC.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(ORC.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case GOBELIN:
-							g.drawImage(GOBELIN.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(GOBELIN.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 		        		}
 	                    break;
 	            	}
             	}else {
-            		g.drawImage(BROUILLARD.getImage(), y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+            		g.drawImage(BROUILLARD.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
             	}
             	
             	
 
                 g.setColor(COULEUR_TEXTE); // contour
-                g.drawRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+                g.drawRect(x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
             }
         }
 		g.setColor(COULEUR_SELECTION);
 		if (select.getY() != -1) { // Si pas de selection x = -1 et y = -1
 			if (select.getY() >= 0 && select.getY() < hauteur && select.getX() >= 0 && select.getX() < largeur ) {
-				g.drawRect(select.getY() * NB_PIX_CASE, select.getX() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); // Draw : Y puis X
+				g.drawRect(select.getX() * NB_PIX_CASE, select.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); // Draw : Y puis X
 				
 				System.out.println(" Case : " + getElement(select).getClass().getSimpleName());
 				
@@ -547,7 +547,7 @@ public class Carte implements ICarte, IConfig{
 						for (j=(x - portee);j<=(x + portee);j++) {
 							if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
 								g.setColor(COULEUR_CHAMP_ACTION);
-								g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+								g.drawRect(j * NB_PIX_CASE, i * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
 							}
 						}
 					}
@@ -595,6 +595,9 @@ public class Carte implements ICarte, IConfig{
 				// Si on clique sur une plaine ou un monstre alors on va faire une action
 				if (!actionHeros(select,pos)) {
 					select = pos; // ActionHeros n'a pas conduit à un déplacement ou attaque 
+				}else {
+					select.setX(-1);
+					select.setY(-1);
 				}
 			}
 			
