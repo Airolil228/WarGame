@@ -252,9 +252,9 @@ public class Carte implements ICarte, IConfig{
 			for (int i=0;i<nbHerosVivant;i++) {
 				if (armeeHeros[i].equals(perso)) {
 					
-					// Si on le trouve on le déplace jusqu'a la fin en décalant les autres de une pos pour garder une liste d'armée héors vivante de 0 à nbHerosVivant
+					// Si on le trouve on le déplace jusqu'a la fin en décalant les autres de une pos pour garder une liste d'armée héros vivante de 0 à nbHerosVivant
 					
-					for (int j=i;j<nbHerosVivant;j++) {
+					for (int j=i;j<(nbHerosVivant-1);j++) {
 						armeeHeros[j] = armeeHeros[j+1];
 					}
 					armeeHeros[nbHerosVivant-1] = (Heros) perso; // On le garde au cas où mais plus accessible
@@ -266,30 +266,30 @@ public class Carte implements ICarte, IConfig{
 			setElement(new Plaine(), perso.getPos()); // Joueur mort donc il n'est plus là
 			nbHerosVivant --;
 			
-		}
+		}else {
 		
-		
-		if (perso instanceof Monstre) {
-			
-			for (int i=0;i<nbMonstreVivant;i++) {
-				if (armeeMonstre[i].equals(perso)) {
-					
-					// Si on le trouve on le déplace jusqu'a la fin en décalant les autres de une pos pour garder une liste d'armée monstres vivants de 0 à nbMonstreVivant
-					
-					for (int j=i;j<nbMonstreVivant;j++) {
-						armeeMonstre[j] = armeeMonstre[j+1];
+			if (perso instanceof Monstre) {
+				
+				for (int i=0;i<nbMonstreVivant;i++) {
+					if (armeeMonstre[i].equals(perso)) {
+						
+						// Si on le trouve on le déplace jusqu'a la fin en décalant les autres de une pos pour garder une liste d'armée monstres vivants de 0 à nbMonstreVivant
+						
+						for (int j=i;j<(nbMonstreVivant-1);j++) {
+							armeeMonstre[j] = armeeMonstre[j+1];
+						}
+						armeeMonstre[nbMonstreVivant-1] = (Monstre) perso; // On le garde au cas où mais plus accessible
+						
+						i = nbMonstreVivant;	// Sortir de la boucle
 					}
-					armeeMonstre[nbMonstreVivant-1] = (Monstre) perso; // On le garde au cas où mais plus accessible
-					
-					i = nbMonstreVivant;	// Sortir de la boucle
 				}
+				
+				setElement(new Plaine(), perso.getPos()); // Joueur mort donc il n'est plus là
+				nbMonstreVivant --;
+				
 			}
 			
-			setElement(new Plaine(), perso.getPos()); // Joueur mort donc il n'est plus là
-			nbMonstreVivant --;
-			
 		}
-		
 	}
 	
 	public void initArmeeHeros() {
@@ -316,7 +316,7 @@ public class Carte implements ICarte, IConfig{
 			
 			Heros h = new Heros(this, th, "Robert", p);
 			armeeHeros[i] = h;
-			tab[p.getY()][p.getX()] = h;
+			setElement(h,p);
 		}
 	}
 	

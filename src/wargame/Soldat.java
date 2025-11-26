@@ -27,28 +27,54 @@ public abstract class Soldat extends Element implements ISoldat{
 		return ;
 	}
 	
+	public boolean peutAttaquer(Position pos) { // Pos : position de l'adversaire
+		// Calcul si l'on peut ou non attaquer l'ennemie
+		Position p = getPos();
+		if (p.estVoisine(pos)) {
+			return true;
+		}
+		int portee = this.getPortee();
+		if ((pos.getY() <= p.getY()+portee) && (pos.getY() >= p.getY()-portee) && (pos.getX() <= p.getX()+portee) && (pos.getX() >= p.getX()-portee)){
+			if (this.TIR > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public void combat_bis(Soldat soldat){
 		int puissance_coup; 
 		if(getPos().estVoisine(soldat.getPos())){//corps à corps 
-			puissance_coup = (int)(Math.random() * (PUISSANCE + 1)); 
-			pointsDeVie -= puissance_coup; 
+			puissance_coup = (int)(Math.random() * (this.PUISSANCE + 1)); 
+			soldat.pointsDeVie -= puissance_coup;
+			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
 		}else{ // combat à distance
-			puissance_coup = (int)(Math.random() * (TIR + 1)); 
-			pointsDeVie -= puissance_coup;
+			puissance_coup = (int)(Math.random() * (this.TIR + 1)); 
+			soldat.pointsDeVie -= puissance_coup;
+			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
 		}
 	}
 	
-	public boolean est_mort(Soldat soldat){	
-		return (soldat.pointsDeVie == 0); 
+	public boolean est_mort(){	
+		return (this.pointsDeVie <= 0);
 	}
 	
 	public void combat(Soldat soldat) {
 		combat_bis(soldat);
 		
-		if(!est_mort(soldat)){
-			combat_bis(soldat);
+		if(soldat.est_mort()){
+			soldat.carte.mort(soldat);
+		}else {
+			if (soldat.peutAttaquer(this.getPos())) {
+				soldat.combat_bis(this);
+				
+				if (est_mort()) {
+					this.carte.mort(this);
+				}
+			}
+			
 		}
-		
 	}
 
 	public void seDeplace(Position newPos) {
@@ -60,14 +86,4 @@ public abstract class Soldat extends Element implements ISoldat{
 		 setPos(newPos);
 	}
 	
-	
-	
-	public boolean peutAttaquer(Position pos) { // Pos : position de l'adversaire
-		// Calcul si l'on peut ou non attaquer l'ennemie
-		Position p = getPos();
-		if (p.estVoisine(pos)) {
-			return true;
-		}
-		return false;
-	}
 }
