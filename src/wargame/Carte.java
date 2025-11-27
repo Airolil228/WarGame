@@ -150,8 +150,8 @@ public class Carte implements ICarte, IConfig{
 		while (!b  && compteur > 0) { // rajout du compteur pour sortir dans tout les cas, au bout de 10 essais on sort
 			compteur --;
 			
-			x = ((int) (Math.random() * 3 - 1)) + pos.getX();  // entre -1 et 1
-			y = ((int) (Math.random() * 3 - 1)) + pos.getY();
+			x = ((int) (Math.random() * 4  - 2)) + pos.getX();  // entre -1 et 1
+			y = ((int) (Math.random() * 4  - 2)) + pos.getY();   // Très etrange mais ça fonctionne mieux ????
 				
 			if ((x >= 0 && x < largeur) && (y >= 0 && y < hauteur) )  {
 				if (tab[y][x] instanceof Plaine) {
@@ -536,18 +536,19 @@ public class Carte implements ICarte, IConfig{
 					Heros h = (Heros) getElement(select);
 					System.out.println(" Espèce : " + h.getTYPE() + ", nom :" + h.getNom());
 					
-					
-					int i,j;
-					int portee = h.getPortee();
-					
-					int y = select.getY();
-					int x = select.getX();
+					if (h.peutJouer()) {
+						int i,j;
+						int portee = h.getPortee();
 						
-					for (i=(y - portee);i<=(y + portee);i++) {
-						for (j=(x - portee);j<=(x + portee);j++) {
-							if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
-								g.setColor(COULEUR_CHAMP_ACTION);
-								g.drawRect(j * NB_PIX_CASE, i * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+						int y = select.getY();
+						int x = select.getX();
+							
+						for (i=(y - portee);i<=(y + portee);i++) {
+							for (j=(x - portee);j<=(x + portee);j++) {
+								if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
+									g.setColor(COULEUR_CHAMP_ACTION);
+									g.drawRect(j * NB_PIX_CASE, i * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+								}
 							}
 						}
 					}
@@ -587,18 +588,23 @@ public class Carte implements ICarte, IConfig{
 		Position pos = new Position(x,y);
 		if (getElement(select) instanceof Heros) {      
 			// Le click précédent était sur un héros
-			
-			if ((getElement(pos) instanceof Obstacle) || (getElement(pos) instanceof Heros)) {
-				// Si on selectionne un obstacle ou un héros, on n'utilise pas le héros.
-				select = pos;
-			}else {
-				// Si on clique sur une plaine ou un monstre alors on va faire une action
-				if (!actionHeros(select,pos)) {
-					select = pos; // ActionHeros n'a pas conduit à un déplacement ou attaque 
+			Heros h = (Heros) getElement(select);
+			if (h.peutJouer()) {
+				if ((getElement(pos) instanceof Obstacle) || (getElement(pos) instanceof Heros)) {
+					// Si on selectionne un obstacle ou un héros, on n'utilise pas le héros.
+					select = pos;
 				}else {
-					select.setX(-1);
-					select.setY(-1);
+					// Si on clique sur une plaine ou un monstre alors on va faire une action
+					if (!actionHeros(select,pos)) {
+						select = pos; // ActionHeros n'a pas conduit à un déplacement ou attaque 
+					}else {
+						h.aJouer();
+						select.setX(-1);
+						select.setY(-1);
+					}
 				}
+			}else {
+				select = pos;
 			}
 			
 		}else {
@@ -611,6 +617,7 @@ public class Carte implements ICarte, IConfig{
 		// On a la pos du héros dans pos et la pos du click d'après dans pos2
 		Heros h = (Heros) getElement(pos);
 		int portee = h.getPortee();
+		
 		if ((pos2.getY() <= pos.getY()+portee) && (pos2.getY() >= pos.getY()-portee) && (pos2.getX() <= pos.getX()+portee) && (pos2.getX() >= pos.getX()-portee)){
 			if (getElement(pos2) instanceof Plaine) {
 				System.out.println("Déplacement");
@@ -631,7 +638,21 @@ public class Carte implements ICarte, IConfig{
 		return false;
 	}
 	
+	public void finDeTour() {
+		for (int i=0;i<nbHerosVivant;i++) {
+			armeeHeros[i].peutRejouer();
+		}
+		for (int i=0;i<nbMonstreVivant;i++) {
+			Position p = armeeMonstre[i].getPos();
+			Position p2 = trouvePositionVide(p);
+			setElement(new Plaine(), p);
+			armeeMonstre[i].setPos(p2);
+			setElement(armeeMonstre[i], p2);
+		}
+	}
+	
 	public void jouerSoldats(PanneauJeu pj) {
 		
 	}
+	
 }

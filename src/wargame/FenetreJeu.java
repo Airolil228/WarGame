@@ -12,14 +12,12 @@ public class FenetreJeu implements IConfig{
     private static boolean running = true;
     private static int lastClickX = -1;
     private static int lastClickY = -1;
-    private static JButton boutonAttaquer;
-    private static JButton boutonDeplacer;
+    private static JButton boutonFinDeTour;
     
     
     private static void creationBoutonsHeros(JPanel panelBoutons, Carte map) {
 
-        boutonAttaquer = new JButton("Attaquer");
-        boutonDeplacer = new JButton("Déplacer");
+        boutonFinDeTour = new JButton("Fin Tour");
         
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.LINE_AXIS));
         panelBoutons.setPreferredSize(new Dimension(150, 200)); // largeur fixe
@@ -27,34 +25,21 @@ public class FenetreJeu implements IConfig{
         panelBoutons.setLayout(new FlowLayout(FlowLayout.LEFT));
        
         // Ajout au panel
-        panelBoutons.add(boutonAttaquer);
-        panelBoutons.add(boutonDeplacer);
+        panelBoutons.add(boutonFinDeTour);
         
         
-        boutonAttaquer.addActionListener(e -> actionAttaquer(map));
-        boutonDeplacer.addActionListener(e -> actionDeplacer(map));
+        boutonFinDeTour.addActionListener(e -> actionFinDeTour(panelBoutons, map));
 
         panelBoutons.getParent().revalidate();
         panelBoutons.getParent().repaint();
     }
     
-    private static void actionAttaquer(Carte map) {
-    	Position p = map.getSelect();
-    	Element e = map.getElement(p);
-    	if (e instanceof Heros) {
-    		System.out.println("→ Action : ATTAQUER");// ici tu mets ton code pour attaquer
-    	}
+    private static void actionFinDeTour(JPanel panelBoutons, Carte map) {
+    	map.finDeTour();
     	
+    	panelBoutons.getParent().revalidate();
+        panelBoutons.getParent().repaint();
     }
-
-    private static void actionDeplacer(Carte map) {
-    	Position p = map.getSelect();
-    	Element e = map.getElement(p);
-    	if (e instanceof Heros) {
-    		System.out.println("→ Action : DEPLACER");// ici code pour déplacer un héros
-    	}
-    }
-    
     
 	public static void main(String[] args) {
 		Carte map = new Carte(HAUTEUR_CARTE,LARGEUR_CARTE);
@@ -87,8 +72,11 @@ public class FenetreJeu implements IConfig{
                 lastClickY = (e.getY()-45) / NB_PIX_CASE;
                 System.out.println("Clic détecté: " + lastClickY + ", " + lastClickX);
                 
-                map.marquerCase(lastClickY, lastClickX);
-                panel.repaint();
+                if ((lastClickX != -1) && (lastClickY != -1)) {
+                	map.marquerCase(lastClickY, lastClickX);
+                	panel.repaint();
+                	lastClickX = -1;
+                }
             }
         });
 
@@ -101,7 +89,7 @@ public class FenetreJeu implements IConfig{
                 // Exemple : si un clic a eu lieu
                 if (lastClickX != -1) {
                     System.out.println("Traitement du clic...");
-                    lastClickX = -1; // On "consomme" le clic
+                    lastClickX = -1;
                 }
 
                 // Ton code de mise à jour du jeu ici
