@@ -2,6 +2,7 @@ package wargame;
 
 import java.awt.event.*;
 
+import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -46,12 +47,19 @@ public class FenetreJeu implements IConfig{
 		
         JFrame jeu = new JFrame("Jeu");
         jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
+        jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU));
         
         
         JPanel main = new JPanel();
         main.setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
         
+        
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setOpaque(true);
+        menuBar.setBackground(Color.gray);
+        menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU));
+        
+        jeu.setJMenuBar(menuBar);
         
         JPanel panel = new PanneauJeu(map);
         
@@ -69,14 +77,14 @@ public class FenetreJeu implements IConfig{
         jeu.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 lastClickX = (e.getX()-5) / NB_PIX_CASE;
-                lastClickY = (e.getY()-45) / NB_PIX_CASE;
+                lastClickY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
                 System.out.println("Clic détecté: " + lastClickY + ", " + lastClickX);
                 
-                if ((lastClickX != -1) && (lastClickY != -1)) {
+                if ( lastClickY>=0 && lastClickY<HAUTEUR_CARTE && lastClickX>=0 && lastClickX<LARGEUR_CARTE ) {
                 	map.marquerCase(lastClickY, lastClickX);
                 	panel.repaint();
-                	lastClickX = -1;
                 }
+                lastClickX = -1;
             }
         });
 
