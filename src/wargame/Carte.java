@@ -638,16 +638,34 @@ public class Carte implements ICarte, IConfig{
 		return false;
 	}
 	
+	public boolean herosACote(Position pos) {
+		for (int i=-1; i<=1;i++) {
+			for (int j=-1; j<=1;j++) {
+				Position p2 = new Position(pos.getX()+j,pos.getY()+i);
+				//System.out.println(p2);
+				if (p2.estValide() && getElement(p2) instanceof Heros) {
+					Monstre m = (Monstre) getElement(pos);
+					Heros h = (Heros) getElement(p2);
+					m.combat(h);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void finDeTour() {
 		for (int i=0;i<nbHerosVivant;i++) {
 			armeeHeros[i].peutRejouer();
 		}
 		for (int i=0;i<nbMonstreVivant;i++) {
 			Position p = armeeMonstre[i].getPos();
-			Position p2 = trouvePositionVide(p);
-			setElement(new Plaine(), p);
-			armeeMonstre[i].setPos(p2);
-			setElement(armeeMonstre[i], p2);
+			if (!herosACote(p)) {
+				Position p2 = trouvePositionVide(p);
+				setElement(new Plaine(), p);
+				armeeMonstre[i].setPos(p2);
+				setElement(armeeMonstre[i], p2);
+			}
 		}
 	}
 	
