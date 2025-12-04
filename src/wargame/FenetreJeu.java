@@ -16,20 +16,15 @@ public class FenetreJeu implements IConfig{
     private static JButton boutonFinDeTour;
     
     
-    private static void creationBoutonsHeros(JPanel panelBoutons, Carte map) {
+    private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, Carte map) {
 
         boutonFinDeTour = new JButton("Fin Tour");
-        
-        panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.LINE_AXIS));
-        panelBoutons.setPreferredSize(new Dimension(150, 200)); // largeur fixe
-
-        panelBoutons.setLayout(new FlowLayout(FlowLayout.LEFT));
        
         // Ajout au panel
         panelBoutons.add(boutonFinDeTour);
         
         
-        boutonFinDeTour.addActionListener(e -> actionFinDeTour(panelBoutons, map));
+        boutonFinDeTour.addActionListener(e -> actionFinDeTour(panelJeu, map));
 
         panelBoutons.getParent().revalidate();
         panelBoutons.getParent().repaint();
@@ -57,16 +52,15 @@ public class FenetreJeu implements IConfig{
         JMenuBar menuBar = new JMenuBar();
         menuBar.setOpaque(true);
         menuBar.setBackground(Color.gray);
-        menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU));
+        menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU+10));
         
         jeu.setJMenuBar(menuBar);
         
         JPanel panel = new PanneauJeu(map);
         
-        
         jeu.add(main);
         main.add(panel);
-        creationBoutonsHeros(main,map);
+        creationBoutonsHeros(menuBar,panel,map);
         jeu.pack();
         jeu.setLocationRelativeTo(null);
         jeu.setVisible(true);

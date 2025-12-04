@@ -14,7 +14,7 @@ public class PanneauJeu extends JPanel implements IConfig{
 	public PanneauJeu(Carte map) {
 		this.map = map;
 		
-		setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE) + 200, HAUTEUR_CARTE * NB_PIX_CASE));
+		setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE) + 40 , (HAUTEUR_CARTE * NB_PIX_CASE) + 40 ));
 	}
 
 	protected void paintComponent(Graphics g) {
