@@ -45,7 +45,7 @@ public class FenetreJeu implements IConfig{
         jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU));
         
         
-        JPanel main = new JPanel();
+        JPanel main = new JPanel();	
         main.setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
         
         
@@ -57,6 +57,7 @@ public class FenetreJeu implements IConfig{
         jeu.setJMenuBar(menuBar);
         
         JPanel panel = new PanneauJeu(map);
+        map.setPanneauJeu(panel);
         
         jeu.add(main);
         main.add(panel);
@@ -93,10 +94,10 @@ public class FenetreJeu implements IConfig{
                     System.out.println("Traitement du clic...");
                     lastClickX = -1;
                 }
-
+                
                 // Ton code de mise à jour du jeu ici
                 // ...
-
+                
                 try { Thread.sleep(16); } catch (InterruptedException ignored) {}
             }
             System.out.println("Boucle de jeu arrêtée.");

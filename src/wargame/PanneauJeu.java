@@ -24,4 +24,6 @@ public class PanneauJeu extends JPanel implements IConfig{
         map.toutDessiner(g);
     }
 	
+	
+	
 }
