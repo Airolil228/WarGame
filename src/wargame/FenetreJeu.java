@@ -14,7 +14,13 @@ public class FenetreJeu implements IConfig{
     private static int lastClickX = -1;
     private static int lastClickY = -1;
     private static JButton boutonFinDeTour;
+    private static Boolean dragging = false;
     
+    private static int dragDebutX,dragDebutY;
+    private static int currentMouseX,currentMouseY;
+    
+    private static Element draggedElement =  null; 
+    private static Element elementSurvole = null; 
     
     private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, Carte map) {
 
@@ -35,6 +41,14 @@ public class FenetreJeu implements IConfig{
     	
     	panelBoutons.getParent().revalidate();
         panelBoutons.getParent().repaint();
+    }
+    
+    public static int getCurrentMouseX(){
+    	 return currentMouseX;  
+    }
+    
+    public static int getCurrentMouseY(){
+    	return currentMouseY;
     }
     
 	public static void main(String[] args) {
@@ -66,8 +80,6 @@ public class FenetreJeu implements IConfig{
         jeu.setLocationRelativeTo(null);
         jeu.setVisible(true);
         
-        
-        
      // Listener des clics
         jeu.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -75,13 +87,67 @@ public class FenetreJeu implements IConfig{
                 lastClickY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
                 System.out.println("Clic détecté: " + lastClickY + ", " + lastClickX);
                 
+               
+                
                 if ( lastClickY>=0 && lastClickY<HAUTEUR_CARTE && lastClickX>=0 && lastClickX<LARGEUR_CARTE ) {
                 	map.marquerCase(lastClickY, lastClickX);
-                	panel.repaint();
+                	Element element = map.getElement(lastClickX,lastClickY);
+                	if(element instanceof Heros){
+	                	dragging = true;
+	                	dragDebutX = lastClickX;
+	                    dragDebutY = lastClickY;
+	                    draggedElement = element;
+	                    System.out.println("Debut X: "+ dragDebutX + " Debut Y"+ dragDebutY );
+	                    panel.repaint();
+                	}
                 }
-                lastClickX = -1;
+                
             }
+            
+            public void mouseReleased(MouseEvent e){
+            	if(dragging){
+            		int dropX = (e.getX()-5) / NB_PIX_CASE;    
+            		int dropY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
+            		
+            		map.marquerCase(dragDebutY, dragDebutX);
+            		map.marquerCase(dropY, dropX);
+            		System.out.println("Drop sur: " + dropY + ", " + dropX);
+            		panel.repaint();
+            	}
+            	dragging = false;
+            	draggedElement = null;
+            }
+            
         });
+        
+        jeu.addMouseMotionListener(new MouseMotionListener() {
+        	public void mouseDragged(MouseEvent e) {
+        		if(dragging) {
+        		currentMouseX = e.getX()-5;
+        		currentMouseY = e.getY()-45- HAUTEUR_BARRE_MENU;
+        		
+        		int currentCaseX = currentMouseX / NB_PIX_CASE; 
+        		int currentCaseY = currentMouseY / NB_PIX_CASE;
+        		
+        		System.out.println("Drag en cours vers: " + currentMouseY + ", " + currentMouseX);
+        		panel.repaint(); 
+        		}
+        	}
+
+			
+			public void mouseMoved(MouseEvent e){
+				currentMouseX = e.getX() - 5;
+				currentMouseY = e.getY() - 45 - HAUTEUR_BARRE_MENU; 
+				
+				if(dragging){
+					panel.repaint();
+				}
+			}
+        	
+        });
+        
+       
+        
 
         jeu.setVisible(true);
 
@@ -115,4 +181,12 @@ public class FenetreJeu implements IConfig{
             }
         });
     }
+
+	public static Element getDraggedElement() {
+		return draggedElement;
+	}
+	
+	public static Boolean isDragging() {
+		return dragging;
+	}
 }
