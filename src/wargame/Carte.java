@@ -471,6 +471,9 @@ public class Carte implements ICarte, IConfig{
 	                    //g.setColor(COULEUR_HEROS);
 	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
 	            		
+	            		// On affiche le fond (pour l'instant ça ne peut être que la plaine)
+	            		g.drawImage(PLAINE.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null); 
+	            		
 	            		Heros h = (Heros) getElement(x,y);
 	            		ISoldat.TypesH th = h.getTYPE();
 	            		switch (th) {
@@ -491,6 +494,9 @@ public class Carte implements ICarte, IConfig{
 	            	case ("Monstre"):
 	                    //g.setColor(COULEUR_MONSTRES);
 	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+	            		
+	            		// On affiche le fond (pour l'instant ça ne peut être que la plaine)
+	            		g.drawImage(PLAINE.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null); 
 	            		
 	            		Monstre m = (Monstre) getElement(x,y);
 	            		ISoldat.TypesM tm = m.getTYPE();
