@@ -7,9 +7,12 @@ import javax.swing.JPanel;
 
 import wargame.Plaine.TypePlaine;
 
+import java.io.Serializable;
+
+
 // Il reste jouerSoldats à faire (?)
 
-public class Carte implements ICarte, IConfig{
+public class Carte implements ICarte, IConfig, Serializable{
 	private int[][] brouillard; // 0 : pas de brouillard, 1 : brouillard
 	private Element[][] tab;
 	private Heros[] armeeHeros;
@@ -20,9 +23,11 @@ public class Carte implements ICarte, IConfig{
 	private int largeur;
 	private Position select;
 	
+	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
+	
 	public static String case_selectionne ; 
 	public static String str_action_Hero = "Prêt";
-	private JPanel panneauJeu;
+	private transient JPanel panneauJeu; // n'est pas concerné par la sérialization
 	
 	public Carte(int hauteur, int largeur) {
 		select = new Position(-1,-1);
@@ -57,7 +62,7 @@ public class Carte implements ICarte, IConfig{
 	public void setPanneauJeu(JPanel panneau) {
         this.panneauJeu = panneau;
     }
-	
+
 	public Element[][] getJeu() {
 		return tab;
 	}

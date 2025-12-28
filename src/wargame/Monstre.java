@@ -1,10 +1,14 @@
 package wargame;
 
+import java.io.Serializable;
+
 import wargame.ISoldat.TypesH;
 
-public class Monstre extends Soldat{
+public class Monstre extends Soldat implements Serializable{
 	private final String NOM;
 	private final TypesM TYPE;
+	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
+
 	
 	public Monstre(Carte carte, TypesM type, String nom, Position pos) {
 		super(carte, type.getPoints(), type.getPortee(),

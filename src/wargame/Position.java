@@ -1,6 +1,11 @@
 package wargame;
-public class Position implements IConfig {
+
+import java.io.Serializable;
+
+public class Position implements IConfig,Serializable{
 	private int x, y;
+	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
+	
 	Position(int x, int y) { this.x = x; this.y = y; }
 	public int getX() { return x; }
 	public int getY() { return y; }

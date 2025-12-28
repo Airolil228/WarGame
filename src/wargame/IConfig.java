@@ -7,13 +7,18 @@ public interface IConfig {
 	int NB_PIX_CASE = 50;
 	int POSITION_X = 100; int POSITION_Y = 50; // Position de la fen�tre
 	int NB_HEROS = 6; int NB_MONSTRES = 15; int NB_OBSTACLES = 20;
+	
 	int HAUTEUR_BARRE_MENU = 30;
+	int LARGEUR_BOUTON = 250;
+	int CENTREX = (LARGEUR_CARTE * NB_PIX_CASE - LARGEUR_BOUTON )/2;
+	int STARTY = 250;
+	int ESPACEMENT = 70;
+	
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRES = Color.black;
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = Color.pink;
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.getHSBColor((float) 0.35,(float) 0.95,(float) 0.55), COULEUR_ROCHER = Color.gray;
 	Color COULEUR_PLAINE = Color.green; Color COULEUR_SELECTION = Color.red; Color COULEUR_CHAMP_ACTION = Color.pink;
-	
 	
 	
 	ImageIcon ORC = new ImageIcon("images/units/Orc.png");

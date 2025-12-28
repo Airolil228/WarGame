@@ -1,12 +1,15 @@
 package wargame;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 import wargame.ISoldat.TypesH;
 
 
-public class Obstacle extends Element {
+public class Obstacle extends Element implements Serializable {
 	public static int nbObstacle = 2;
+	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
+	
 	public enum TypeObstacle {
 		ROCHER (IConfig.COULEUR_ROCHER), FORET (IConfig.COULEUR_FORET), EAU (IConfig.COULEUR_EAU);
 		private final Color COULEUR;
