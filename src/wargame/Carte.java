@@ -437,6 +437,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		// TODO Stub de la méthode généré automatiquement
 		
 		actuBrouillard();
+		String affichage_pv;
 		
 		
 		for (int y = 0; y < hauteur; y++) {
@@ -478,8 +479,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 	            		
 	            		// On affiche le fond (pour l'instant ça ne peut être que la plaine)
 	            		g.drawImage(PLAINE.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null); 
-	            		
+	            		g.drawImage(COEUR.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE/2, NB_PIX_CASE/2, null);
 	            		Heros h = (Heros) getElement(x,y);
+	            		affichage_pv = "" + h.getPoints();
+	    	            g.drawString(affichage_pv, x * NB_PIX_CASE + NB_PIX_CASE/10, y * NB_PIX_CASE + g.getFont().getSize() + NB_PIX_CASE/10);
+	    	            if (h.peutJouer()) {
+	    	            	g.drawImage(ECLAIR.getImage(), x * NB_PIX_CASE + NB_PIX_CASE/2, y * NB_PIX_CASE + NB_PIX_CASE/2, NB_PIX_CASE/2, NB_PIX_CASE/2, null);
+	    	            }
 	            		ISoldat.TypesH th = h.getTYPE();
 	            		switch (th) {
 						case ELF:

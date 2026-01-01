@@ -20,7 +20,8 @@ public interface IConfig {
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.getHSBColor((float) 0.35,(float) 0.95,(float) 0.55), COULEUR_ROCHER = Color.gray;
 	Color COULEUR_PLAINE = Color.green; Color COULEUR_SELECTION = Color.red; Color COULEUR_CHAMP_ACTION = Color.pink;
 	
-	
+	ImageIcon ECLAIR = new ImageIcon("images/units/eclair.png");
+	ImageIcon COEUR = new ImageIcon("images/units/coeur.png");
 	ImageIcon ORC = new ImageIcon("images/units/Orc.png");
 	ImageIcon TROLL = new ImageIcon("images/units/Troll.png");
 	ImageIcon GOBELIN = new ImageIcon("images/units/Gobelin.png");
