@@ -49,6 +49,6 @@ public interface IConfig {
 	
 	ImageIcon FOND = new ImageIcon("images/menu/fond.png");
 	
-	ImageIcon TITRE = new ImageIcon("images/menu/titre.png");
+	ImageIcon TITRE = new ImageIcon("images/menu/titre4.png");
 	ImageIcon BOUTON = new ImageIcon("images/menu/bouton.png");
 }
