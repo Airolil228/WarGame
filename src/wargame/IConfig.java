@@ -1,6 +1,9 @@
 package wargame;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
+import javax.swing.JMenuBar;
 
 public interface IConfig {
 	int LARGEUR_CARTE = 25; int HAUTEUR_CARTE = 15; // en nombre de cases
@@ -9,10 +12,19 @@ public interface IConfig {
 	int NB_HEROS = 6; int NB_MONSTRES = 15; int NB_OBSTACLES = 20;
 	
 	int HAUTEUR_BARRE_MENU = 30;
-	int LARGEUR_BOUTON = 250;
-	int CENTREX = (LARGEUR_CARTE * NB_PIX_CASE - LARGEUR_BOUTON )/2;
+	
+	int LARGEUR_TITRE = 500; 
+	int HAUTEUR_TITRE = 250;
+	
+	int LARGEUR_BOUTON = 400;
+	int HAUTEUR_BOUTON = 100;
+	
 	int STARTY = 250;
-	int ESPACEMENT = 70;
+	int ESPACEMENT = 150;
+	
+	int LARGEUR_JEU = (LARGEUR_CARTE * NB_PIX_CASE);
+	int HAUTEUR_JEU = (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU+10;
+	
 	
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRES = Color.black;
@@ -34,4 +46,9 @@ public interface IConfig {
 	ImageIcon FORET = new ImageIcon("images/terrain/Foret.png");
 	ImageIcon ROCHER = new ImageIcon("images/terrain/Rocher.png");
 	ImageIcon BROUILLARD = new ImageIcon("images/terrain/Brouillard.png");
+	
+	ImageIcon FOND = new ImageIcon("images/menu/fond.png");
+	
+	ImageIcon TITRE = new ImageIcon("images/menu/titre.png");
+	ImageIcon BOUTON = new ImageIcon("images/menu/bouton.png");
 }

@@ -260,6 +260,8 @@ public class FenetreJeu implements IConfig{
         jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU));
         MenuDemarrage MenDem = new MenuDemarrage(jeu);
+        
+        
        
         //Nouvelle partie 
         MenDem.setOnNouvellePartie(() -> {

@@ -1,8 +1,10 @@
 package wargame;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -24,23 +26,43 @@ public class MenuDemarrage extends JPanel implements IConfig{
 	public MenuDemarrage(JFrame fenetre){
 		this.fenetreJeu = fenetre;
 		setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_CARTE * NB_PIX_CASE ));
-		setBackground(new Color(34,34,34)); //Fond sombre
+		//setBackground(new Color(34,34,34)); //Fond sombre
 		setLayout(null); // Layout absolu pour positionner les boutons
-		
+		repaint();
 		creerComposants();
 	}
+	
+	protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+        g.drawImage(FOND.getImage(), 0, 0, getWidth(), getHeight(), null);
+        
+        g.drawImage(TITRE.getImage(), (int) (LARGEUR_JEU/2 - LARGEUR_TITRE/2), (int) (HAUTEUR_JEU/5 - HAUTEUR_TITRE/2), LARGEUR_TITRE, HAUTEUR_TITRE, null);
+        
+        int centre_x = (int) (LARGEUR_JEU/2 - LARGEUR_BOUTON/2);
+		int start_y = (int) (HAUTEUR_JEU/2.2 - HAUTEUR_BOUTON/2);
+        
+        g.drawImage(BOUTON.getImage(), centre_x, start_y, LARGEUR_BOUTON, HAUTEUR_BOUTON, null);
+        g.drawImage(BOUTON.getImage(), centre_x, start_y + ESPACEMENT, LARGEUR_BOUTON, HAUTEUR_BOUTON, null);
+        g.drawImage(BOUTON.getImage(), centre_x, start_y + ESPACEMENT * 2, LARGEUR_BOUTON, HAUTEUR_BOUTON, null);
+    }
 
 	public void setOnNouvellePartie(Runnable r){ this.onNouvellePartie = r;}
 
 	private void creerComposants() {
-		JLabel  titre = new JLabel("⚔ WAR GAME ⚔", SwingConstants.CENTER);
+		/* Version sans images
+		 * 
+		 * JLabel  titre = new JLabel("⚔ WAR GAME ⚔", SwingConstants.CENTER);
 		titre.setFont(new Font("Arial", Font.BOLD,48 ));
 		titre.setForeground(Color.WHITE);
 		titre.setBounds(0,100,LARGEUR_CARTE *NB_PIX_CASE,60);
-		add(titre);
+		add(titre);*/
 		
 		//Bouton Nouvelle Partie
-		btnNouvellePartie = creerBouton("Nouvelle partie",CENTREX,STARTY);
+		int centre_x = (int) (LARGEUR_JEU/2 - LARGEUR_BOUTON/2);
+		int start_y = (int) (HAUTEUR_JEU/2.2 - HAUTEUR_BOUTON/2);
+		
+		btnNouvellePartie = creerBouton("Nouvelle partie", centre_x,start_y, LARGEUR_BOUTON, HAUTEUR_BOUTON);
 		btnNouvellePartie.addActionListener(e -> {
 			if(onNouvellePartie != null)
 				onNouvellePartie.run();
@@ -48,7 +70,7 @@ public class MenuDemarrage extends JPanel implements IConfig{
 		add(btnNouvellePartie);
 
 		//Bouton Nouvelle Partie 
-		btnChargerPartie = creerBouton("Charger une partie",CENTREX,STARTY+ESPACEMENT);
+		btnChargerPartie = creerBouton("Charger une partie", centre_x,start_y+ESPACEMENT, LARGEUR_BOUTON, HAUTEUR_BOUTON);
 		add(btnChargerPartie);
 		btnChargerPartie.addActionListener( e -> {
 			Component parent = SwingUtilities.getWindowAncestor(this);
@@ -110,14 +132,14 @@ public class MenuDemarrage extends JPanel implements IConfig{
 		
 		
 		//Bouton Quitter
-		btnQuitter = creerBouton("Quitter",CENTREX,STARTY+ESPACEMENT*2); 
+		btnQuitter = creerBouton("Quitter", centre_x,start_y+ESPACEMENT*2, LARGEUR_BOUTON, HAUTEUR_BOUTON); 
 		//...
 		add(btnQuitter); 
 	}
 	
-	private JButton creerBouton(String texte, int x,int y){
+	private JButton creerBouton(String texte, int x,int y, int largeur, int hauteur){
 		JButton bouton = new JButton(texte);
-		bouton.setBounds(x,y,250,50);
+		bouton.setBounds(x,y, largeur, hauteur);
 		bouton.setFont(new Font("Arial",Font.BOLD,20));
 		bouton.setFocusPainted(false);
 		bouton.setBackground(new Color(70,130,180)); // Bleu acier
