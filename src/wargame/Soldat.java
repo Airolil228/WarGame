@@ -1,9 +1,13 @@
 package wargame;
 
-public abstract class Soldat extends Element implements ISoldat{
+import java.io.Serializable;
+
+public abstract class Soldat extends Element implements ISoldat,Serializable{
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
 	private int pointsDeVie;
 	private Carte carte;
+	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
+	
 	/*(…)*/
 	Soldat(Carte carte, int pts, int portee, int puiss, int tir, Position pos) {
 		POINTS_DE_VIE_MAX = pointsDeVie = pts;

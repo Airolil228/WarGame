@@ -1,14 +1,20 @@
 package wargame;
 
-public abstract class Element{
+import java.io.Serializable;
+
+public abstract class Element implements Serializable{
 	private boolean estVisible;
 	private String nom;
 	private Position pos;
+	
+	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
+	
 	public Element() {
 		this.estVisible = true;
 		this.nom = "vide";
 		this.pos = new Position(-1,-1);
 	}
+	
 	public boolean EstVisible() {
 		return estVisible;
 	}
