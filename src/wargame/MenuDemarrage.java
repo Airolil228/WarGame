@@ -11,6 +11,7 @@ import javax.swing.event.*;
 import java.awt.Component;
 import javax.swing.JOptionPane;
 import java.io.File;
+import java.io.IOException;
 
 
 public class MenuDemarrage extends JPanel implements IConfig{
@@ -65,6 +66,7 @@ public class MenuDemarrage extends JPanel implements IConfig{
 			); 
 			
 			if(choix == 0 || choix == 1 || choix == 2 ){
+				
 				int slotNumber = choix + 1;
 				File fichier = new File("save/slot"+slotNumber+".wg");
 				if(!fichier.exists()){
@@ -75,6 +77,31 @@ public class MenuDemarrage extends JPanel implements IConfig{
 						JOptionPane.WARNING_MESSAGE
 					);
 					return ;
+				}
+				
+				try{
+					JPanel tempPanel = new JPanel();
+					
+					Carte mapChargee = SauveCharge.charger(fichier,tempPanel);
+					
+					FenetreJeu.initialiserJeu(fenetreJeu, mapChargee);
+					
+				}catch(IOException ex){
+					JOptionPane.showMessageDialog(
+							parent, 
+							"Erreur lors du chargement : " + ex.getMessage(),
+							"Erreur de chargement",
+							JOptionPane.ERROR_MESSAGE
+							); 
+					 ex.printStackTrace();
+				}catch (ClassNotFoundException ex) {
+					JOptionPane.showMessageDialog(
+							parent, 
+							"Fichier de sauvegadre corrompu ou incompatible.",
+							"Erreur de chargement", 
+							JOptionPane.ERROR_MESSAGE
+						); 
+					 ex.printStackTrace();
 				}
 				
 				

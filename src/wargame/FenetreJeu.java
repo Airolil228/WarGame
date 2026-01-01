@@ -11,6 +11,8 @@ import javax.swing.BoxLayout;
 import java.awt.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import java.awt.Dimension;
+
 
 public class FenetreJeu implements IConfig{
     private static boolean running = true;
@@ -113,6 +115,137 @@ public class FenetreJeu implements IConfig{
         panelBoutons.getParent().repaint();
     }
     
+    public static void initialiserJeu(JFrame jeu,Carte map){
+    	JPanel main = new JPanel();
+    	main.setPreferredSize(new Dimension((LARGEUR_CARTE*NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE)+100 ));
+    	
+    	JMenuBar menuBar = new JMenuBar();
+    	
+    	menuBar.setOpaque(true);
+    	menuBar.setBackground(Color.gray);
+    	menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE, HAUTEUR_BARRE_MENU+ 10));
+    	
+    	jeu.setJMenuBar(menuBar);
+    	
+    	JPanel panel = new PanneauJeu(map);
+    	map.setPanneauJeu(panel);
+    	
+    	jeu.setContentPane(main);
+    	main.add(panel);
+    	creationBoutonsHeros(menuBar, panel, map);
+    	jeu.pack();
+    	jeu.setLocationRelativeTo(null);
+    	jeu.revalidate();
+    	jeu.repaint();
+    	
+    	// Configuration des listeners
+    	configureMouseListeners(jeu, panel, map);
+    	
+    	// Démarrage de la boucle de jeu
+    	demarrerBoucleJeu(jeu);
+    	
+    	jeu.setVisible(true);
+    }
+    
+    private static void configureMouseListeners(JFrame jeu, JPanel panel,Carte map){
+    	jeu.addMouseListener(new MouseAdapter(){
+    		public void mousePressed(MouseEvent e) {
+                lastClickX = (e.getX()-5) / NB_PIX_CASE;
+                lastClickY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
+                System.out.println("Clic détecté: " + lastClickY + ", " + lastClickX);
+                
+               
+                
+                if ( lastClickY>=0 && lastClickY<HAUTEUR_CARTE && lastClickX>=0 && lastClickX<LARGEUR_CARTE ) {
+                	map.marquerCase(lastClickY, lastClickX);
+                	Element element = map.getElement(lastClickX,lastClickY);
+                	if(element instanceof Heros){
+	                	dragging = true;
+	                	dragDebutX = lastClickX;
+	                    dragDebutY = lastClickY;
+	                    draggedElement = element;
+	                    System.out.println("Debut X: "+ dragDebutX + " Debut Y"+ dragDebutY );
+	                    panel.repaint();
+                	}
+                }
+                
+            }
+    		
+    		public void mouseReleased(MouseEvent e){
+            	if(dragging){
+            		int dropX = (e.getX()-5) / NB_PIX_CASE;    
+            		int dropY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
+            		
+            		map.marquerCase(dragDebutY, dragDebutX);
+            		map.marquerCase(dropY, dropX);
+            		System.out.println("Drop sur: " + dropY + ", " + dropX);
+            		panel.repaint();
+            	}
+            		dragging = false;
+            		draggedElement = null;
+            	}
+    		});	
+    		
+    	 	jeu.addMouseMotionListener(new MouseMotionListener() {
+    	 		public void mouseDragged(MouseEvent e) {
+         		if(dragging) {
+         		currentMouseX = e.getX()-5;
+         		currentMouseY = e.getY()-45- HAUTEUR_BARRE_MENU;
+         		
+         		int currentCaseX = currentMouseX / NB_PIX_CASE; 
+         		int currentCaseY = currentMouseY / NB_PIX_CASE;
+         		
+         		System.out.println("Drag en cours vers: " + currentMouseY + ", " + currentMouseX);
+         		panel.repaint(); 
+         		}
+         	}
+
+ 			
+ 			public void mouseMoved(MouseEvent e){
+ 				currentMouseX = e.getX() - 5;
+ 				currentMouseY = e.getY() - 45 - HAUTEUR_BARRE_MENU; 
+ 				
+ 				if(dragging){
+ 					panel.repaint();
+ 				}
+ 			}
+         	
+         });
+    }
+    
+    private static void demarrerBoucleJeu(JFrame jeu){
+    	 // Thread du jeu (boucle infinie tant que la fenêtre est ouverte)
+        Thread gameLoop = new Thread(() -> {
+            while (running) {
+
+                // Exemple : si un clic a eu lieu
+                if (lastClickX != -1) {
+                    System.out.println("Traitement du clic...");
+                    lastClickX = -1;
+                }
+                
+                // Ton code de mise à jour du jeu ici
+                // ...
+                
+                try { Thread.sleep(16); } catch (InterruptedException ignored) {}
+            }
+            System.out.println("Boucle de jeu arrêtée.");
+        });
+
+        gameLoop.start();
+
+        // Quand la fenêtre se ferme → arrêter la boucle
+        jeu.addWindowListener(new WindowAdapter() {
+        	public void windowClosing(WindowEvent e) {
+                running = false;   // ARRÊTE LA BOUCLE
+                try {
+                    gameLoop.join();  // attend que le thread s'arrête proprement
+                } catch (InterruptedException ex) {}
+            }
+        });
+    	
+    }
+    
     public static int getCurrentMouseX(){
     	 return currentMouseX;  
     }
@@ -122,7 +255,6 @@ public class FenetreJeu implements IConfig{
     }
     
 	public static void main(String[] args) {
-		
 		
         JFrame jeu = new JFrame("Jeu");
         jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -231,10 +363,7 @@ public class FenetreJeu implements IConfig{
                     lastClickX = -1;
                 }
                 
-                // Ton code de mise à jour du jeu ici
-                // ...
-                
-                try { Thread.sleep(16); } catch (InterruptedException ignored) {}
+                try { Thread.sleep(16); }catch (InterruptedException ignored) {}
             }
             System.out.println("Boucle de jeu arrêtée.");
         });
