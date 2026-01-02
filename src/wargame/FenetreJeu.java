@@ -305,8 +305,8 @@ public class FenetreJeu implements IConfig{
 	                    dragDebutY = lastClickY;
 	                    draggedElement = element;
 	                    System.out.println("Debut X: "+ dragDebutX + " Debut Y"+ dragDebutY );
-	                    panel.repaint();
                 	}
+                	panel.repaint();
                 }
                 
             }

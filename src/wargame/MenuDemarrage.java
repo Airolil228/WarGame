@@ -133,7 +133,9 @@ public class MenuDemarrage extends JPanel implements IConfig{
 		
 		//Bouton Quitter
 		btnQuitter = creerBouton("Quitter", centre_x,start_y+ESPACEMENT*2, LARGEUR_BOUTON, HAUTEUR_BOUTON); 
-		//...
+		btnQuitter.addActionListener(e -> {
+			System.exit(0);
+		});
 		add(btnQuitter); 
 	}
 	

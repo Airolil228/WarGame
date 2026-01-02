@@ -13,7 +13,7 @@ public interface IConfig {
 	
 	int HAUTEUR_BARRE_MENU = 30;
 	
-	int LARGEUR_TITRE = 500; 
+	int LARGEUR_TITRE = 550; 
 	int HAUTEUR_TITRE = 250;
 	
 	int LARGEUR_BOUTON = 400;
