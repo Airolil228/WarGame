@@ -190,20 +190,38 @@ public class FenetreJeu implements IConfig{
         menuBar.add(menu);
     }
     
-    private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, JFrame jeu, Carte map){
-        boutonFinDeTour = new JButton("Fin Tour");
-        boutonRedemarrer = new JButton("Redémarrer");
-        boutonSauveGarde = new JButton("Sauvegarder");
-        boutonRestaurer = new JButton("Restaurer");
-        boutonRetourMenu = new JButton("Retour menu"); 
+    private static void affichageBouton(JButton bouton) {
+        // Mettre le texte au centre de l'image
+        bouton.setHorizontalTextPosition(SwingConstants.CENTER);
+        bouton.setVerticalTextPosition(SwingConstants.CENTER);
         
+        // Optionnel : enlever bordure et fond pour que l’image soit visible
+        bouton.setBorderPainted(false);
+        bouton.setContentAreaFilled(false);
+        bouton.setFocusPainted(false);
+    }
+    
+    private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, JFrame jeu, Carte map){
+        boutonFinDeTour = new JButton("Fin Tour",BOUTON);
+        boutonRedemarrer = new JButton("Redémarrer",BOUTON);
+        boutonSauveGarde = new JButton("Sauvegarder",BOUTON);
+        boutonRestaurer = new JButton("Restaurer",BOUTON);
+        boutonRetourMenu = new JButton("Retour menu",BOUTON); 
         
         // Ajout au panel
         panelBoutons.add(boutonFinDeTour);
         panelBoutons.add(boutonRedemarrer);
         panelBoutons.add(boutonSauveGarde);
         panelBoutons.add(boutonRestaurer);
-        panelBoutons.add(boutonRetourMenu); 
+        panelBoutons.add(boutonRetourMenu);
+        
+        // Affichage des boutons(images)
+        affichageBouton(boutonFinDeTour);
+        affichageBouton(boutonRedemarrer);
+        affichageBouton(boutonSauveGarde);
+        affichageBouton(boutonRestaurer);
+        affichageBouton(boutonRetourMenu);
+        
         
         boutonFinDeTour.addActionListener(e -> actionFinDeTour(panelJeu, map));
         
@@ -545,6 +563,9 @@ public class FenetreJeu implements IConfig{
         JFrame jeu = new JFrame("Jeu");
         jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU));
+        
+        //jeu.setUndecorated(true); Si l'on veut une fenêtre sans contour
+        
         MenuDemarrage MenDem = new MenuDemarrage(jeu);
         
         
@@ -557,7 +578,7 @@ public class FenetreJeu implements IConfig{
        
         JMenuBar menuBar = new JMenuBar();
         menuBar.setOpaque(true);
-        menuBar.setBackground(Color.gray);
+        menuBar.setBackground(Color.gray); // ne fonctionne pas mais c'est pas grave
         menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU+10));
         
         
