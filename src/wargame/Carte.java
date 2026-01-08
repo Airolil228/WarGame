@@ -2,6 +2,7 @@ package wargame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JPanel;
 
@@ -27,7 +28,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	
 	public static String case_selectionne ; 
 	public static String str_action_Hero = "Prêt";
-	private transient JPanel panneauJeu; // n'est pas concerné par la sérialization
+	private JPanel panneauJeu; // n'est pas concerné par la sérialization
 	
 	public Carte(int hauteur, int largeur) {
 		select = new Position(-1,-1);
@@ -57,6 +58,42 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		// Générer trop de rivières peut empêcher la page de s'ouvrir.
 		actuBrouillard(); //-> Pour actualiser le brouillard
+	}
+	
+	public void redemarrer_armees() {
+		for (int i = 0; i< NB_HEROS;i++) {
+			armeeHeros[i] = null;
+		}
+		for (int i = 0; i< NB_MONSTRES;i++) {
+			armeeMonstre[i] = null;
+		}
+	}
+	
+	public void redemarrer(int hauteur, int largeur) {
+		// copie du constructeur
+		
+		select = new Position(-1,-1);
+		int i,j;
+		this.hauteur = hauteur;
+		this.largeur = largeur;
+		nbHerosVivant = NB_HEROS;
+		nbMonstreVivant = NB_MONSTRES;
+		for (i=0;i<hauteur;i++) {
+			for (j=0;j<largeur;j++) {
+				tab[i][j] = new Plaine();
+				tab[i][j].setPos(j,i);
+			}
+		}
+		redemarrer_armees();
+		
+		initArmeeHeros();
+		initArmeeMonstre();
+		initObstacleAlea();
+		for (int x = 0; x < 10; x++) {
+			initRiviereAlea(3);
+		}
+		
+		actuBrouillard();
 	}
 	
 	public void setPanneauJeu(JPanel panneau) {
@@ -442,11 +479,29 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		for (int y = 0; y < hauteur; y++) {
             for (int x = 0; x < largeur; x++) {
+            	
+            	
+            	Image plaine, eau, rocher, foret, brouillard_img;
+            	if ( x < largeur / 2) {
+            		plaine = PLAINE.getImage();
+            		eau = EAU.getImage();
+            		rocher = ROCHER.getImage();
+            		foret = FORET.getImage();
+            		brouillard_img = BROUILLARD.getImage();
+            	}else {
+            		plaine = PLAINE2.getImage();
+            		eau = LAVA.getImage();
+            		rocher = ROCHER2.getImage();
+            		foret = FORET2.getImage();
+            		brouillard_img = BROUILLARD2.getImage();
+            	}
+            	
+            	
             	if (brouillard[y][x] == 0) {
 	            	switch (getElement(x,y).getClass().getSimpleName()) {
 	            	case ("Plaine"):
 	                    //g.setColor(COULEUR_PLAINE);
-	            		g.drawImage(PLAINE.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+	            		g.drawImage(plaine, x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 	            
 	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
 	                    break;
@@ -457,19 +512,19 @@ public class Carte implements ICarte, IConfig, Serializable{
 						case EAU:
 							//g.setColor(COULEUR_EAU);
 							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-							g.drawImage(EAU.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(eau, x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							
 							break;
 					
 						case FORET:
 							//g.setColor(COULEUR_FORET);
 							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-							g.drawImage(FORET.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(foret, x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 						case ROCHER:
 							//g.setColor(COULEUR_ROCHER);
 							//g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
-							g.drawImage(ROCHER.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+							g.drawImage(rocher, x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 							break;
 	            		}
 	                    break;
@@ -478,7 +533,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
 	            		
 	            		// On affiche le fond (pour l'instant ça ne peut être que la plaine)
-	            		g.drawImage(PLAINE.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null); 
+	            		g.drawImage(plaine, x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null); 
 	            		g.drawImage(COEUR.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE/2, NB_PIX_CASE/2, null);
 	            		Heros h = (Heros) getElement(x,y);
 	            		affichage_pv = "" + h.getPoints();
@@ -507,9 +562,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 	                    //g.fillRect(y * NB_PIX_CASE, x * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
 	            		
 	            		// On affiche le fond (pour l'instant ça ne peut être que la plaine)
-	            		g.drawImage(PLAINE.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null); 
-	            		
+	            		g.drawImage(plaine, x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null); 
+	            		g.drawImage(COEUR.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE/2, NB_PIX_CASE/2, null);
 	            		Monstre m = (Monstre) getElement(x,y);
+	            		affichage_pv = "" + m.getPoints();
+	            		g.drawString(affichage_pv, x * NB_PIX_CASE + NB_PIX_CASE/10, y * NB_PIX_CASE + g.getFont().getSize() + NB_PIX_CASE/10);
+	            		
 	            		ISoldat.TypesM tm = m.getTYPE();
 		        		switch (tm) {
 						case TROLL:
@@ -525,7 +583,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	                    break;
 	            	}
             	}else {
-            		g.drawImage(BROUILLARD.getImage(), x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+            		g.drawImage(brouillard_img, x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
             	}
             	
                 g.setColor(COULEUR_TEXTE); // contour

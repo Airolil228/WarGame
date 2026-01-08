@@ -19,7 +19,9 @@ public class FenetreJeu implements IConfig{
     private static int lastClickX = -1;
     private static int lastClickY = -1;
     private static JButton boutonFinDeTour;
+    private static JButton boutonRedemarrer;
     private static JButton boutonSauveGarde;
+    private static JButton boutonRestaurer;
     private static JButton boutonRetourMenu;
     private static Boolean dragging = false;
     
@@ -29,18 +31,34 @@ public class FenetreJeu implements IConfig{
     private static Element draggedElement =  null; 
     private static Element elementSurvole = null; 
     
-    private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, Carte map){
+    private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, JFrame jeu, Carte map){
         boutonFinDeTour = new JButton("Fin Tour");
-        boutonSauveGarde = new JButton("Sauvegarder"); 
+        boutonRedemarrer = new JButton("Redémarrer");
+        boutonSauveGarde = new JButton("Sauvegarder");
+        boutonRestaurer = new JButton("Restaurer");
         boutonRetourMenu = new JButton("Retour menu"); 
         
         
         // Ajout au panel
         panelBoutons.add(boutonFinDeTour);
+        panelBoutons.add(boutonRedemarrer);
         panelBoutons.add(boutonSauveGarde);
+        panelBoutons.add(boutonRestaurer);
         panelBoutons.add(boutonRetourMenu); 
         
         boutonFinDeTour.addActionListener(e -> actionFinDeTour(panelJeu, map));
+        
+        boutonRedemarrer.addActionListener(e -> {
+        	map.redemarrer(HAUTEUR_CARTE,LARGEUR_CARTE);
+        	jeu.repaint();
+        });
+        
+        boutonRestaurer.addActionListener(e -> {
+        	
+        });
+        
+        boutonRetourMenu.addActionListener(e -> {
+        });
         
         boutonSauveGarde.addActionListener(e -> {
         	java.awt.Component parent = SwingUtilities.getWindowAncestor(panelJeu); //Récupère la fenêtre (JFrame) qui contient panelJeu
@@ -132,7 +150,7 @@ public class FenetreJeu implements IConfig{
     	
     	jeu.setContentPane(main);
     	main.add(panel);
-    	creationBoutonsHeros(menuBar, panel, map);
+    	creationBoutonsHeros(menuBar, panel, jeu, map);
     	jeu.pack();
     	jeu.setLocationRelativeTo(null);
     	jeu.revalidate();
@@ -281,7 +299,7 @@ public class FenetreJeu implements IConfig{
         
         jeu.setContentPane(main);
         main.add(panel);
-        creationBoutonsHeros(menuBar,panel,map);
+        creationBoutonsHeros(menuBar,panel, jeu, map);
         jeu.pack();
         jeu.setLocationRelativeTo(null);
         jeu.revalidate();

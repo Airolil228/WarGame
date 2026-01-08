@@ -42,10 +42,15 @@ public interface IConfig {
 	ImageIcon HUMAIN = new ImageIcon("images/units/Humain.png");
 	ImageIcon HOBBIT = new ImageIcon("images/units/Hobbit.png");
 	ImageIcon PLAINE = new ImageIcon("images/terrain/Plaine.png");
+	ImageIcon PLAINE2 = new ImageIcon("images/terrain/Plaine2.png");
 	ImageIcon EAU = new ImageIcon("images/terrain/Eau.png");
+	ImageIcon LAVA = new ImageIcon("images/terrain/Lava.png");
 	ImageIcon FORET = new ImageIcon("images/terrain/Foret.png");
+	ImageIcon FORET2 = new ImageIcon("images/terrain/Foret2.png");
 	ImageIcon ROCHER = new ImageIcon("images/terrain/Rocher.png");
+	ImageIcon ROCHER2 = new ImageIcon("images/terrain/Rocher2.png");
 	ImageIcon BROUILLARD = new ImageIcon("images/terrain/Brouillard.png");
+	ImageIcon BROUILLARD2 = new ImageIcon("images/terrain/Brouillard2.png");
 	
 	ImageIcon FOND = new ImageIcon("images/menu/fond.png");
 	
