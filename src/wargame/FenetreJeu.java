@@ -2,6 +2,7 @@ package wargame;
 
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.JButton;
@@ -11,7 +12,6 @@ import javax.swing.BoxLayout;
 import java.awt.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import java.awt.Dimension;
 
 
 public class FenetreJeu implements IConfig{
@@ -53,9 +53,64 @@ public class FenetreJeu implements IConfig{
         	jeu.repaint();
         });
         
-        boutonRestaurer.addActionListener(e -> {
-        	
-        });
+        boutonRestaurer.addActionListener( e -> {
+        	// recopie du bouto de chargement dans menuDemarrage
+			Component parent = SwingUtilities.getWindowAncestor(panelJeu);
+			String[] options = {"Slot 1", "Slot 2", "Slot 3", "Annuler"};
+			
+			int choix = javax.swing.JOptionPane.showOptionDialog(
+				parent,
+				"Choisissez un slot à charger", 
+				"Charger une partie", 
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[0]
+			); 
+			
+			if(choix == 0 || choix == 1 || choix == 2 ){
+				
+				int slotNumber = choix + 1;
+				File fichier = new File("save/slot"+slotNumber+".wg");
+				if(!fichier.exists()){
+					JOptionPane.showMessageDialog(
+						parent,
+						"Aucun sauvegarde trouvée pout slot"+slotNumber+" .",
+						"Slot vide",
+						JOptionPane.WARNING_MESSAGE
+					);
+					return ;
+				}
+				
+				try{
+					JPanel tempPanel = new JPanel();
+					
+					Carte mapChargee = SauveCharge.charger(fichier,tempPanel);
+					
+					FenetreJeu.initialiserJeu(jeu, mapChargee);
+					
+				}catch(IOException ex){
+					JOptionPane.showMessageDialog(
+							parent, 
+							"Erreur lors du chargement : " + ex.getMessage(),
+							"Erreur de chargement",
+							JOptionPane.ERROR_MESSAGE
+							); 
+					 ex.printStackTrace();
+				}catch (ClassNotFoundException ex) {
+					JOptionPane.showMessageDialog(
+							parent, 
+							"Fichier de sauvegadre corrompu ou incompatible.",
+							"Erreur de chargement", 
+							JOptionPane.ERROR_MESSAGE
+						); 
+					 ex.printStackTrace();
+				}
+				
+				
+			}			
+		});
         
         boutonRetourMenu.addActionListener(e -> {
         });

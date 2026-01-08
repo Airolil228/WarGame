@@ -22,6 +22,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	private int nbMonstreVivant;
 	private int hauteur;
 	private int largeur;
+	private int compteur_tour;
 	private Position select;
 	
 	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
@@ -41,6 +42,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		tab = new Element[hauteur][largeur];
 		armeeHeros = new Heros[NB_HEROS];  // Vide
 		armeeMonstre = new Monstre[NB_MONSTRES];   // Vide
+		
+		compteur_tour = 0;
+		
 		for (i=0;i<hauteur;i++) {
 			for (j=0;j<largeur;j++) {
 				tab[i][j] = new Plaine();
@@ -78,6 +82,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		this.largeur = largeur;
 		nbHerosVivant = NB_HEROS;
 		nbMonstreVivant = NB_MONSTRES;
+		compteur_tour = 0;
 		for (i=0;i<hauteur;i++) {
 			for (j=0;j<largeur;j++) {
 				tab[i][j] = new Plaine();
@@ -482,7 +487,7 @@ public class Carte implements ICarte, IConfig, Serializable{
             	
             	
             	Image plaine, eau, rocher, foret, brouillard_img;
-            	if ( x < largeur / 2) {
+            	if ( x + (compteur_tour/2) < largeur - largeur/4) {
             		plaine = PLAINE.getImage();
             		eau = EAU.getImage();
             		rocher = ROCHER.getImage();
@@ -746,6 +751,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	}
 	
 	public void finDeTour() {
+		compteur_tour++;
 		for (int i=0;i<nbHerosVivant;i++) {
 			armeeHeros[i].peutRejouer();
 		}
