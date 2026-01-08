@@ -145,6 +145,14 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return tab[y][x];
 	}
 	
+	public Heros getHeros(int i) {
+		if (nbHerosVivant > i) {
+			return armeeHeros[i];
+		}else {
+			return null;
+		}
+	}
+	
 	public void setElement(Element e,Position p) {
 		tab[p.getY()][p.getX()] = e;
 	}
@@ -782,6 +790,14 @@ public class Carte implements ICarte, IConfig, Serializable{
 	public Position getSelect() {
 		Position p = new Position(select.getX(),select.getY());
 		return p;
+	}
+	
+	public void setSelect(Position p) {
+		select = new Position(p.getX(),p.getY());
+	}
+	
+	public void setSelect(int x, int y) {
+		select = new Position(x,y);
 	}
 	
 	public void marquerCase(int y, int x) {

@@ -347,6 +347,47 @@ public class FenetreJeu implements IConfig{
         panelBoutons.getParent().repaint();
     }
     
+    private static void actionToucheClavier(JMenuBar menuBar, JPanel panel, JFrame jeu, Carte map) {
+    	JRootPane root;
+    	
+    	// F : fin de tour
+        Action actionF = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	actionFinDeTour(panel, map);
+            	//System.out.println("touche f détecté");
+            }
+        };
+
+        root = jeu.getRootPane();
+
+        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), "finTour");
+
+        root.getActionMap().put("finTour", actionF);
+        
+        // Permet de sélectionner les héros avec les touches 0,1,2,...
+        for (int i = 0; i <= 9; i++) {
+            final int indice = i;
+            String actionName = "selectHeros" + i;
+
+            root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_0 + i, 0), actionName);
+
+            root.getActionMap().put(actionName, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                	Heros h = map.getHeros(indice);
+                	System.out.println("touche " + indice + " détecté");
+                	if (h != null) {
+	                	map.setSelect(h.getPos());
+	                    jeu.repaint();
+                	}
+                }
+            });
+        }
+    }
+    
     public static void initialiserJeu(JFrame jeu,Carte map){
     	JPanel main = new JPanel();
     	main.setPreferredSize(new Dimension((LARGEUR_CARTE*NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE)+100 ));
@@ -527,22 +568,8 @@ public class FenetreJeu implements IConfig{
         // Configuration des listeners
     	configureMouseListeners(jeu, panel, map);
       
-    	
-    	// Créer une action qui sera déclenchée à l'appui de F
-        Action actionF = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	actionFinDeTour(panel, map);
-            	System.out.println("touche f détecté");
-            }
-        };
-
-        JRootPane root = jeu.getRootPane();
-
-        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), "finTour");
-
-        root.getActionMap().put("finTour", actionF);
+    	// Créer les actions qui seront déclenchés par l'appuie sur le clavier : f : fin de tour
+    	actionToucheClavier(menuBar, panel, jeu, map);
     	
         jeu.setVisible(true);
         
