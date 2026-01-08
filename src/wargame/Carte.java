@@ -32,7 +32,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
 	
 	public static String case_selectionne ; 
-	public static String str_action_Hero = "Prêt";
+	public static String str_action_Hero = "Aucune Action réalisée";
 	private JPanel panneauJeu; // n'est pas concerné par la sérialization
 	
 	public Carte(int hauteur, int largeur) {
@@ -827,7 +827,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		if ((pos2.getY() <= pos.getY()+portee) && (pos2.getY() >= pos.getY()-portee) && (pos2.getX() <= pos.getX()+portee) && (pos2.getX() >= pos.getX()-portee)){
 			if (getElement(pos2) instanceof Plaine) {
 				System.out.println("Déplacement");
-				str_action_Hero = "Déplacé en (" + pos2.getX() + "," + pos2.getY()+")";
+				str_action_Hero = "Dernière Action : Déplacement en (" + pos2.getX() + "," + pos2.getY()+")";
 				
 				deplaceSoldat(pos2,h);
 				h.seDeplace(pos2);
@@ -838,7 +838,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 				System.out.println("Attaque");
 				// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
 				Monstre m = (Monstre) getElement(pos2);
-				str_action_Hero = "Attaque en " + pos2.getX() + " " + pos2. getY();
+				str_action_Hero = "Dernière Action : Attaque en " + pos2.getX() + " " + pos2. getY();
 				
 				//h.peutAttaquer(pos2);
 				h.combat(m);

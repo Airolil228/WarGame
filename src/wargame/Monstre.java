@@ -5,7 +5,6 @@ import java.io.Serializable;
 import wargame.ISoldat.TypesH;
 
 public class Monstre extends Soldat implements Serializable{
-	private final String NOM;
 	private final TypesM TYPE;
 	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
 
@@ -13,7 +12,7 @@ public class Monstre extends Soldat implements Serializable{
 	public Monstre(Carte carte, TypesM type, String nom, Position pos) {
 		super(carte, type.getPoints(), type.getPortee(),
 		type.getPuissance(), type.getTir(), pos);
-		NOM = nom; TYPE = type;
+		this.setNom(nom);; TYPE = type;
 	}
 	
 	public TypesM getTYPE() {
