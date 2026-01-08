@@ -874,10 +874,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 			Heros h = armeeHeros[i];
 			int pv = h.getPoints();
 			
-			h.peutRejouer();
-			if (pv < h.getPointsMAX()) {
-				h.setPoints(pv + 1);
+			if (h.peutJouer()) { // si il peut jouer mais qu'il ne joue pas le personage regagne un peu de vie.
+				if (pv < h.getPointsMAX()) {
+					h.setPoints(pv + 1);
+				}
 			}
+			
+			h.peutRejouer();
 		}
 		for (int i=0;i<nbMonstreVivant;i++) {
 			Position p = armeeMonstre[i].getPos();

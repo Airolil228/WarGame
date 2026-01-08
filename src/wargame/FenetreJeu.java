@@ -527,7 +527,25 @@ public class FenetreJeu implements IConfig{
         // Configuration des listeners
     	configureMouseListeners(jeu, panel, map);
       
+    	
+    	// Créer une action qui sera déclenchée à l'appui de F
+        Action actionF = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	actionFinDeTour(panel, map);
+            	System.out.println("touche f détecté");
+            }
+        };
+
+        JRootPane root = jeu.getRootPane();
+
+        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), "finTour");
+
+        root.getActionMap().put("finTour", actionF);
+    	
         jeu.setVisible(true);
+        
 
         // Thread du jeu (boucle infinie tant que la fenêtre est ouverte)
         Thread gameLoop = new Thread(() -> {
