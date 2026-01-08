@@ -19,6 +19,15 @@ public abstract class Soldat extends Element implements ISoldat,Serializable{
 		return pointsDeVie; 
 	}
 	
+	public void setPoints(int n) {
+		pointsDeVie = n; 
+	}
+	
+	public int getPointsMAX() {
+		return POINTS_DE_VIE_MAX; 
+	}
+	
+	
 	public int getTour() {
 		return 0; /* A remplacer */
 	}

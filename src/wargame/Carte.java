@@ -871,7 +871,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 	public void finDeTour() {
 		compteur_tour++;
 		for (int i=0;i<nbHerosVivant;i++) {
-			armeeHeros[i].peutRejouer();
+			Heros h = armeeHeros[i];
+			int pv = h.getPoints();
+			
+			h.peutRejouer();
+			if (pv < h.getPointsMAX()) {
+				h.setPoints(pv + 1);
+			}
 		}
 		for (int i=0;i<nbMonstreVivant;i++) {
 			Position p = armeeMonstre[i].getPos();
