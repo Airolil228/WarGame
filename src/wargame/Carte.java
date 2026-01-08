@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 
 import wargame.Plaine.TypePlaine;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -329,53 +333,167 @@ public class Carte implements ICarte, IConfig, Serializable{
 	}
 	
 	public void initArmeeHeros() {
+		
+		int type;
+		int nom;
+		
+		String ligne = null;
+        BufferedReader br;
+		
 		for (int i = 0; i< NB_HEROS;i++) {
 			Position p = trouvePositionVideHeros();
-			int type = (int) (Math.random() * ISoldat.nbTypeHeros);
+			type = (int) (Math.random() * ISoldat.nbTypeHeros);
+			nom = (int) (Math.random() * NB_NOMS);
 			ISoldat.TypesH th = ISoldat.TypesH.ELF;
 			switch (type) {
 			case(0):
 				th = ISoldat.TypesH.ELF;
+			
+				try {
+					br = new BufferedReader(new FileReader("./name/Elfs"));
+	
+			        for (int j = 0; j <= nom; j++) {
+			            ligne = br.readLine();
+			            if (ligne == null) break; // fin du fichier avant d'arriver à x
+			        }
+			        
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 				break;
 			case(1):
 				th = ISoldat.TypesH.HOBBIT;
+			
+				try {
+					br = new BufferedReader(new FileReader("./name/Hobbits"));
+	
+			        for (int j = 0; j <= nom; j++) {
+			            ligne = br.readLine();
+			            if (ligne == null) break; // fin du fichier avant d'arriver à x
+			        }
+			        
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 				break;
 			case(2):
 				th = ISoldat.TypesH.HUMAIN;
+			
+				try {
+					br = new BufferedReader(new FileReader("./name/Humains"));
+	
+			        for (int j = 0; j <= nom; j++) {
+			            ligne = br.readLine();
+			            if (ligne == null) break; // fin du fichier avant d'arriver à x
+			        }
+			        
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 				break;
 			case(3):
 				th = ISoldat.TypesH.NAIN;
+			
+				try {
+					br = new BufferedReader(new FileReader("./name/Nains"));
+	
+			        for (int j = 0; j <= nom; j++) {
+			            ligne = br.readLine();
+			            if (ligne == null) break; // fin du fichier avant d'arriver à x
+			        }
+			        
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 				break;
 			default:
 				;
 			}
 			
-			Heros h = new Heros(this, th, "Robert", p);
+			Heros h = new Heros(this, th, ligne, p);
 			armeeHeros[i] = h;
 			setElement(h,p);
 		}
 	}
 	
 	public void initArmeeMonstre() {
+		
+		int type;
+		int nom;
+		
+		String ligne = null;
+        BufferedReader br;
+		
 		for (int i = 0; i< NB_MONSTRES;i++) {
 			Position p = trouvePositionVideMonstre();
-			int type = (int) (Math.random() * ISoldat.nbTypeMonstre);
+			type = (int) (Math.random() * ISoldat.nbTypeMonstre);
+			nom = (int) (Math.random() * NB_NOMS);
 			ISoldat.TypesM th = ISoldat.TypesM.GOBELIN;
 			switch (type) {
 			case(0):
 				th = ISoldat.TypesM.GOBELIN;
+			
+				try {
+					br = new BufferedReader(new FileReader("./name/Gobelins"));
+
+			        for (int j = 0; j <= nom; j++) {
+			            ligne = br.readLine();
+			            if (ligne == null) break; // fin du fichier avant d'arriver à x
+			        }
+			        
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        
 				break;
 			case(1):
 				th = ISoldat.TypesM.ORC;
+			
+				try {
+					br = new BufferedReader(new FileReader("./name/Orcs"));
+	
+			        for (int j = 0; j <= nom; j++) {
+			            ligne = br.readLine();
+			            if (ligne == null) break; // fin du fichier avant d'arriver à x
+			        }
+			        
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 				break;
 			case(2):
 				th = ISoldat.TypesM.TROLL;
+			
+				try {
+					br = new BufferedReader(new FileReader("./name/Trolls"));
+	
+			        for (int j = 0; j <= nom; j++) {
+			            ligne = br.readLine();
+			            if (ligne == null) break; // fin du fichier avant d'arriver à x
+			        }
+			        
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 				break;
 			default:
 				;
 			}
 			
-			Monstre m = new Monstre(this, th, "Patrick", p);
+			Monstre m = new Monstre(this, th, ligne, p);
 			armeeMonstre[i] = m;
 			setElement(m,p);
 		}
@@ -487,7 +605,7 @@ public class Carte implements ICarte, IConfig, Serializable{
             	
             	
             	Image plaine, eau, rocher, foret, brouillard_img;
-            	if ( x + (compteur_tour/2) < largeur - largeur/4) {
+            	if ( x + (compteur_tour/2) < largeur - largeur/3) {
             		plaine = PLAINE.getImage();
             		eau = EAU.getImage();
             		rocher = ROCHER.getImage();

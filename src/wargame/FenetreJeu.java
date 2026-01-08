@@ -31,6 +31,165 @@ public class FenetreJeu implements IConfig{
     private static Element draggedElement =  null; 
     private static Element elementSurvole = null; 
     
+    private static void creationBarreMenu(JMenuBar menuBar, JPanel panelJeu, JFrame jeu, Carte map) {
+    	// Créer un menu
+        JMenu menu = new JMenu("Menu");
+
+        // Créer des éléments de menu
+        JMenuItem itemFinDeTour = new JMenuItem("Fin de tour");
+        JMenuItem itemRedemarrer = new JMenuItem("Redemarrer");
+        JMenuItem itemSauvegarder = new JMenuItem("Sauvegarder");
+        JMenuItem itemRestaurer = new JMenuItem("Restaurer");
+        JMenuItem itemRetourMenu = new JMenuItem("Retour Menu");
+
+        // Ajouter les éléments au menu
+        menu.add(itemFinDeTour);
+        menu.addSeparator(); // ligne de séparation
+        menu.add(itemRedemarrer);
+        menu.add(itemSauvegarder);
+        menu.add(itemRestaurer);
+        menu.add(itemRetourMenu);
+        
+        
+        itemFinDeTour.addActionListener(e -> actionFinDeTour(panelJeu, map));
+        
+        itemRedemarrer.addActionListener(e -> {
+        	map.redemarrer(HAUTEUR_CARTE,LARGEUR_CARTE);
+        	jeu.repaint();
+        });
+        
+        itemRestaurer.addActionListener( e -> {
+        	// recopie du bouto de chargement dans menuDemarrage
+			Component parent = SwingUtilities.getWindowAncestor(panelJeu);
+			String[] options = {"Slot 1", "Slot 2", "Slot 3", "Annuler"};
+			
+			int choix = javax.swing.JOptionPane.showOptionDialog(
+				parent,
+				"Choisissez un slot à charger", 
+				"Charger une partie", 
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[0]
+			); 
+			
+			if(choix == 0 || choix == 1 || choix == 2 ){
+				
+				int slotNumber = choix + 1;
+				File fichier = new File("save/slot"+slotNumber+".wg");
+				if(!fichier.exists()){
+					JOptionPane.showMessageDialog(
+						parent,
+						"Aucun sauvegarde trouvée pout slot"+slotNumber+" .",
+						"Slot vide",
+						JOptionPane.WARNING_MESSAGE
+					);
+					return ;
+				}
+				
+				try{
+					JPanel tempPanel = new JPanel();
+					
+					Carte mapChargee = SauveCharge.charger(fichier,tempPanel);
+					
+					FenetreJeu.initialiserJeu(jeu, mapChargee);
+					
+				}catch(IOException ex){
+					JOptionPane.showMessageDialog(
+							parent, 
+							"Erreur lors du chargement : " + ex.getMessage(),
+							"Erreur de chargement",
+							JOptionPane.ERROR_MESSAGE
+							); 
+					 ex.printStackTrace();
+				}catch (ClassNotFoundException ex) {
+					JOptionPane.showMessageDialog(
+							parent, 
+							"Fichier de sauvegadre corrompu ou incompatible.",
+							"Erreur de chargement", 
+							JOptionPane.ERROR_MESSAGE
+						); 
+					 ex.printStackTrace();
+				}
+				
+				
+			}			
+		});
+        
+        itemRetourMenu.addActionListener(e -> {
+        });
+        
+        itemSauvegarder.addActionListener(e -> {
+        	java.awt.Component parent = SwingUtilities.getWindowAncestor(panelJeu); //Récupère la fenêtre (JFrame) qui contient panelJeu
+        	String[] options = {"Slot 1","Slot 2","Slot 3","Annuler"}; 
+            
+        	//Affichier le menu des slots 
+        	int choix  = javax.swing.JOptionPane.showOptionDialog(
+        			parent,//
+        			"Choisissez un slot de sauvegarde",//
+        			"Sauvegarde",
+        			JOptionPane.DEFAULT_OPTION,//Type d’options par défaut
+        			JOptionPane.QUESTION_MESSAGE,//Icône question affichée dans la boîte
+        			null,//icônne personalisée
+        			options,//les boutons affichés
+        			options[0]); //sélectionné par défaut
+        	
+        	//Traitement du choix 
+        	if(choix == 0 || choix == 1 || choix == 2){
+        		int SlotNumber = choix + 1;
+        		File dir = new File("save");
+        		
+        		if(!dir.exists()){
+        			dir.mkdirs();
+        		}
+        		
+        		//Chemin du fichier
+        		File fichier = new File(dir,"slot" + SlotNumber + ".wg");
+        		
+        		//Dans le cas si le chimin vers le fichier exists : demander de la confiramtions d'écraisement ce slot
+        		if(fichier.exists()){
+        			int confirm = JOptionPane.showConfirmDialog(
+        					parent,
+        					"Le slot" + SlotNumber + "contient déjâ une sauvegarde.\n Voulez-vous l'écraser ?", 
+        					"Confirmation d'écrasement", 
+        					JOptionPane.YES_NO_OPTION,
+        					JOptionPane.WARNING_MESSAGE
+        			);
+        			if(confirm != JOptionPane.YES_OPTION){
+        				return ;
+        			}
+        		}
+        	
+        	
+        	try{
+        		SauveCharge.sauvegarder(map,fichier);
+        		JOptionPane.showMessageDialog(parent,
+        				"Sauvegarde efectuée dans le slot " + SlotNumber + " ("+ fichier.getPath() + ")",
+        				"Sauvegarde reussie", 
+        				JOptionPane.INFORMATION_MESSAGE
+        				);
+        	}catch (Exception ex){
+        		JOptionPane.showMessageDialog(
+        		parent,
+        		"Erreur de la sauvegarde: "+ ex.getMessage(),
+        		"Erreur",
+        		JOptionPane.INFORMATION_MESSAGE
+        		);
+        		ex.printStackTrace();
+        	}
+          }
+        }); 
+        
+        
+        menuBar.getParent().revalidate();
+        menuBar.getParent().repaint();
+        
+
+        // Ajouter le menu à la barre
+        menuBar.add(menu);
+    }
+    
     private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, JFrame jeu, Carte map){
         boutonFinDeTour = new JButton("Fin Tour");
         boutonRedemarrer = new JButton("Redémarrer");
@@ -205,6 +364,7 @@ public class FenetreJeu implements IConfig{
     	
     	jeu.setContentPane(main);
     	main.add(panel);
+    	creationBarreMenu(menuBar, panel, jeu, map);
     	creationBoutonsHeros(menuBar, panel, jeu, map);
     	jeu.pack();
     	jeu.setLocationRelativeTo(null);
@@ -221,146 +381,7 @@ public class FenetreJeu implements IConfig{
     }
     
     private static void configureMouseListeners(JFrame jeu, JPanel panel,Carte map){
-    	jeu.addMouseListener(new MouseAdapter(){
-    		public void mousePressed(MouseEvent e) {
-                lastClickX = (e.getX()-5) / NB_PIX_CASE;
-                lastClickY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
-                System.out.println("Clic détecté: " + lastClickY + ", " + lastClickX);
-                
-               
-                
-                if ( lastClickY>=0 && lastClickY<HAUTEUR_CARTE && lastClickX>=0 && lastClickX<LARGEUR_CARTE ) {
-                	map.marquerCase(lastClickY, lastClickX);
-                	Element element = map.getElement(lastClickX,lastClickY);
-                	if(element instanceof Heros){
-	                	dragging = true;
-	                	dragDebutX = lastClickX;
-	                    dragDebutY = lastClickY;
-	                    draggedElement = element;
-	                    System.out.println("Debut X: "+ dragDebutX + " Debut Y"+ dragDebutY );
-	                    panel.repaint();
-                	}
-                }
-                
-            }
-    		
-    		public void mouseReleased(MouseEvent e){
-            	if(dragging){
-            		int dropX = (e.getX()-5) / NB_PIX_CASE;    
-            		int dropY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
-            		
-            		map.marquerCase(dragDebutY, dragDebutX);
-            		map.marquerCase(dropY, dropX);
-            		System.out.println("Drop sur: " + dropY + ", " + dropX);
-            		panel.repaint();
-            	}
-            		dragging = false;
-            		draggedElement = null;
-            	}
-    		});	
-    		
-    	 	jeu.addMouseMotionListener(new MouseMotionListener() {
-    	 		public void mouseDragged(MouseEvent e) {
-         		if(dragging) {
-         		currentMouseX = e.getX()-5;
-         		currentMouseY = e.getY()-45- HAUTEUR_BARRE_MENU;
-         		
-         		int currentCaseX = currentMouseX / NB_PIX_CASE; 
-         		int currentCaseY = currentMouseY / NB_PIX_CASE;
-         		
-         		System.out.println("Drag en cours vers: " + currentMouseY + ", " + currentMouseX);
-         		panel.repaint(); 
-         		}
-         	}
-
- 			
- 			public void mouseMoved(MouseEvent e){
- 				currentMouseX = e.getX() - 5;
- 				currentMouseY = e.getY() - 45 - HAUTEUR_BARRE_MENU; 
- 				
- 				if(dragging){
- 					panel.repaint();
- 				}
- 			}
-         	
-         });
-    }
-    
-    private static void demarrerBoucleJeu(JFrame jeu){
-    	 // Thread du jeu (boucle infinie tant que la fenêtre est ouverte)
-        Thread gameLoop = new Thread(() -> {
-            while (running) {
-
-                // Exemple : si un clic a eu lieu
-                if (lastClickX != -1) {
-                    System.out.println("Traitement du clic...");
-                    lastClickX = -1;
-                }
-                
-                // Ton code de mise à jour du jeu ici
-                // ...
-                
-                try { Thread.sleep(16); } catch (InterruptedException ignored) {}
-            }
-            System.out.println("Boucle de jeu arrêtée.");
-        });
-
-        gameLoop.start();
-
-        // Quand la fenêtre se ferme → arrêter la boucle
-        jeu.addWindowListener(new WindowAdapter() {
-        	public void windowClosing(WindowEvent e) {
-                running = false;   // ARRÊTE LA BOUCLE
-                try {
-                    gameLoop.join();  // attend que le thread s'arrête proprement
-                } catch (InterruptedException ex) {}
-            }
-        });
-    	
-    }
-    
-    public static int getCurrentMouseX(){
-    	 return currentMouseX;  
-    }
-    
-    public static int getCurrentMouseY(){
-    	return currentMouseY;
-    }
-    
-	public static void main(String[] args) {
-		
-        JFrame jeu = new JFrame("Jeu");
-        jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU));
-        MenuDemarrage MenDem = new MenuDemarrage(jeu);
-        
-        
-       
-        //Nouvelle partie 
-        MenDem.setOnNouvellePartie(() -> {
-        Carte map = new Carte(HAUTEUR_CARTE,LARGEUR_CARTE);
-        JPanel main = new JPanel();	
-        main.setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
-       
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setOpaque(true);
-        menuBar.setBackground(Color.gray);
-        menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU+10));
-        
-        jeu.setJMenuBar(menuBar);
-        
-        JPanel panel = new PanneauJeu(map);
-        map.setPanneauJeu(panel);
-        
-        jeu.setContentPane(main);
-        main.add(panel);
-        creationBoutonsHeros(menuBar,panel, jeu, map);
-        jeu.pack();
-        jeu.setLocationRelativeTo(null);
-        jeu.revalidate();
-        jeu.repaint();
-        
-        //Listener des clics
+    	//Listener des clics
         jeu.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 lastClickX = (e.getX()-5) / NB_PIX_CASE;
@@ -425,6 +446,86 @@ public class FenetreJeu implements IConfig{
 			}
         	
         });
+    }
+    
+    private static void demarrerBoucleJeu(JFrame jeu){
+    	 // Thread du jeu (boucle infinie tant que la fenêtre est ouverte)
+        Thread gameLoop = new Thread(() -> {
+            while (running) {
+
+                // Exemple : si un clic a eu lieu
+                if (lastClickX != -1) {
+                    System.out.println("Traitement du clic...");
+                    lastClickX = -1;
+                }
+                
+                // Ton code de mise à jour du jeu ici
+                // ...
+                
+                try { Thread.sleep(16); } catch (InterruptedException ignored) {}
+            }
+            System.out.println("Boucle de jeu arrêtée.");
+        });
+
+        gameLoop.start();
+
+        // Quand la fenêtre se ferme → arrêter la boucle
+        jeu.addWindowListener(new WindowAdapter() {
+        	public void windowClosing(WindowEvent e) {
+                running = false;   // ARRÊTE LA BOUCLE
+                try {
+                    gameLoop.join();  // attend que le thread s'arrête proprement
+                } catch (InterruptedException ex) {}
+            }
+        });
+    	
+    }
+    
+    public static int getCurrentMouseX(){
+    	 return currentMouseX;  
+    }
+    
+    public static int getCurrentMouseY(){
+    	return currentMouseY;
+    }
+    
+	public static void main(String[] args) {
+		
+        JFrame jeu = new JFrame("Jeu");
+        jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU));
+        MenuDemarrage MenDem = new MenuDemarrage(jeu);
+        
+        
+       
+        //Nouvelle partie 
+        MenDem.setOnNouvellePartie(() -> {
+        Carte map = new Carte(HAUTEUR_CARTE,LARGEUR_CARTE);
+        JPanel main = new JPanel();	
+        main.setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
+       
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setOpaque(true);
+        menuBar.setBackground(Color.gray);
+        menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU+10));
+        
+        
+        jeu.setJMenuBar(menuBar);
+        
+        JPanel panel = new PanneauJeu(map);
+        map.setPanneauJeu(panel);
+        
+        jeu.setContentPane(main);
+        main.add(panel);
+        creationBarreMenu(menuBar, panel, jeu, map);
+        creationBoutonsHeros(menuBar,panel, jeu, map);
+        jeu.pack();
+        jeu.setLocationRelativeTo(null);
+        jeu.revalidate();
+        jeu.repaint();
+        
+        // Configuration des listeners
+    	configureMouseListeners(jeu, panel, map);
       
         jeu.setVisible(true);
 
