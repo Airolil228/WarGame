@@ -38,4 +38,12 @@ public abstract class Element implements Serializable{
 		this.pos.setY(y);
 		this.pos.setX(x);
 	}
+	
+	public String toString() {
+		String m = "";
+		
+		m += "Nom : " + nom;
+		
+		return m;
+	}
 }

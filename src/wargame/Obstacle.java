@@ -25,4 +25,5 @@ public class Obstacle extends Element implements Serializable {
 	public TypeObstacle getTYPE() {
 		return TYPE;
 	}
+	
 }

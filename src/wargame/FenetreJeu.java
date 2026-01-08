@@ -423,12 +423,11 @@ public class FenetreJeu implements IConfig{
     
     private static void configureMouseListeners(JFrame jeu, JPanel panel,Carte map){
     	//Listener des clics
-        jeu.addMouseListener(new MouseAdapter() {
+        panel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                lastClickX = (e.getX()-5) / NB_PIX_CASE;
-                lastClickY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
+                lastClickX = e.getX() / NB_PIX_CASE;
+                lastClickY = e.getY() / NB_PIX_CASE;
                 System.out.println("Clic détecté: " + lastClickY + ", " + lastClickX);
-                
                
                 
                 if ( lastClickY>=0 && lastClickY<HAUTEUR_CARTE && lastClickX>=0 && lastClickX<LARGEUR_CARTE ) {
@@ -448,8 +447,8 @@ public class FenetreJeu implements IConfig{
             
             public void mouseReleased(MouseEvent e){
             	if(dragging){
-            		int dropX = (e.getX()-5) / NB_PIX_CASE;    
-            		int dropY = (e.getY()-45- HAUTEUR_BARRE_MENU) / NB_PIX_CASE;
+            		int dropX = e.getX() / NB_PIX_CASE;    
+            		int dropY = e.getY() / NB_PIX_CASE;
             		
             		map.marquerCase(dragDebutY, dragDebutX);
             		map.marquerCase(dropY, dropX);
@@ -462,11 +461,11 @@ public class FenetreJeu implements IConfig{
             
         });
         
-        jeu.addMouseMotionListener(new MouseMotionListener() {
+        panel.addMouseMotionListener(new MouseMotionListener() {
         	public void mouseDragged(MouseEvent e) {
         		if(dragging) {
-        		currentMouseX = e.getX()-5;
-        		currentMouseY = e.getY()-45- HAUTEUR_BARRE_MENU;
+        		currentMouseX = e.getX();
+        		currentMouseY = e.getY();
         		
         		int currentCaseX = currentMouseX / NB_PIX_CASE; 
         		int currentCaseY = currentMouseY / NB_PIX_CASE;
@@ -478,8 +477,15 @@ public class FenetreJeu implements IConfig{
 
 			
 			public void mouseMoved(MouseEvent e){
-				currentMouseX = e.getX() - 5;
-				currentMouseY = e.getY() - 45 - HAUTEUR_BARRE_MENU; 
+				int currentCaseX = e.getX() / NB_PIX_CASE;    
+        		int currentCaseY = e.getY() / NB_PIX_CASE;
+				
+				if ((currentCaseX >= 0 && currentCaseY >= 0 && currentCaseX < LARGEUR_CARTE && currentCaseY < HAUTEUR_CARTE) && map.getElement(currentCaseX, currentCaseY).EstVisible()) {
+						panel.setToolTipText("Case : " + currentCaseY + "," + currentCaseX + " | " + map.getElement(currentCaseX, currentCaseY));
+		        } else {
+		            panel.setToolTipText(null);
+		        }
+				
 				
 				if(dragging){
 					panel.repaint();
@@ -555,6 +561,11 @@ public class FenetreJeu implements IConfig{
         
         JPanel panel = new PanneauJeu(map);
         map.setPanneauJeu(panel);
+        
+        // Pour accepter les info-bulles
+        ToolTipManager.sharedInstance().registerComponent(panel);
+        ToolTipManager.sharedInstance().setInitialDelay(100); // 0 ou 100 ms
+        ToolTipManager.sharedInstance().setDismissDelay(5000); // 5 sec
         
         jeu.setContentPane(main);
         main.add(panel);

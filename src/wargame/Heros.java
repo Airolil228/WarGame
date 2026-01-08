@@ -29,4 +29,18 @@ public class Heros extends Soldat implements Serializable{
 		tour = 1;
 	}
 	
+	public String toString() {
+		String m = "";
+		TypesH type = this.getTYPE();
+		
+		m += "Type : " + type + " | ";
+		m += "Nom : " + this.getNom() + " | \n";
+		m += "PV : " + this.getPoints() + "/" + this.getPointsMAX() + " | \n";
+		m += "Portee : " + type.getPortee() + " | ";
+		m += "Puissance : " + type.getPuissance() + " | ";
+		m += "Tir : " + type.getTir() + "\n";
+		
+		return m;
+	}
+	
 }

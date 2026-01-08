@@ -579,6 +579,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 	public void actuBrouillard() {
 		int k,i,j;
 		
+		for (i = 0; i < hauteur; i++) {
+			for (j = 0; j < largeur; j++) {
+				getElement(j,i).setEstVisible(false);
+			}
+		}
 		initBrouillard(); // On remet tout le brouillard
 		
 		for (k=0;k<nbHerosVivant;k++) {
@@ -593,6 +598,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 					for (j=(x - portee_visuel);j<=(x + portee_visuel);j++) {
 						if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
 							brouillard[i][j] = 0;
+							getElement(j, i).setEstVisible(true);
 						}
 					}
 				}

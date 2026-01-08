@@ -17,4 +17,12 @@ public class Plaine extends Element implements Serializable{
 	public TypePlaine getTYPE() {
 		return TYPE;
 	}
+	
+	public String toString() {
+		String m = "";
+		
+		m += "Plaine";
+		
+		return m;
+	}
 }

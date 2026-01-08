@@ -18,4 +18,18 @@ public class Monstre extends Soldat implements Serializable{
 	public TypesM getTYPE() {
 		return TYPE;
 	}
+	
+	public String toString() {
+		String m = "";
+		TypesM type = this.getTYPE();
+		
+		m += "Type : " + type + " | ";
+		m += "Nom : " + this.getNom() + " | \n";
+		m += "PV : " + this.getPoints() + "/" + this.getPointsMAX() + " | \n";
+		m += "Portee : " + type.getPortee() + " | ";
+		m += "Puissance : " + type.getPuissance() + " | ";
+		m += "Tir : " + type.getTir() + "\n";
+		
+		return m;
+	}
 }
