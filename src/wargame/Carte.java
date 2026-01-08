@@ -350,11 +350,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		for (int i = 0; i< NB_HEROS;i++) {
 			Position p = trouvePositionVideHeros();
+			Position p2 = new Position(p.getX() + 1 ,p.getY()); // On est un héros donc il y a forcement de la place à droite
 			if (!verifPositionVideAutour(p)) { // Juste pour s'assurer qu'il y a au moins une position vide dans les cases adjacentes
-				p.setX(p.getX() + 1); // On est un héros donc il y a forcement de la place à drooite
 				
-				if (getElement(p) instanceof Obstacle) {
-					setElement(new Plaine(), p); 
+				if (getElement(p2) instanceof Obstacle) {
+					setElement(new Plaine(), p2); 
 				}
 				// Si ce n'est pas un obstacle alors c'est un soldat donc possibilité de déplacement future
 				
@@ -451,6 +451,15 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		for (int i = 0; i< NB_MONSTRES;i++) {
 			Position p = trouvePositionVideMonstre();
+			Position p2 = new Position(p.getX() - 1,p.getY()); // On est un monstre donc il y a forcement de la place à gauche
+			if (!verifPositionVideAutour(p)) { // Juste pour s'assurer qu'il y a au moins une position vide dans les cases adjacentes
+				
+				if (getElement(p2) instanceof Obstacle) {
+					setElement(new Plaine(), p2); 
+				}
+				// Si ce n'est pas un obstacle alors c'est un soldat donc possibilité de déplacement future
+				
+			}
 			type = (int) (Math.random() * ISoldat.nbTypeMonstre);
 			nom = (int) (Math.random() * NB_NOMS);
 			ISoldat.TypesM th = ISoldat.TypesM.GOBELIN;
