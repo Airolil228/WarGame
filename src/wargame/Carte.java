@@ -350,6 +350,15 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		for (int i = 0; i< NB_HEROS;i++) {
 			Position p = trouvePositionVideHeros();
+			if (!verifPositionVideAutour(p)) { // Juste pour s'assurer qu'il y a au moins une position vide dans les cases adjacentes
+				p.setX(p.getX() + 1); // On est un héros donc il y a forcement de la place à drooite
+				
+				if (getElement(p) instanceof Obstacle) {
+					setElement(new Plaine(), p); 
+				}
+				// Si ce n'est pas un obstacle alors c'est un soldat donc possibilité de déplacement future
+				
+			}
 			type = (int) (Math.random() * ISoldat.nbTypeHeros);
 			nom = (int) (Math.random() * NB_NOMS);
 			ISoldat.TypesH th = ISoldat.TypesH.ELF;
@@ -531,7 +540,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
-	private boolean verifRivierePossible(Position p) {
+	private boolean verifPositionVideAutour(Position p) {
 		int y,x;
 		for (int i = -1;i<=1;i++) {
 			y = p.getY() + i;
@@ -557,7 +566,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 			nb_riv --;
 			
 			
-			while (nb_riv > 0 && verifRivierePossible(p)) {
+			while (nb_riv > 0 && verifPositionVideAutour(p)) {
 				p = trouvePositionVide(p);
 				setElement(new Obstacle(Obstacle.TypeObstacle.EAU, p),p);
 				nb_riv --;
