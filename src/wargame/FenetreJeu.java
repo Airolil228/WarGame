@@ -480,8 +480,12 @@ public class FenetreJeu implements IConfig{
 				int currentCaseX = e.getX() / NB_PIX_CASE;    
         		int currentCaseY = e.getY() / NB_PIX_CASE;
 				
-				if ((currentCaseX >= 0 && currentCaseY >= 0 && currentCaseX < LARGEUR_CARTE && currentCaseY < HAUTEUR_CARTE) && map.getElement(currentCaseX, currentCaseY).EstVisible()) {
+				if ((currentCaseX >= 0 && currentCaseY >= 0 && currentCaseX < LARGEUR_CARTE && currentCaseY < HAUTEUR_CARTE)) {
+					if (map.getElement(currentCaseX, currentCaseY).EstVisible()) {
 						panel.setToolTipText("Case : " + currentCaseY + "," + currentCaseX + " | " + map.getElement(currentCaseX, currentCaseY));
+					}else {
+						panel.setToolTipText("Case : " + currentCaseY + "," + currentCaseX);
+					}
 		        } else {
 		            panel.setToolTipText(null);
 		        }
