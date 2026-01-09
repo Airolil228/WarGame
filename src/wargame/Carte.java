@@ -4,11 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
 import wargame.Plaine.TypePlaine;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -156,10 +159,19 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	public Element getElement(Position pos) {
-		return tab[pos.getY()][pos.getX()];
+		if (pos.estValide()) {
+			return tab[pos.getY()][pos.getX()];
+		}else {
+			return null;
+		}
 	}
 	public Element getElement(int x,int y) {
-		return tab[y][x];
+		Position p = new Position(x,y);
+		if (p.estValide()) {
+			return tab[y][x];
+		}else {
+			return null;
+		}
 	}
 	
 	public Heros getHeros(int i) {
@@ -281,10 +293,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 		// Verification qu'il y en a au moins 1
 		for (int i=-1;i<=1;i++) {
 			for (int j=-1;j<=1;j++) {
-				if (tab[pos.getY()+i][pos.getX()+j] instanceof Heros) {
-					b = false;
-					i = 1;
-					j=1;
+				if((pos.getY()+i)>=0 && (pos.getY()+i)<hauteur && (pos.getX()+j)>=0 && (pos.getX()+j)<largeur) {
+					if (tab[pos.getY()+i][pos.getX()+j] instanceof Heros) {
+						b = false;
+						i = 1;
+						j=1;
+					}
 				}
 			}
 		}
@@ -293,9 +307,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 			x = (int) (Math.random() * 3 - 1);  // entre -1 et 1
 			y = (int) (Math.random() * 3 - 1);
 			
-			if (tab[pos.getY()+y][pos.getX()+x] instanceof Heros) {
-				b = true;
-				h = (Heros) tab[y][x];
+			if((pos.getY()+y)>=0 && (pos.getY()+y)<hauteur && (pos.getX()+x)>=0 && (pos.getX()+x)<largeur) {
+				if (tab[pos.getY()+y][pos.getX()+x] instanceof Heros) {
+					b = true;
+					h = (Heros) tab[pos.getY()+y][pos.getX()+x];
+				}
 			}
 		}
 		
@@ -368,6 +384,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 				setElement(new Plaine(), perso.getPos()); // Joueur mort donc il n'est plus là
 				nbMonstreVivant --;
 				
+				if (nbMonstreVivant == 0) {
+					victoire();
+				}
 			}
 			
 		}
@@ -807,6 +826,8 @@ public class Carte implements ICarte, IConfig, Serializable{
 						// Fonction qui affiche le champ d'action
 						// D'abord le champ d'action vision puis celui de deplacement pour pas avoir de gêne dans l'affichage
 						
+						calculerChampAction(x, y, portee_visuelle, portee_deplacement);
+						
 						afficherChampAction(x,y,g);
 						
 						/*
@@ -1086,32 +1107,54 @@ public class Carte implements ICarte, IConfig, Serializable{
 				System.out.println("Dans portee deplacement");
 				
 				
-				 y_deb = y - portee_deplacement;
-				 x_deb = x - portee_deplacement;
+				y_deb = y - portee_deplacement;
+				x_deb = x - portee_deplacement;
+				 
+				if((y2 - y_deb)>=0 && (y2 - y_deb)<deplacementPossible.length && (x2 - x_deb)>=0 && (x2 - x_deb)<deplacementPossible[0].length) {
 				
-				if (deplacementPossible[y2 - y_deb][x2 - x_deb] == 1) { // Si un déplacement est possible
-					
-					System.out.println("Deplacement possible");
-					
-					if (getElement(pos2) instanceof Plaine) {
-						System.out.println("Déplacement");
-						str_action_Hero = "Dernière Action : Déplacement en (" + x2 + "," + y2 +")";
+					if (deplacementPossible[y2 - y_deb][x2 - x_deb] == 1) { // Si un déplacement est possible
 						
-						deplaceSoldat(pos2,h);
-						h.seDeplace(pos2);
+						System.out.println("Deplacement possible");
 						
-						return true;
-					}
-					if (getElement(pos2) instanceof Monstre) {
-						System.out.println("Attaque");
-						// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
-						Monstre m = (Monstre) getElement(pos2);
-						str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
-						
-						//h.peutAttaquer(pos2);
-						h.combat(m);
-						return true;
-					}
+						if (getElement(pos2) instanceof Plaine) {
+							System.out.println("Déplacement");
+							str_action_Hero = "Dernière Action : Déplacement en (" + x2 + "," + y2 +")";
+							
+							deplaceSoldat(pos2,h);
+							h.seDeplace(pos2);
+							
+							return true;
+						}
+						if (getElement(pos2) instanceof Monstre) {
+							System.out.println("Attaque");
+							// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
+							Monstre m = (Monstre) getElement(pos2);
+							str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
+							
+							//h.peutAttaquer(pos2);
+							h.combat(m);
+							
+							if (pos2.estVoisine(pos)) {
+								try {
+				                    Clip clip = AudioSystem.getClip();
+				                    clip.open(AudioSystem.getAudioInputStream(new File("sons/epee.wav")));
+				                    clip.start();
+				                } catch (Exception e1) {
+				                    e1.printStackTrace();
+				                }
+							}else {
+								try {
+				                    Clip clip = AudioSystem.getClip();
+				                    clip.open(AudioSystem.getAudioInputStream(new File("sons/tir_arc.wav")));
+				                    clip.start();
+				                } catch (Exception e1) {
+				                    e1.printStackTrace();
+				                }
+							}
+							
+							return true;
+						}
+					 }
 				}
 				
 			}
@@ -1120,26 +1163,39 @@ public class Carte implements ICarte, IConfig, Serializable{
 				
 			y_deb = y - portee_visuelle;
 			x_deb = x - portee_visuelle;
-				
-			if (vision[y2 - y_deb][x2 - x_deb] == 1) { // Si dans le champ de vision
-					
-				System.out.println("Vision");
-					
-				if (getElement(pos2) instanceof Monstre) {
-					System.out.println("Attaque");
-					// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
-					Monstre m = (Monstre) getElement(pos2);
-					str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
+			
+			if((y2 - y_deb)>=0 && (y2 - y_deb)<vision.length && (x2 - x_deb)>=0 && (x2 - x_deb)<vision[0].length) {
+			
+				if (vision[y2 - y_deb][x2 - x_deb] == 1) { // Si dans le champ de vision
 						
-					//h.peutAttaquer(pos2);
-					h.combat(m);
-					return true;
+					System.out.println("Vision");
+						
+					if (getElement(pos2) instanceof Monstre) {
+						System.out.println("Attaque");
+						// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
+						Monstre m = (Monstre) getElement(pos2);
+						str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
+							
+						//h.peutAttaquer(pos2);
+						h.combat(m);
+						
+						try {
+		                    Clip clip = AudioSystem.getClip();
+		                    clip.open(AudioSystem.getAudioInputStream(new File("sons/tir_arc.wav")));
+		                    clip.start();
+		                } catch (Exception e1) {
+		                    e1.printStackTrace();
+		                }
+						
+						return true;
+					}
+						
 				}
-					
-			}else { // Hors de portée
-				str_action_Hero = "Action impossible";
 			}
 		}
+		
+		// Hors de portée
+		str_action_Hero = "Action impossible";
 		
 		// Si on a ni attaquer ni deplacer, on a pas cliqué dans le champ d'action
 		//panneauJeu.repaint();

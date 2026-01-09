@@ -63,4 +63,5 @@ public interface IConfig {
 	ImageIcon VICTOIRE = new ImageIcon("images/menu/Victoire.png");
 	ImageIcon MATCH_NUL = new ImageIcon("images/menu/Match_nul.png");
 	ImageIcon DEFAITE = new ImageIcon("images/menu/Défaite.png");
+	
 }

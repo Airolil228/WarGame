@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -419,7 +421,7 @@ public class FenetreJeu implements IConfig{
                 	System.out.println("touche " + indice + " détecté");
                 	if (h != null) {
 	                	map.setSelect(h.getPos());
-	                    jeu.repaint();
+	                    panel.repaint();
                 	}
                 }
             });
@@ -467,19 +469,27 @@ public class FenetreJeu implements IConfig{
                 lastClickX = e.getX() / NB_PIX_CASE;
                 lastClickY = e.getY() / NB_PIX_CASE;
                 System.out.println("Clic détecté: " + lastClickY + ", " + lastClickX);
-               
                 
-                if ( lastClickY>=0 && lastClickY<HAUTEUR_CARTE && lastClickX>=0 && lastClickX<LARGEUR_CARTE ) {
-                	map.marquerCase(lastClickY, lastClickX);
-                	Element element = map.getElement(lastClickX,lastClickY);
-                	if(element instanceof Heros){
-	                	dragging = true;
-	                	dragDebutX = lastClickX;
-	                    dragDebutY = lastClickY;
-	                    draggedElement = element;
-	                    System.out.println("Debut X: "+ dragDebutX + " Debut Y"+ dragDebutY );
-                	}
+                
+                if ( map != null && lastClickY>=0 && lastClickY<HAUTEUR_CARTE && lastClickX>=0 && lastClickX<LARGEUR_CARTE ) {
+	                map.marquerCase(lastClickY, lastClickX);
+	               	Element element = (Element) map.getElement(lastClickX,lastClickY);
+	               	if(element instanceof Heros){
+		               	dragging = true;
+		               	dragDebutX = lastClickX;
+		                dragDebutY = lastClickY;
+		                draggedElement = element;
+		                System.out.println("Debut X: "+ dragDebutX + " Debut Y"+ dragDebutY );
+	                }
                 	panel.repaint();
+                }
+                
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(AudioSystem.getAudioInputStream(new File("sons/clic.wav")));
+                    clip.start();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
                 
             }
@@ -489,9 +499,11 @@ public class FenetreJeu implements IConfig{
             		int dropX = e.getX() / NB_PIX_CASE;    
             		int dropY = e.getY() / NB_PIX_CASE;
             		
-            		map.marquerCase(dragDebutY, dragDebutX);
-            		map.marquerCase(dropY, dropX);
-            		System.out.println("Drop sur: " + dropY + ", " + dropX);
+            		map.setSelect(dragDebutX, dragDebutY);
+            		if(dropX>=0 && dropX<LARGEUR_CARTE && dropY>=0 && dropY<HAUTEUR_CARTE) {
+            			map.marquerCase(dropY, dropX);
+            			System.out.println("Drop sur: " + dropY + ", " + dropX);
+            		}
             		panel.repaint();
             	}
             	dragging = false;
@@ -503,14 +515,14 @@ public class FenetreJeu implements IConfig{
         panel.addMouseMotionListener(new MouseMotionListener() {
         	public void mouseDragged(MouseEvent e) {
         		if(dragging) {
-        		currentMouseX = e.getX();
-        		currentMouseY = e.getY();
-        		
-        		int currentCaseX = currentMouseX / NB_PIX_CASE; 
-        		int currentCaseY = currentMouseY / NB_PIX_CASE;
-        		
-        		System.out.println("Drag en cours vers: " + currentMouseY + ", " + currentMouseX);
-        		panel.repaint(); 
+	        		currentMouseX = e.getX();
+	        		currentMouseY = e.getY();
+	        		
+	        		int currentCaseX = currentMouseX / NB_PIX_CASE; 
+	        		int currentCaseY = currentMouseY / NB_PIX_CASE;
+	        		
+	        		System.out.println("Drag en cours vers: " + currentMouseY + ", " + currentMouseX);
+	        		panel.repaint(); 
         		}
         	}
 
@@ -519,7 +531,7 @@ public class FenetreJeu implements IConfig{
 				int currentCaseX = e.getX() / NB_PIX_CASE;    
         		int currentCaseY = e.getY() / NB_PIX_CASE;
 				
-				if ((currentCaseX >= 0 && currentCaseY >= 0 && currentCaseX < LARGEUR_CARTE && currentCaseY < HAUTEUR_CARTE)) {
+				if (map != null && (currentCaseX >= 0 && currentCaseY >= 0 && currentCaseX < LARGEUR_CARTE && currentCaseY < HAUTEUR_CARTE)) {
 					if (map.getElement(currentCaseX, currentCaseY).EstVisible()) {
 						panel.setToolTipText("Case : " + currentCaseY + "," + currentCaseX + " | " + map.getElement(currentCaseX, currentCaseY));
 					}else {
