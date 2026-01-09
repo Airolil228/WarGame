@@ -1211,6 +1211,15 @@ public class Carte implements ICarte, IConfig, Serializable{
 					Monstre m = (Monstre) getElement(pos);
 					Heros h = (Heros) getElement(p2);
 					m.combat(h);
+					
+					try {
+	                    Clip clip = AudioSystem.getClip();
+	                    clip.open(AudioSystem.getAudioInputStream(new File("sons/epee.wav")));
+	                    clip.start();
+	                } catch (Exception e1) {
+	                    e1.printStackTrace();
+	                }
+					
 					return true;
 				}
 			}
