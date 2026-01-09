@@ -445,6 +445,7 @@ public class FenetreJeu implements IConfig{
     	main.add(panel);
     	creationBarreMenu(menuBar, panel, jeu, map);
     	creationBoutonsHeros(menuBar, panel, jeu, map);
+    	actionToucheClavier(menuBar, panel, jeu, map);
     	jeu.pack();
     	jeu.setLocationRelativeTo(null);
     	jeu.revalidate();
