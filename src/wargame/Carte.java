@@ -616,6 +616,8 @@ public class Carte implements ICarte, IConfig, Serializable{
 			Heros h = armeeHeros[k];
 			int portee_visuel = h.getPortee();
 			Position pos = h.getPos();
+			
+			
 			if (pos != null) {
 				int y = pos.getY();
 				int x = pos.getX();
@@ -623,8 +625,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 				for (i=(y - portee_visuel);i<=(y + portee_visuel);i++) {
 					for (j=(x - portee_visuel);j<=(x + portee_visuel);j++) {
 						if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
-							brouillard[i][j] = 0;
-							getElement(j, i).setEstVisible(true);
+							
+							if (distance(x,y,j,i) <= portee_visuel) {
+								brouillard[i][j] = 0;
+								getElement(j, i).setEstVisible(true);
+							}
 						}
 					}
 				}
