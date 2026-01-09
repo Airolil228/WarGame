@@ -867,6 +867,8 @@ public class Carte implements ICarte, IConfig, Serializable{
 		            	
 		            }
 		            
+	        	}else {
+	        		vision[y - y_deb][x - x_deb] = -1;
 	        	}
 	        }
 	    }
@@ -893,6 +895,8 @@ public class Carte implements ICarte, IConfig, Serializable{
 		            	deplacementPossible[y - y_deb][x - x_deb] = -1;
 		            	
 		            }
+	        	}else {
+	        		vision[y - y_deb][x - x_deb] = -1;
 	        	}
 	        }
 	    }
@@ -998,7 +1002,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		if (select.getX() != -1 && select.getY() != -1) {
 			
 			if (getElement(select) instanceof Heros){
-				Heros h2 = (Heros) getElement(pos);
+				Heros h2 = (Heros) getElement(select);
 				
 				int portee_visuelle = h2.getPortee();
 				int portee_deplacement = h2.getPorteeDeplacement();
@@ -1027,16 +1031,31 @@ public class Carte implements ICarte, IConfig, Serializable{
 		int y_deb;
 		int x_deb;
 		
+		System.out.println("" + pos + " | " + pos2);
+		
 		// Permet d'empêcher le cas où l'on est trop loin
-		if (((y2 <= y+portee_visuelle) && (y2 >= y-portee_visuelle) && (x2 <= x+portee_visuelle) && (x2 >= x-portee_visuelle)) && deplacementPossible != null && vision != null){
+		if (((y2 <= y+portee_visuelle) && (y2 >= y-portee_visuelle) && (x2 <= x+portee_visuelle) && (x2 >= x-portee_visuelle)) && vision != null){
+			System.out.println("Dans portee visuelle");
+			
+			y_deb = y - portee_visuelle;
+			x_deb = x - portee_visuelle;
+			
+			System.out.println("Centre vision = " + y + " | " + x + " | " + vision[y - y_deb][x - x_deb]);
+			System.out.println("Centre vision = " + y2 + " | " + x2 + " | " + vision[y2 - y_deb][x2 - x_deb]);
+			
 			
 			// Il faut aussi vérifier qu'on puisse regarder dans ce tableau également
-			if (((y2 <= y+portee_deplacement) && (y2 >= y-portee_deplacement) && (x2 <= x+portee_deplacement) && (x2 >= x-portee_deplacement))) {
+			if (((y2 <= y+portee_deplacement) && (y2 >= y-portee_deplacement) && (x2 <= x+portee_deplacement) && (x2 >= x-portee_deplacement)) && deplacementPossible != null ) {
+				System.out.println("Dans portee deplacement");
+				
 				
 				 y_deb = y - portee_deplacement;
 				 x_deb = x - portee_deplacement;
 				
 				if (deplacementPossible[y2 - y_deb][x2 - x_deb] == 1) { // Si un déplacement est possible
+					
+					System.out.println("Deplacement possible");
+					
 					if (getElement(pos2) instanceof Plaine) {
 						System.out.println("Déplacement");
 						str_action_Hero = "Dernière Action : Déplacement en (" + x2 + "," + y2 +")";
@@ -1058,29 +1077,30 @@ public class Carte implements ICarte, IConfig, Serializable{
 					}
 				}
 				
-			}else {
+			}
 					
-				// Si l'on peut pas se déplacer on peut peut être voir -> attaque distante possible
+			// Si l'on peut pas se déplacer on peut peut être voir -> attaque distante possible
 				
-				y_deb = y - portee_visuelle;
-				x_deb = x - portee_visuelle;
+			y_deb = y - portee_visuelle;
+			x_deb = x - portee_visuelle;
 				
-				if (vision[y2 - y_deb][x2 - x_deb] == 1) { // Si dans le champ de vision
+			if (vision[y2 - y_deb][x2 - x_deb] == 1) { // Si dans le champ de vision
 					
-					if (getElement(pos2) instanceof Monstre) {
-						System.out.println("Attaque");
-						// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
-						Monstre m = (Monstre) getElement(pos2);
-						str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
+				System.out.println("Vision");
+					
+				if (getElement(pos2) instanceof Monstre) {
+					System.out.println("Attaque");
+					// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
+					Monstre m = (Monstre) getElement(pos2);
+					str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
 						
-						//h.peutAttaquer(pos2);
-						h.combat(m);
-						return true;
-					}
-					
-				}else { // Hors de portée
-					str_action_Hero = "Action impossible";
+					//h.peutAttaquer(pos2);
+					h.combat(m);
+					return true;
 				}
+					
+			}else { // Hors de portée
+				str_action_Hero = "Action impossible";
 			}
 		}
 		
