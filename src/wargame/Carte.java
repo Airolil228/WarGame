@@ -28,6 +28,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 	private int largeur;
 	private int compteur_tour;
 	private Position select;
+	private enum Etat{
+		EN_COURS,
+		VICTOIRE,
+		MATCH_NUL,
+		DEFAITE
+	};
+	private Etat etat;
 	
 	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
 	
@@ -53,6 +60,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		armeeMonstre = new Monstre[NB_MONSTRES];   // Vide
 		
 		compteur_tour = 0;
+		etat = Etat.EN_COURS;
 		
 		deplacementPossible = null;
 		vision = null;
@@ -95,6 +103,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		nbHerosVivant = NB_HEROS;
 		nbMonstreVivant = NB_MONSTRES;
 		compteur_tour = 0;
+		etat = Etat.EN_COURS;
 		for (i=0;i<hauteur;i++) {
 			for (j=0;j<largeur;j++) {
 				tab[i][j] = new Plaine();
@@ -301,6 +310,18 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return true;
 	}
 	
+	public void victoire() {
+		etat = Etat.VICTOIRE;
+	}
+	
+	public void matchNull() {
+		etat = Etat.MATCH_NUL;
+	}
+	
+	public void defaite() {
+		etat = Etat.DEFAITE;
+	}
+	
 	public void mort(Soldat perso) {
 		
 		if (perso instanceof Heros) {
@@ -321,6 +342,10 @@ public class Carte implements ICarte, IConfig, Serializable{
 			
 			setElement(new Plaine(), perso.getPos()); // Joueur mort donc il n'est plus là
 			nbHerosVivant --;
+			
+			if (nbHerosVivant == 0) {
+				defaite();
+			}
 			
 		}else {
 		
@@ -830,6 +855,18 @@ public class Carte implements ICarte, IConfig, Serializable{
 				g.drawString(str_action_Hero, 500, hauteur * NB_PIX_CASE + 20);
 				
 				
+			}
+		}
+		
+		if (etat != Etat.EN_COURS) {
+			if (etat == Etat.VICTOIRE) {
+				g.drawImage(VICTOIRE.getImage(), (int) (LARGEUR_JEU/2 - LARGEUR_TITRE/2), (int) (HAUTEUR_JEU/5 - HAUTEUR_TITRE/2), LARGEUR_TITRE, HAUTEUR_TITRE, null);
+			}
+			if (etat == Etat.MATCH_NUL) {
+				g.drawImage(MATCH_NUL.getImage(), (int) (LARGEUR_JEU/2 - LARGEUR_TITRE/2), (int) (HAUTEUR_JEU/5 - HAUTEUR_TITRE/2), LARGEUR_TITRE, HAUTEUR_TITRE, null);
+			}
+			if (etat == Etat.DEFAITE) {
+				g.drawImage(DEFAITE.getImage(), (int) (LARGEUR_JEU/2 - LARGEUR_TITRE/2), (int) (HAUTEUR_JEU/5 - HAUTEUR_TITRE/2), LARGEUR_TITRE, HAUTEUR_TITRE, null);
 			}
 		}
 	}
