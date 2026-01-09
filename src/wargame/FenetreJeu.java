@@ -118,6 +118,15 @@ public class FenetreJeu implements IConfig{
 		});
         
         itemRetourMenu.addActionListener(e -> {
+        	running  = false; 
+        	MenuDemarrage newmenu = new MenuDemarrage(jeu);
+        	newmenu.setOnNouvellePartie(() -> {
+        		Carte newMap = new Carte(HAUTEUR_CARTE, LARGEUR_CARTE);
+        		FenetreJeu.initialiserJeu(jeu, newMap);
+        	});
+        	jeu.setContentPane(newmenu);
+        	jeu.revalidate();
+        	jeu.repaint();
         });
         
         itemSauvegarder.addActionListener(e -> {
@@ -290,6 +299,17 @@ public class FenetreJeu implements IConfig{
 		});
         
         boutonRetourMenu.addActionListener(e -> {
+        	running  = false;
+        	MenuDemarrage menu = new MenuDemarrage(jeu);
+        	jeu.setJMenuBar(null);
+        	menu.setOnNouvellePartie( () -> {
+        		Carte NewMap =  new Carte(HAUTEUR_CARTE,LARGEUR_CARTE);
+        		FenetreJeu.initialiserJeu(jeu, NewMap);
+        	});
+        	jeu.setContentPane(menu);
+        	jeu.revalidate();
+        	jeu.repaint();
+        	
         });
         
         boutonSauveGarde.addActionListener(e -> {
