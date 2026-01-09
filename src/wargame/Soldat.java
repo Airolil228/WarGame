@@ -3,15 +3,15 @@ package wargame;
 import java.io.Serializable;
 
 public abstract class Soldat extends Element implements ISoldat,Serializable{
-	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
+	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE, PORTEE_DEPLACEMENT;
 	private int pointsDeVie;
 	private Carte carte;
 	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
 	
 	/*(…)*/
-	Soldat(Carte carte, int pts, int portee, int puiss, int tir, Position pos) {
+	Soldat(Carte carte, int pts, int portee_visuelle, int portee_deplacement, int puiss, int tir, Position pos) {
 		POINTS_DE_VIE_MAX = pointsDeVie = pts;
-		PORTEE_VISUELLE = portee; PUISSANCE = puiss; TIR = tir;
+		PORTEE_VISUELLE = portee_visuelle; PORTEE_DEPLACEMENT = portee_deplacement;PUISSANCE = puiss; TIR = tir;
 		this.carte = carte; setPos(pos);
 	}
 	
@@ -34,6 +34,10 @@ public abstract class Soldat extends Element implements ISoldat,Serializable{
 	
 	public int getPortee() {
 		return PORTEE_VISUELLE; 
+	}
+	
+	public int getPorteeDeplacement() {
+		return PORTEE_DEPLACEMENT; 
 	}
 	
 	public void joueTour(int tour) {

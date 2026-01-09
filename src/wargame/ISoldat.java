@@ -4,14 +4,15 @@ public interface ISoldat {
 	static int nbTypeHeros = 4;
 	static int nbTypeMonstre = 3;
    static enum TypesH {
-      HUMAIN (40,3,10,2), NAIN (80,1,20,0), ELF (70,5,10,6), HOBBIT (20,3,5,2);
-      private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
-      TypesH(int points, int portee, int puissance, int tir) {
-POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
+      HUMAIN (40,3,2,10,2), NAIN (80,1,1,20,0), ELF (70,5,3,10,6), HOBBIT (20,3,2,5,2);
+      private final int POINTS_DE_VIE, PORTEE_VISUELLE, PORTEE_DEPLACEMENT, PUISSANCE, TIR;
+      TypesH(int points, int portee_visuelle, int portee_deplacement, int puissance, int tir) {
+POINTS_DE_VIE = points; PORTEE_VISUELLE = portee_visuelle; PORTEE_DEPLACEMENT = portee_deplacement;
 PUISSANCE = puissance; TIR = tir;
       }
       public int getPoints() { return POINTS_DE_VIE; }
       public int getPortee() { return PORTEE_VISUELLE; }
+      public int getPorteeDeplacement() { return PORTEE_DEPLACEMENT; }
       public int getPuissance() { return PUISSANCE; }
       public int getTir() { return TIR; }
       public static TypesH getTypeHAlea() {
@@ -19,14 +20,15 @@ PUISSANCE = puissance; TIR = tir;
       }
    }
    public static enum TypesM {
-      TROLL (100,1,30,0), ORC (40,2,10,3), GOBELIN (20,2,5,2);
-      private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
-      TypesM(int points, int portee, int puissance, int tir) {
-POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
+      TROLL (100,1,1,30,0), ORC (40,2,1,10,3), GOBELIN (20,2,1,5,2);
+      private final int POINTS_DE_VIE, PORTEE_VISUELLE, PORTEE_DEPLACEMENT, PUISSANCE, TIR;
+      TypesM(int points, int portee_visuelle, int portee_deplacement, int puissance, int tir) {
+POINTS_DE_VIE = points; PORTEE_VISUELLE = portee_visuelle; PORTEE_DEPLACEMENT = portee_deplacement;
 PUISSANCE = puissance; TIR = tir;
       }
       public int getPoints() { return POINTS_DE_VIE; }
       public int getPortee() { return PORTEE_VISUELLE; }
+      public int getPorteeDeplacement() { return PORTEE_DEPLACEMENT; }
       public int getPuissance() { return PUISSANCE; }
       public int getTir() { return TIR; } 
       public static TypesM getTypeMAlea() {

@@ -31,7 +31,9 @@ public interface IConfig {
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRES = Color.black;
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = Color.pink;
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.getHSBColor((float) 0.35,(float) 0.95,(float) 0.55), COULEUR_ROCHER = Color.gray;
-	Color COULEUR_PLAINE = Color.green; Color COULEUR_SELECTION = Color.red; Color COULEUR_CHAMP_ACTION = Color.pink;
+	Color COULEUR_PLAINE = Color.green; Color COULEUR_SELECTION = Color.red;
+	
+	Color COULEUR_CHAMP_ACTION_VISION = Color.pink; Color COULEUR_CHAMP_ACTION_DEPLACEMENT = Color.red;
 	
 	ImageIcon ECLAIR = new ImageIcon("images/units/eclair.png");
 	ImageIcon COEUR = new ImageIcon("images/units/coeur.png");

@@ -33,7 +33,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 	
 	public static String case_selectionne ; 
 	public static String str_action_Hero = "Aucune Action réalisée";
-	private JPanel panneauJeu; // n'est pas concerné par la sérialization
+	private JPanel panneauJeu;
+	
+	private int deplacementPossible[][];
+	private int vision[][];
+	
+	
 	
 	public Carte(int hauteur, int largeur) {
 		select = new Position(-1,-1);
@@ -48,6 +53,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		armeeMonstre = new Monstre[NB_MONSTRES];   // Vide
 		
 		compteur_tour = 0;
+		
+		deplacementPossible = null;
+		vision = null;
 		
 		for (i=0;i<hauteur;i++) {
 			for (j=0;j<largeur;j++) {
@@ -759,11 +767,19 @@ public class Carte implements ICarte, IConfig, Serializable{
 					 
 					if (h.peutJouer()) {
 						int i,j;
-						int portee = h.getPortee();
+						int portee_visuelle = h.getPortee();
+						int portee_deplacement = h.getPorteeDeplacement();
 						
 						int y = select.getY();
 						int x = select.getX();
-							
+						
+						
+						// Fonction qui affiche le champ d'action
+						// D'abord le champ d'action vision puis celui de deplacement pour pas avoir de gêne dans l'affichage
+						
+						afficherChampAction(x,y,g);
+						
+						/*
 						for (i=(y - portee);i<=(y + portee);i++) {
 							for (j=(x - portee);j<=(x + portee);j++) {
 								if ((i>=0 && j>=0) && (i<hauteur && j<largeur)) {
@@ -772,6 +788,8 @@ public class Carte implements ICarte, IConfig, Serializable{
 								}
 							}
 						}
+						*/
+						
 					}
 					
 					
@@ -809,6 +827,117 @@ public class Carte implements ICarte, IConfig, Serializable{
 				
 			}
 		}
+	}
+	
+	double distance(int x0, int y0, int x1, int y1) {
+	    return Math.sqrt(
+	        (x1 - x0)*(x1 - x0) +
+	        (y1 - y0)*(y1 - y0)
+	    );
+	}
+	
+	void calculerChampAction(int x0, int y0, int portee_visuelle, int portee_deplacement) {
+		
+		vision = new int[portee_visuelle*2+1][portee_visuelle*2+1];
+		deplacementPossible = new int[portee_deplacement*2+1][portee_deplacement*2+1];
+		
+		int y_deb = y0 - portee_visuelle;
+		int x_deb = x0 - portee_visuelle;
+		int y_fin = y0 + portee_visuelle;
+		int x_fin = x0 + portee_visuelle;
+		
+	    for (int y = y_deb; y <= y_fin; y++) {
+	        for (int x = x_deb; x <= x_fin; x++) {
+	        	
+	        	Position p = new Position(x,y);
+	        	if (p.estValide()) {
+	        		
+		            if (distance(x0, y0, x, y) <= portee_visuelle) {
+		            	
+		            	vision[y - y_deb][x - x_deb] = 1;
+		            	
+		            }else {
+		            	
+		            	vision[y - y_deb][x - x_deb] = -1;
+		            	
+		            }
+		            
+	        	}
+	        }
+	    }
+	    
+	    y_deb = y0 - portee_deplacement;
+		x_deb = x0 - portee_deplacement;
+		y_fin = y0 + portee_deplacement;
+		x_fin = x0 + portee_deplacement;
+	    
+	    // On est obligé de le faire 2 fois pour que l'affichage soit correctement représenté
+	    
+	    for (int y = y_deb; y <= y_fin; y++) {
+	        for (int x = x_deb; x <= x_fin; x++) {
+	        	
+	        	Position p = new Position(x,y);
+	        	if (p.estValide()) {
+	        		
+		            if (distance(x0, y0, x, y) <= portee_deplacement) {
+		            	
+		            	deplacementPossible[y - y_deb][x - x_deb] = 1;
+		            	
+		            }else {
+		            	
+		            	deplacementPossible[y - y_deb][x - x_deb] = -1;
+		            	
+		            }
+	        	}
+	        }
+	    }
+	    
+	}
+	
+	void afficherChampAction(int x0, int y0, Graphics g) {
+		
+		if (vision == null || deplacementPossible == null) {
+			return;
+		}
+		
+		int portee_visuelle = vision.length / 2; // Nombre impaire : 11 / 2 = 5 car le perso au milieu
+		int portee_deplacement = deplacementPossible.length / 2;
+		
+		int y_deb = y0 - portee_visuelle;
+		int x_deb = x0 - portee_visuelle;
+		int y_fin = y0 + portee_visuelle;
+		int x_fin = x0 + portee_visuelle;
+		
+		for (int y = y_deb; y <= y_fin; y++) {
+	        for (int x = x_deb; x <= x_fin; x++) {
+	        	
+	        	if ( vision[y - y_deb][x - x_deb] == 1) { // 1 veut dire vision, -1 non
+		            	
+		            g.setColor(COULEUR_CHAMP_ACTION_VISION);
+					g.drawRect(x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+		            
+	        	}
+	        }
+	    }
+		
+		y_deb = y0 - portee_deplacement;
+		x_deb = x0 - portee_deplacement;
+		y_fin = y0 + portee_deplacement;
+		x_fin = x0 + portee_deplacement;
+	    
+	    // On est obligé de le faire 2 fois pour que l'affichage soit correctement représenté
+	    
+	    for (int y = y_deb; y <= y_fin; y++) {
+	        for (int x = x_deb; x <= x_fin; x++) {
+	        	
+	        	if ( deplacementPossible[y - y_deb][x - x_deb] == 1) { // 1 veut dire vision, -1 non
+		            	
+	        		g.setColor(COULEUR_CHAMP_ACTION_DEPLACEMENT);
+					g.drawRect(x * NB_PIX_CASE, y * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+					
+	        	}
+	        }
+	    }
 	}
 	
 	public Position getSelect() {
@@ -856,37 +985,100 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}else {
 			select = pos;
 		}
+		
+		
+		// Si l'on a sélectionner un héros alors on calcul son champ d'action
+		
+		// On le fait ici au cas où une action peut conduire à un changement
+		if (select.getX() != -1 && select.getY() != -1) {
+			
+			if (getElement(select) instanceof Heros){
+				Heros h2 = (Heros) getElement(pos);
+				
+				int portee_visuelle = h2.getPortee();
+				int portee_deplacement = h2.getPorteeDeplacement();
+				
+				int x2 = select.getX();
+				int y2 = select.getY();
+				
+				calculerChampAction(x2,y2,portee_visuelle,portee_deplacement);
+			}
+		}
 	}
 	
 	
 	public boolean actionHeros(Position pos, Position pos2) {
 		// On a la pos du héros dans pos et la pos du click d'après dans pos2
 		Heros h = (Heros) getElement(pos);
-		int portee = h.getPortee();
+		int portee_visuelle = h.getPortee();
+		int portee_deplacement = h.getPorteeDeplacement();
 		
-		if ((pos2.getY() <= pos.getY()+portee) && (pos2.getY() >= pos.getY()-portee) && (pos2.getX() <= pos.getX()+portee) && (pos2.getX() >= pos.getX()-portee)){
-			if (getElement(pos2) instanceof Plaine) {
-				System.out.println("Déplacement");
-				str_action_Hero = "Dernière Action : Déplacement en (" + pos2.getX() + "," + pos2.getY()+")";
+		int x = pos.getX();
+		int y = pos.getY();
+		
+		int x2 = pos2.getX();
+		int y2 = pos2.getY();
+		
+		int y_deb;
+		int x_deb;
+		
+		// Permet d'empêcher le cas où l'on est trop loin
+		if (((y2 <= y+portee_visuelle) && (y2 >= y-portee_visuelle) && (x2 <= x+portee_visuelle) && (x2 >= x-portee_visuelle)) && deplacementPossible != null && vision != null){
+			
+			// Il faut aussi vérifier qu'on puisse regarder dans ce tableau également
+			if (((y2 <= y+portee_deplacement) && (y2 >= y-portee_deplacement) && (x2 <= x+portee_deplacement) && (x2 >= x-portee_deplacement))) {
 				
-				deplaceSoldat(pos2,h);
-				h.seDeplace(pos2);
+				 y_deb = y - portee_deplacement;
+				 x_deb = x - portee_deplacement;
 				
-				return true;
+				if (deplacementPossible[y2 - y_deb][x2 - x_deb] == 1) { // Si un déplacement est possible
+					if (getElement(pos2) instanceof Plaine) {
+						System.out.println("Déplacement");
+						str_action_Hero = "Dernière Action : Déplacement en (" + x2 + "," + y2 +")";
+						
+						deplaceSoldat(pos2,h);
+						h.seDeplace(pos2);
+						
+						return true;
+					}
+					if (getElement(pos2) instanceof Monstre) {
+						System.out.println("Attaque");
+						// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
+						Monstre m = (Monstre) getElement(pos2);
+						str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
+						
+						//h.peutAttaquer(pos2);
+						h.combat(m);
+						return true;
+					}
+				}
+				
+			}else {
+					
+				// Si l'on peut pas se déplacer on peut peut être voir -> attaque distante possible
+				
+				y_deb = y - portee_visuelle;
+				x_deb = x - portee_visuelle;
+				
+				if (vision[y2 - y_deb][x2 - x_deb] == 1) { // Si dans le champ de vision
+					
+					if (getElement(pos2) instanceof Monstre) {
+						System.out.println("Attaque");
+						// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
+						Monstre m = (Monstre) getElement(pos2);
+						str_action_Hero = "Dernière Action : Attaque en " + x2 + " " + y2;
+						
+						//h.peutAttaquer(pos2);
+						h.combat(m);
+						return true;
+					}
+					
+				}else { // Hors de portée
+					str_action_Hero = "Action impossible";
+				}
 			}
-			if (getElement(pos2) instanceof Monstre) {
-				System.out.println("Attaque");
-				// Il faudra calculer ici si l'on peut ou non toucher le monstre ( méthode peutAttaquer(Soldat s) dans Soldat par exemple) 
-				Monstre m = (Monstre) getElement(pos2);
-				str_action_Hero = "Dernière Action : Attaque en " + pos2.getX() + " " + pos2. getY();
-				
-				//h.peutAttaquer(pos2);
-				h.combat(m);
-				return true;
-			}
-		} else {
-			 str_action_Hero = "Action impossible";
 		}
+		
 		// Si on a ni attaquer ni deplacer, on a pas cliqué dans le champ d'action
 		//panneauJeu.repaint();
 		return false;

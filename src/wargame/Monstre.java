@@ -10,7 +10,7 @@ public class Monstre extends Soldat implements Serializable{
 
 	
 	public Monstre(Carte carte, TypesM type, String nom, Position pos) {
-		super(carte, type.getPoints(), type.getPortee(),
+		super(carte, type.getPoints(), type.getPortee(), type.getPorteeDeplacement(),
 		type.getPuissance(), type.getTir(), pos);
 		this.setNom(nom); TYPE = type;
 	}
