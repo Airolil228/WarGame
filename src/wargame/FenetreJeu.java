@@ -408,13 +408,13 @@ public class FenetreJeu implements IConfig{
     
     public static void initialiserJeu(JFrame jeu,Carte map){
     	JPanel main = new JPanel();
-    	main.setPreferredSize(new Dimension((LARGEUR_CARTE*NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE)+100 ));
+    	main.setPreferredSize(new Dimension((LARGEUR_CARTE*NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) ));
     	
     	JMenuBar menuBar = new JMenuBar();
     	
     	menuBar.setOpaque(true);
     	menuBar.setBackground(Color.gray);
-    	menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE, HAUTEUR_BARRE_MENU+ 10));
+    	menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE, HAUTEUR_BARRE_MENU));
     	
     	jeu.setJMenuBar(menuBar);
     	
@@ -562,24 +562,22 @@ public class FenetreJeu implements IConfig{
 		
         JFrame jeu = new JFrame("Jeu");
         jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jeu.setPreferredSize(new java.awt.Dimension(((LARGEUR_CARTE+1) * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU));
+        jeu.setPreferredSize(new java.awt.Dimension(LARGEUR_JEU, HAUTEUR_JEU));
         
-        //jeu.setUndecorated(true); Si l'on veut une fenêtre sans contour
+        //jeu.setUndecorated(true); //Si l'on veut une fenêtre sans contour
         
         MenuDemarrage MenDem = new MenuDemarrage(jeu);
-        
-        
        
         //Nouvelle partie 
         MenDem.setOnNouvellePartie(() -> {
         Carte map = new Carte(HAUTEUR_CARTE,LARGEUR_CARTE);
         JPanel main = new JPanel();	
-        main.setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) + 100));
+        main.setPreferredSize(new java.awt.Dimension(LARGEUR_CARTE * NB_PIX_CASE, HAUTEUR_CARTE * NB_PIX_CASE));
        
         JMenuBar menuBar = new JMenuBar();
         menuBar.setOpaque(true);
         menuBar.setBackground(Color.gray); // ne fonctionne pas mais c'est pas grave
-        menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU+10));
+        menuBar.setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_BARRE_MENU));
         
         
         jeu.setJMenuBar(menuBar);
@@ -593,7 +591,7 @@ public class FenetreJeu implements IConfig{
         ToolTipManager.sharedInstance().setDismissDelay(5000); // 5 sec
         
         jeu.setContentPane(main);
-        main.add(panel);
+        main.add(panel, BorderLayout.CENTER);
         creationBarreMenu(menuBar, panel, jeu, map);
         creationBoutonsHeros(menuBar,panel, jeu, map);
         jeu.pack();

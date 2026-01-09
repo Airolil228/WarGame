@@ -14,6 +14,9 @@ public interface IConfig {
 	
 	int HAUTEUR_BARRE_MENU = 30;
 	
+	int LARGEUR_JEU = LARGEUR_CARTE * NB_PIX_CASE + (28 * 2);
+	int HAUTEUR_JEU = (HAUTEUR_CARTE * NB_PIX_CASE) + HAUTEUR_BARRE_MENU + (28 * 2) ; // 28 sur mac
+	
 	int LARGEUR_TITRE = 550; 
 	int HAUTEUR_TITRE = 250;
 	
@@ -22,9 +25,6 @@ public interface IConfig {
 	
 	int STARTY = 250;
 	int ESPACEMENT = 150;
-	
-	int LARGEUR_JEU = (LARGEUR_CARTE * NB_PIX_CASE);
-	int HAUTEUR_JEU = (HAUTEUR_CARTE * NB_PIX_CASE) + 100 + HAUTEUR_BARRE_MENU+10;
 	
 	
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
