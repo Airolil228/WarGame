@@ -76,12 +76,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 		//tab[5][5] = new Heros(this,ISoldat.TypesH.HUMAIN,"BLOUP BLOUP",new Position(5,5));
 		//initBrouillard(); -> Pour mettre toutes les cases en brouillard
-		initArmeeHeros();
-		initArmeeMonstre();
 		initObstacleAlea();
 		for (int x = 0; x < 10; x++) {
 			initRiviereAlea(3);
 		}
+		
+		initArmeeHeros();    // Il faut initialiser les unités après les obstacles pour pouvoir verifier les chemins
+		initArmeeMonstre();
 		
 		// Générer trop de rivières peut empêcher la page de s'ouvrir.
 		actuBrouillard(); //-> Pour actualiser le brouillard
@@ -115,12 +116,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 		redemarrer_armees();
 		
-		initArmeeHeros();
-		initArmeeMonstre();
 		initObstacleAlea();
 		for (int x = 0; x < 10; x++) {
 			initRiviereAlea(3);
 		}
+		
+		initArmeeHeros();   // Il faut initialiser les unités après les obstacles pour pouvoir verifier les chemins
+		initArmeeMonstre();
 		
 		actuBrouillard();
 	}
@@ -401,21 +403,24 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		p2 = new Position(x,y-1);
 		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			System.out.println("" + p2 + " valide ");
 			return true;
 		}
 		p2 = new Position(x,y+1);
 		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			System.out.println("" + p2 + " valide ");
 			return true;
 		}
 		p2 = new Position(x-1,y);
 		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			System.out.println("" + p2 + " valide ");
 			return true;
 		}
 		p2 = new Position(x+1,y);
 		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			System.out.println("" + p2 + " valide ");
 			return true;
 		}
-		
 		
 		return false;
 	}

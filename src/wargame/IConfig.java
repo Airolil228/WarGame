@@ -9,7 +9,7 @@ public interface IConfig {
 	int LARGEUR_CARTE = 25; int HAUTEUR_CARTE = 15; // en nombre de cases
 	int NB_PIX_CASE = 50;
 	int POSITION_X = 100; int POSITION_Y = 50; // Position de la fen�tre
-	int NB_HEROS = 6; int NB_MONSTRES = 15; int NB_OBSTACLES = 20;
+	int NB_HEROS = 6; int NB_MONSTRES = 15; int NB_OBSTACLES = 80;
 	int NB_NOMS = 20; // 20 noms différents pour chaque espèces
 	
 	int HAUTEUR_BARRE_MENU = 30;
