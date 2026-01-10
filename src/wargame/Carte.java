@@ -392,6 +392,34 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	public boolean caseVideAutourNonDiagonale(Position p) {
+		int x = p.getX();
+		int y = p.getY();
+		Position p2;
+		
+		// On suppose p valide
+		
+		p2 = new Position(x,y-1);
+		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			return true;
+		}
+		p2 = new Position(x,y+1);
+		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			return true;
+		}
+		p2 = new Position(x-1,y);
+		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			return true;
+		}
+		p2 = new Position(x+1,y);
+		if (p2.estValide() && (getElement(p2) instanceof Plaine)) {
+			return true;
+		}
+		
+		
+		return false;
+	}
+	
 	public void initArmeeHeros() {
 		
 		int type;
@@ -403,7 +431,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		for (int i = 0; i< NB_HEROS;i++) {
 			Position p = trouvePositionVideHeros();
 			Position p2 = new Position(p.getX() + 1 ,p.getY()); // On est un héros donc il y a forcement de la place à droite
-			if (!verifPositionVideAutour(p)) { // Juste pour s'assurer qu'il y a au moins une position vide dans les cases adjacentes
+			if (!caseVideAutourNonDiagonale(p)) { // Juste pour s'assurer qu'il y a au moins une position vide dans les cases adjacentes
 				
 				if (getElement(p2) instanceof Obstacle) {
 					setElement(new Plaine(), p2); 
