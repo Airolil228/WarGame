@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -649,6 +650,10 @@ public class FenetreJeu implements IConfig{
 
             clip = AudioSystem.getClip();
             clip.open(audio);
+            
+            FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volume.setValue(-12.0f);
+            
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();
 
