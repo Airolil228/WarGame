@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -639,6 +640,22 @@ public class FenetreJeu implements IConfig{
     	actionToucheClavier(menuBar, panel, jeu, map);
     	
         jeu.setVisible(true);
+        
+        
+        Clip clip;
+
+        try {
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new File("sons/music_small_loop1.wav"));
+
+            clip = AudioSystem.getClip();
+            clip.open(audio);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         
 
         // Thread du jeu (boucle infinie tant que la fenêtre est ouverte)
