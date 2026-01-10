@@ -1256,4 +1256,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 	}
 	
+	public Monstre[] getArmeeMonstre(){
+		return armeeMonstre; 
+	}
+	public Heros[] getArmeeHeros(){
+		return armeeHeros; 
+	}
+	
 }
