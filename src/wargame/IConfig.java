@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 
+/*
+ * L’interface IConfig rassemble les principaux paramètres du jeu.
+ */
 public interface IConfig {
 	int LARGEUR_CARTE = 25; int HAUTEUR_CARTE = 15; // en nombre de cases
 	int NB_PIX_CASE = 50;

@@ -1,6 +1,8 @@
 package wargame;
 
-// Pas encore implémenté, pour plus tard ^^
+/*
+ * La classe Ordinateur gère l'intelligence du joueur 2
+ */
 public class Ordinateur implements IConfig{
 	private int visionGeneral[][]; // cases visibles par l'ordinateur : case visible 1, case non visible 0
 	private int nbMonstresVivants;

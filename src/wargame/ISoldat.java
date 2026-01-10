@@ -1,11 +1,15 @@
 package wargame;
 
+/*
+ * L'interface ISoldat donne la signature des méthodes de Soldat
+ */
 public interface ISoldat {
 	static int nbTypeHeros = 4;
 	static int nbTypeMonstre = 3;
    static enum TypesH {
       HUMAIN (40,3,2,10,2), NAIN (80,1,1,20,0), ELF (70,5,3,10,6), HOBBIT (20,3,2,5,2);
       private final int POINTS_DE_VIE, PORTEE_VISUELLE, PORTEE_DEPLACEMENT, PUISSANCE, TIR;
+      
       TypesH(int points, int portee_visuelle, int portee_deplacement, int puissance, int tir) {
 POINTS_DE_VIE = points; PORTEE_VISUELLE = portee_visuelle; PORTEE_DEPLACEMENT = portee_deplacement;
 PUISSANCE = puissance; TIR = tir;
@@ -35,8 +39,44 @@ PUISSANCE = puissance; TIR = tir;
          return values()[(int)(Math.random()*values().length)];
       }
    }
-   int getPoints(); int getTour(); int getPortee();
+   
+   /*
+    * Recuperation des points de vies
+    */
+   int getPoints();
+   /*
+    * Recuperation de se il peut jouer
+    */
+   int getTour();
+   /*
+    * Recuperation de la portee visuelle
+    */
+   int getPortee();
+   /*
+    * Recuperation de la portee de deplacement
+    */
+   int getPorteeDeplacement();
+
    void joueTour(int tour);
+   /*
+    * Permet de savoir si l'on peut attaquer a la position pos
+    * @param pos
+    * @return boolean
+    */
+   boolean peutAttaquer(Position pos);
+   /*
+    * Permet de savoir si le soldat est mort
+    * @return boolean
+    */
+   boolean est_mort();
+   /*
+    * Gere le combat avec un soldat
+    * @parm soldat
+    */
    void combat(Soldat soldat);
+   /*
+    * Deplace l'element vers une nouvelle position
+    * @param newPos nouvelle position
+    */
    void seDeplace(Position newPos);
 }

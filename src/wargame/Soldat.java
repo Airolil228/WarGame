@@ -2,13 +2,18 @@ package wargame;
 
 import java.io.Serializable;
 
+/*
+ * La classe Soldat gère l'ensemble des unités
+ */
 public abstract class Soldat extends Element implements ISoldat,Serializable{
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE, PORTEE_DEPLACEMENT;
 	private int pointsDeVie;
 	private Carte carte;
 	private static final long serialVersionUID = 1L; // contrôle de la compatibilité
 	
-	/*(…)*/
+	/*
+	 * Constructeur
+	 */
 	Soldat(Carte carte, int pts, int portee_visuelle, int portee_deplacement, int puiss, int tir, Position pos) {
 		POINTS_DE_VIE_MAX = pointsDeVie = pts;
 		PORTEE_VISUELLE = portee_visuelle; PORTEE_DEPLACEMENT = portee_deplacement;PUISSANCE = puiss; TIR = tir;

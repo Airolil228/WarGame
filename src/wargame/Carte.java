@@ -18,8 +18,9 @@ import java.io.IOException;
 import java.io.Serializable;
 
 
-// Il reste jouerSoldats à faire (?)
-
+/**
+ * La classe Carte gère la carte et les éléments qui y figurent.
+ */
 public class Carte implements ICarte, IConfig, Serializable{
 	private int[][] brouillard; // 0 : pas de brouillard, 1 : brouillard
 	private Element[][] tab;
@@ -49,7 +50,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 	private int vision[][];
 	
 	
-	
+	/**
+	 * Constructeur de la Carte
+	 * @param hauteur hauteur de la carte
+	 * @param largeur largeur de la carte
+	 */
 	public Carte(int hauteur, int largeur) {
 		select = new Position(-1,-1);
 		int i,j;
@@ -88,6 +93,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		actuBrouillard(); //-> Pour actualiser le brouillard
 	}
 	
+	/**
+	 * Vide les deux tableaux representant les armées
+	 */
 	public void redemarrer_armees() {
 		for (int i = 0; i< NB_HEROS;i++) {
 			armeeHeros[i] = null;
@@ -97,6 +105,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/**
+	 * Permet de relancer une autre partie
+	 * @param hauteur hauteur de la carte
+	 * @param largeur largeur de la carte
+	 */
 	public void redemarrer(int hauteur, int largeur) {
 		// copie du constructeur
 		
@@ -127,16 +140,33 @@ public class Carte implements ICarte, IConfig, Serializable{
 		actuBrouillard();
 	}
 	
+	/**
+	 * Permet de définir le panneau de jeu correspondant (JPanel)
+	 * @param panneau panneau de jeu
+	 */
 	public void setPanneauJeu(JPanel panneau) {
         this.panneauJeu = panneau;
     }
 
+	/**
+	 * Permet de récuper le tableau de jeu
+	 * @return tableau du jeu
+	 */
 	public Element[][] getJeu() {
 		return tab;
 	}
+	
+	/**
+	 * Permet de changer le plateau de jeu
+	 * @param jeu plateau du jeu
+	 */
 	public void setJeu(Element[][] jeu) {
 		tab = jeu;
 	}
+	
+	/**
+	 * Permet d'afficher la carte sur la console
+	 */
 	public void afficherCarteConsole() {
 		int i,j;
 		System.out.println("Affichage de la carte");
@@ -160,6 +190,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 			System.out.print("-------");
 		}
 	}
+	
+	/**
+	 * Permet de recuperer un element du tableau
+	 * @param pos position de l'element
+	 * @return element du plateau correspondant
+	 */
 	public Element getElement(Position pos) {
 		if (pos.estValide()) {
 			return tab[pos.getY()][pos.getX()];
@@ -167,6 +203,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 			return null;
 		}
 	}
+	
+	/**
+	 * Permet de recuperer un element du tableau
+	 * @param x Coordonnée verticale
+	 * @param y Coordonnée horizontale
+	 * @return element du plateau correspondant
+	 */
 	public Element getElement(int x,int y) {
 		Position p = new Position(x,y);
 		if (p.estValide()) {
@@ -176,6 +219,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/**
+	 * Permet de recuperer un heros de l'armée
+	 * @param i indice de l'element
+	 * @return Heros correspondant dans la liste
+	 */
 	public Heros getHeros(int i) {
 		if (nbHerosVivant > i) {
 			return armeeHeros[i];
@@ -184,14 +232,29 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/**
+	 * Permet de poser un element dans une case du tableau
+	 * @param e element
+	 * @param pos position
+	 */
 	public void setElement(Element e,Position p) {
 		tab[p.getY()][p.getX()] = e;
 	}
 	
+	/**
+	 * Permet de poser un element dans une case du tableau
+	 * @param e element
+	 * @param y coordonnée horizontale
+	 * @param x coordonnée vericale
+	 */
 	public void setElement(Element e,int y,int x) {
 		tab[y][x] = e;
 	}
 	
+	/**
+	 * Trouve aléatoirement une position vide sur la carte
+	 * @return Position de l'element trouvé
+	 */
 	public Position trouvePositionVide() {
 		// Trouve aléatoirement une position vide sur la carte
 		boolean b = false;
@@ -209,6 +272,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		Position p = new Position(x,y);
 		return p;
 	}
+	
+	/**
+	 * Trouve aléatoirement une position vide sur la carte pour les héros
+	 * @return Position de l'element trouvé
+	 */
 	public Position trouvePositionVideHeros() {
 		// Trouve aléatoirement une position vide sur la carte
 		boolean b = false;
@@ -226,6 +294,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		Position p = new Position(x,y);
 		return p;
 	}
+	
+	/**
+	 * Trouve aléatoirement une position vide sur la carte pour les monstres
+	 * @return Position de l'element trouvé
+	 */
 	public Position trouvePositionVideMonstre() {
 		// Trouve aléatoirement une position vide sur la carte
 		boolean b = false;
@@ -244,6 +317,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return p;
 	}
 	
+	/**
+	 * Trouve une position adjacente vide (les 8 cases autours)
+	 * @param pos position autour de laquelle on veut trouver une case vide
+	 * @return Position trouvé
+	 */
 	public Position trouvePositionVide(Position pos) {
 		// Trouve une position vide choisie
 		// al�atoirement parmi les 8 positions adjacentes de pos
@@ -273,6 +351,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 			
 		return p;
 	}
+	
+	/**
+	 * Trouve aléatoirement un héros sur la carte
+	 * @return Heros trouvé
+	 */
 	public Heros trouveHeros() {
 		// Trouve al�atoirement un h�ros sur la carte
 		Heros h;
@@ -284,6 +367,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		return h;
 	}
+	
+	/**
+	 * Trouve aléatoirement un héros sur la carte autour de la positon
+	 * @param pos position autour de laquelle on cherche
+	 * @return Heros trouvé
+	 */
 	public Heros trouveHeros(Position pos) {
 		// Trouve un h�ros choisi al�atoirement
 		// parmi les 8 positions adjacentes de pos
@@ -321,25 +410,43 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return h;
 	}
 	
-	
+	/**
+	 * Déplace un soldat à une position
+	 * @param pos position
+	 * @param soldat soldat
+	 * @return boolean qui décrit si le deplacement a été effectué correctement
+	 */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
 		setElement(soldat,pos);
 		setElement(new Plaine(), soldat.getPos());
 		return true;
 	}
 	
+	/**
+	 * Gere le cas où le joueur 1 gagnes
+	 */
 	public void victoire() {
 		etat = Etat.VICTOIRE;
 	}
 	
+	/**
+	 * Gere le cas où éggalité entre les joueurs
+	 */
 	public void matchNull() {
 		etat = Etat.MATCH_NUL;
 	}
 	
+	/**
+	 * Gere le cas où le joueur 2 gagnes
+	 */
 	public void defaite() {
 		etat = Etat.DEFAITE;
 	}
 	
+	/**
+	 * Gere le cas où un soldat meures
+	 * @param perso soldat qui est mort
+	 */
 	public void mort(Soldat perso) {
 		
 		if (perso instanceof Heros) {
@@ -394,6 +501,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/**
+	 * Permet de trouver si il y a une case vide autour (4 directions haut,bas,gauche,droite) vide
+	 * @param p position autour de laquelle on cherche
+	 * @return boolean qui décrit la réussite ou l'échec de la recherche
+	 */
 	public boolean caseVideAutourNonDiagonale(Position p) {
 		int x = p.getX();
 		int y = p.getY();
@@ -425,6 +537,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return false;
 	}
 	
+	/**
+	 * Permet d'initialiser l'armée du joueur 1
+	 */
 	public void initArmeeHeros() {
 		
 		int type;
@@ -526,6 +641,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/**
+	 * Permet d'initialiser l'armée du joueur 2
+	 */
 	public void initArmeeMonstre() {
 		
 		int type;
@@ -610,6 +728,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/*
+	 * Permet d'initialiser les obstacles sur la carte aléatoirement
+	 */
 	public void initObstacleAlea() {
 		for (int i = 0; i< NB_OBSTACLES;i++) {
 			Position p = trouvePositionVide();
@@ -634,6 +755,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/*
+	 * Verifie si il y a une case vide autours (8 directions)
+	 * @param p position autour de laquelle on cherche
+	 * @return boolean qui décrit si il y a ou non une case disponible
+	 */
 	private boolean verifPositionVideAutour(Position p) {
 		int y,x;
 		for (int i = -1;i<=1;i++) {
@@ -650,6 +776,10 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return false;
 	}
 	
+	/*
+	 * Initialise une rivière sur la carte d'une certaine taille
+	 * @param tailleRiviere taille de la rivière (nombre de case occupés)
+	 */
 	public void initRiviereAlea(int tailleRiviere) {
 		int nb_riv;
 		if (tailleRiviere > 0) {
@@ -669,7 +799,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
-	
+	/*
+	 * Initialise la carte du brouillard (plein)
+	 */
 	public void initBrouillard() {
 		int i,j;
 		for (i=0;i<hauteur;i++) {
@@ -679,6 +811,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/*
+	 * Met à jour la carte du brouillard
+	 */
 	public void actuBrouillard() {
 		int k,i,j;
 		
@@ -715,6 +850,10 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/*
+	 * Affichage graphique de la carte et de ses éléments
+	 * @param g outil graphique
+	 */
 	public void toutDessiner(Graphics g) {
 		// TODO Stub de la méthode généré automatiquement
 		
@@ -925,6 +1064,14 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/*
+	 * Permet de calculer la distance entre deux points
+	 * @param x0 Coordonnée verticale du premier point
+	 * @param y0 Coordonnée horizontale du premier point
+	 * @param x1 Coordonnée verticale du deuxieme point
+	 * @param y1 Coordonnée horizontale du deuxieme point
+	 * @return double representant le resultat
+	 */
 	public double distance(int x0, int y0, int x1, int y1) {
 	    return Math.sqrt(
 	        (x1 - x0)*(x1 - x0) +
@@ -932,6 +1079,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 	    );
 	}
 	
+	/*
+	 * Permet de savoir si l'element de la carte est un element bloquant les déplacements/attaques
+	 * @param x coordonnée verticale
+	 * @param y coordonnée horizontale
+	 * @return boolean de la réponse
+	 */
 	public boolean elementBloquant(int x, int y) {
 		Element e = this.getElement(x, y);
 		
@@ -946,7 +1099,14 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return false;
 	}
 	
-	// Méthode de Bresenham
+	/*
+	 * Algorithme inspiré de la méthode de Bresenham, permettant de savoir si l'element est accessible
+	 * @param x0 coordonnée verticale du premier point
+	 * @param y0 coordonnée horizontale du premier point
+	 * @param x1 coordonnée verticale du deuxieme point
+	 * @param y1 coordonnée horizontale du deuxieme point
+	 * @return boolean pour savoir si accessible ou non
+	 */
 	public boolean ligneDeVue(int x0, int y0, int x1, int y1) {
 	    int dx = Math.abs(x1 - x0);
 	    int dy = Math.abs(y1 - y0);
@@ -973,6 +1133,13 @@ public class Carte implements ICarte, IConfig, Serializable{
 	    return true;
 	}
 	
+	/*
+	 * Permet de calculer le champ de vision et le champ de deplacement de l'element selecetionné
+	 * @param x0 coordonnée verticale
+	 * @param y0 coordonnée horizontale
+	 * @param portee_visuelle nombre décrivant la protée visuelle de l'element selectionné
+	 * @param portee_deplacement nombre décrivant la protée de deplacement de l'element selectionné
+	 */
 	public void calculerChampAction(int x0, int y0, int portee_visuelle, int portee_deplacement) {
 		
 		vision = new int[portee_visuelle*2+1][portee_visuelle*2+1];
@@ -1035,6 +1202,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 	    
 	}
 	
+	/*
+	 * Permet d'afficher les deux champs d'action de l'element selectionné
+	 * @param x0 coordonnée verticale
+	 * @param y0 coordonnée horizontale
+	 * @param g outil graphique
+	 */
 	public void afficherChampAction(int x0, int y0, Graphics g) {
 		
 		if (vision == null || deplacementPossible == null) {
@@ -1081,19 +1254,37 @@ public class Carte implements ICarte, IConfig, Serializable{
 	    }
 	}
 	
+	/*
+	 * permet de recuperer la positionde l'element sélectionné
+	 * @return Position correspondante
+	 */
 	public Position getSelect() {
 		Position p = new Position(select.getX(),select.getY());
 		return p;
 	}
 	
+	/*
+	 * Permet de changer la position décrivant l'element sélectionné
+	 * @param p postion du nouvelle element selectionné
+	 */
 	public void setSelect(Position p) {
 		select = new Position(p.getX(),p.getY());
 	}
 	
+	/*
+	 * Permet de changer la position décrivant l'element sélectionné
+	 * @param x coordonnée verticale de la postion du nouvel element selectionné
+	 * @param y coordonnée horizontale de la postion du nouvel element selectionné
+	 */
 	public void setSelect(int x, int y) {
 		select = new Position(x,y);
 	}
 	
+	/*
+	 * fonction principale pour changer l'element selectionné
+	 * @param y coordonné horizontale
+	 * @param x coordonnée verticale
+	 */
 	public void marquerCase(int y, int x) {
 		if (select.getY() < 0 && select.getX() < 0) {
 			select = new Position(x,y);
@@ -1147,7 +1338,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
-	
+	/*
+	 * Action du héros à la position pos sur l'element à la position pos2
+	 * @param pos position du héros
+	 * @param pos2 position du dernier click
+	 * @return boolean qui décrit si il y a eu action ou non
+	 */
 	public boolean actionHeros(Position pos, Position pos2) {
 		// On a la pos du héros dans pos et la pos du click d'après dans pos2
 		Heros h = (Heros) getElement(pos);
@@ -1276,6 +1472,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return false;
 	}
 	
+	/*
+	 * Permet de savoir si il y a un heros a coté de la position
+	 * @param pos postion autour de laquelle on cherche
+	 * @return boolean réponse
+	 */
 	public boolean herosACote(Position pos) {
 		for (int i=-1; i<=1;i++) {
 			for (int j=-1; j<=1;j++) {
@@ -1301,6 +1502,9 @@ public class Carte implements ICarte, IConfig, Serializable{
 		return false;
 	}
 	
+	/*
+	 * fonction principale du fin de tour
+	 */
 	public void finDeTour() {
 		compteur_tour++;
 		for (int i=0;i<nbHerosVivant;i++) {
@@ -1326,8 +1530,10 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
+	/*
 	public void jouerSoldats(PanneauJeu pj) {
 		
 	}
+	*/
 	
 }

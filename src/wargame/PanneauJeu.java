@@ -5,12 +5,16 @@ import java.awt.Graphics;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/*
+ * La classe PanneauJeu gère l’affichage de la carte.
+ */
 public class PanneauJeu extends JPanel implements IConfig{
 	private static final long serialVersionUID = -5386655355068292584L;
 	private Carte map;
     
-	/**
-	 * 
+	/*
+	 * Constructeur
+	 * @param map carte du jeu
 	 */
 	public PanneauJeu(Carte map) {
 		this.map = map;
@@ -18,6 +22,10 @@ public class PanneauJeu extends JPanel implements IConfig{
 		setPreferredSize(new java.awt.Dimension((LARGEUR_CARTE * NB_PIX_CASE) , (HAUTEUR_CARTE * NB_PIX_CASE) ));
 	}
 
+	/*
+	 * Affichage
+	 * @param g outil graphique
+	 */
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 

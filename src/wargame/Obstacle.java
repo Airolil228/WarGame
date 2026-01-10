@@ -5,7 +5,9 @@ import java.io.Serializable;
 
 import wargame.ISoldat.TypesH;
 
-
+/*
+ * La classe Obstacle gère les éléments de la carte qui bloquent les unités
+ */
 public class Obstacle extends Element implements Serializable {
 	public static int nbObstacle = 2;
 	private static final long serialVersionUID = 1L; // contrôle de la compatibilité

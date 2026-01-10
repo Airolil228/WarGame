@@ -17,7 +17,9 @@ import java.awt.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-
+/*
+ * La classe FenetreJeu contient le main et affiche la carte et d’autres informations du jeu.
+ */
 public class FenetreJeu implements IConfig{
     private static boolean running = true;
     private static int lastClickX = -1;
@@ -35,6 +37,13 @@ public class FenetreJeu implements IConfig{
     private static Element draggedElement =  null; 
     private static Element elementSurvole = null; 
     
+    /*
+     * Méthode principale pour créer la barre de menu
+     * @param menuBar barre de menu
+     * @param panelJeu panneau du jeu
+     * @param jeu JFrame regroupant tout
+     * @param map carte du jeu en cours
+     */
     private static void creationBarreMenu(JMenuBar menuBar, JPanel panelJeu, JFrame jeu, Carte map) {
     	// Créer un menu
         JMenu menu = new JMenu("Menu");
@@ -203,6 +212,10 @@ public class FenetreJeu implements IConfig{
         menuBar.add(menu);
     }
     
+    /*
+     * Affichage d'un bouton personnalisé
+     * @param bouton bouton qu'on modifie
+     */
     private static void affichageBouton(JButton bouton) {
         // Mettre le texte au centre de l'image
         bouton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -214,7 +227,14 @@ public class FenetreJeu implements IConfig{
         bouton.setFocusPainted(false);
     }
     
-    private static void creationBoutonsHeros(JMenuBar panelBoutons, JPanel panelJeu, JFrame jeu, Carte map){
+    /*
+     * Méthode principale pour créer les boutons
+     * @param panelBoutons barre de menu
+     * @param panelJeu panneau du jeu
+     * @param jeu JFrame regroupant tout
+     * @param map carte du jeu en cours
+     */
+    private static void creationBoutons(JMenuBar panelBoutons, JPanel panelJeu, JFrame jeu, Carte map){
         boutonFinDeTour = new JButton("Fin Tour",BOUTON);
         boutonRedemarrer = new JButton("Redémarrer",BOUTON);
         boutonSauveGarde = new JButton("Sauvegarder",BOUTON);
@@ -382,6 +402,11 @@ public class FenetreJeu implements IConfig{
         panelBoutons.getParent().repaint();
     }
     
+    /*
+     * Action du fin de tour et actualisation
+     * @param panelBoutons
+     * @param map carte du jeu en cours
+     */
     private static void actionFinDeTour(JPanel panelBoutons, Carte map) {
     	map.finDeTour();
     	
@@ -389,6 +414,13 @@ public class FenetreJeu implements IConfig{
         panelBoutons.getParent().repaint();
     }
     
+    /*
+     * Gestion des actions possibles via le clavier
+     * @param menuBar barre de menu
+     * @param panelJeu panneau du jeu
+     * @param jeu JFrame regroupant tout
+     * @param map carte du jeu en cours
+     */
     private static void actionToucheClavier(JMenuBar menuBar, JPanel panel, JFrame jeu, Carte map) {
     	JRootPane root;
     	
@@ -430,6 +462,11 @@ public class FenetreJeu implements IConfig{
         }
     }
     
+    /*
+     * Méthode permettant d'initialiser une autre partie
+     * @param jeu JFrame regroupant tout
+     * @param map carte du jeu en cours
+     */
     public static void initialiserJeu(JFrame jeu,Carte map){
     	JPanel main = new JPanel();
     	main.setPreferredSize(new Dimension((LARGEUR_CARTE*NB_PIX_CASE), (HAUTEUR_CARTE * NB_PIX_CASE) ));
@@ -448,7 +485,7 @@ public class FenetreJeu implements IConfig{
     	jeu.setContentPane(main);
     	main.add(panel);
     	creationBarreMenu(menuBar, panel, jeu, map);
-    	creationBoutonsHeros(menuBar, panel, jeu, map);
+    	creationBoutons(menuBar, panel, jeu, map);
     	actionToucheClavier(menuBar, panel, jeu, map);
     	jeu.pack();
     	jeu.setLocationRelativeTo(null);
@@ -464,6 +501,12 @@ public class FenetreJeu implements IConfig{
     	jeu.setVisible(true);
     }
     
+    /*
+     * Configuration de la souris
+     * @param jeu JFrame regroupant tout
+     * @param panel panneau du jeu
+     * @param map carte du jeu en cours
+     */
     private static void configureMouseListeners(JFrame jeu, JPanel panel,Carte map){
     	//Listener des clics
         panel.addMouseListener(new MouseAdapter() {
@@ -552,6 +595,10 @@ public class FenetreJeu implements IConfig{
         });
     }
     
+    /*
+     * Gestion de la boucle de jeu
+     * @param jeu JFrame globale
+     */
     private static void demarrerBoucleJeu(JFrame jeu){
     	 // Thread du jeu (boucle infinie tant que la fenêtre est ouverte)
         Thread gameLoop = new Thread(() -> {
@@ -585,14 +632,26 @@ public class FenetreJeu implements IConfig{
     	
     }
     
+    /*
+     * Recuperation de la coordonnée verticale de la position courante de la souris
+     * @return int coordonnée correspondante
+     */
     public static int getCurrentMouseX(){
     	 return currentMouseX;  
     }
     
+    /*
+     * Recuperation de la coordonnée horizontale de la position courante de la souris
+     * @return int coordonnée correspondante
+     */
     public static int getCurrentMouseY(){
     	return currentMouseY;
     }
     
+    /*
+     * Main du programme
+     * @param args
+     */
 	public static void main(String[] args) {
 		
         JFrame jeu = new JFrame("Jeu");
@@ -628,7 +687,7 @@ public class FenetreJeu implements IConfig{
         jeu.setContentPane(main);
         main.add(panel, BorderLayout.CENTER);
         creationBarreMenu(menuBar, panel, jeu, map);
-        creationBoutonsHeros(menuBar,panel, jeu, map);
+        creationBoutons(menuBar,panel, jeu, map);
         jeu.pack();
         jeu.setLocationRelativeTo(null);
         jeu.revalidate();
@@ -699,10 +758,19 @@ public class FenetreJeu implements IConfig{
 	}
 	
 	//FIN DU MAIN
+	
+	/*
+	 * Recuperation de l'element pris par la souris
+	 * @return Element correpondant
+	 */
 	public static Element getDraggedElement() {
 		return draggedElement;
 	}
 	
+	/*
+	 * Permet de savoir si il y a dragging
+	 * @return boolean correspondant
+	 */
 	public static Boolean isDragging() {
 		return dragging;
 	}

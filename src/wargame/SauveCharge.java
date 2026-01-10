@@ -11,8 +11,16 @@ import java.io.ObjectOutputStream;
 
 import javax.swing.JPanel;
 
+/*
+ * La classe SauveCharge gère la sauvegarde et le chargement des données
+ */
 public class SauveCharge{
 	
+	/*
+	 * Méthode pour sauvegarder la carte dans un fichier
+	 * @param carte
+	 * @param fichier
+	 */
 	public static void sauvegarder(Carte carte,File fichier) throws IOException{
 		if(carte == null) throw new IllegalArgumentException("Carte null");
 		if( fichier == null) throw new IllegalArgumentException("Sauvegarde: fichier null"); 
@@ -29,6 +37,12 @@ public class SauveCharge{
 		
 	}
 	
+	/*
+	 * Méthode pour charger le contenu du fichier dans le jeu
+	 * @param fichier
+	 * @param panneauJeu
+	 * @return Carte Carte obtenu par le chargement des données
+	 */
 	public static Carte charger(File fichier,JPanel panneauJeu) throws IOException,ClassNotFoundException{
 		if( fichier == null) throw new IllegalArgumentException("Chargement: fichier null"); 
 		
@@ -48,6 +62,11 @@ public class SauveCharge{
 		}
 	}
 	
+	/*
+	 * Permet de savoir si une sauvegarde existe dans le fichier
+	 * @param fichier
+	 * @return boolean
+	 */
 	public static boolean sauvegardeExiste(File fichier){
 		if( fichier != null && fichier.exists() && fichier.canRead() ){
 			return true;

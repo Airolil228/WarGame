@@ -15,7 +15,9 @@ import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.IOException;
 
-
+/*
+ * La classe MenuDemarrage gère le JPanel qui permet d'afficher le menu et ses éléments
+ */
 public class MenuDemarrage extends JPanel implements IConfig{
 	private JButton btnNouvellePartie;
 	private JButton btnChargerPartie;
@@ -23,6 +25,10 @@ public class MenuDemarrage extends JPanel implements IConfig{
 	private JFrame fenetreJeu;
 	private Runnable onNouvellePartie;
 	
+	/*
+	 * Constructeur
+	 * @param fenetre JFrame qui contient l'element
+	 */
 	public MenuDemarrage(JFrame fenetre){
 		this.fenetreJeu = fenetre;
 		setPreferredSize(new Dimension(LARGEUR_CARTE*NB_PIX_CASE,HAUTEUR_CARTE * NB_PIX_CASE ));
@@ -32,6 +38,10 @@ public class MenuDemarrage extends JPanel implements IConfig{
 		creerComposants();
 	}
 	
+	/*
+	 * Auto-affichage de l'element
+	 * @param g outil graphique
+	 */
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
@@ -49,6 +59,9 @@ public class MenuDemarrage extends JPanel implements IConfig{
 
 	public void setOnNouvellePartie(Runnable r){ this.onNouvellePartie = r;}
 
+	/*
+	 * Crée les composants de la barre de menu
+	 */
 	private void creerComposants() {
 		/* Version sans images
 		 * 
@@ -139,6 +152,15 @@ public class MenuDemarrage extends JPanel implements IConfig{
 		add(btnQuitter); 
 	}
 	
+	/*
+	 * Création d'un bouton
+	 * @param texte 
+	 * @param x 
+	 * @param y 
+	 * @param largeur
+	 * @param hauteur
+	 * @JButton du bouton créé
+	 */
 	private JButton creerBouton(String texte, int x,int y, int largeur, int hauteur){
 		JButton bouton = new JButton(texte);
 		bouton.setBounds(x,y, largeur, hauteur);
