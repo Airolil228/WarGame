@@ -892,14 +892,55 @@ public class Carte implements ICarte, IConfig, Serializable{
 		}
 	}
 	
-	double distance(int x0, int y0, int x1, int y1) {
+	public double distance(int x0, int y0, int x1, int y1) {
 	    return Math.sqrt(
 	        (x1 - x0)*(x1 - x0) +
 	        (y1 - y0)*(y1 - y0)
 	    );
 	}
 	
-	void calculerChampAction(int x0, int y0, int portee_visuelle, int portee_deplacement) {
+	public boolean elementBloquant(int x, int y) {
+		Element e = this.getElement(x, y);
+		
+		if (e instanceof Obstacle) {
+			Obstacle o = (Obstacle) e;
+			if ((o.getTYPE() == Obstacle.TypeObstacle.ROCHER) || (o.getTYPE() == Obstacle.TypeObstacle.FORET)) {
+				return true;
+			}
+		}
+		
+		
+		return false;
+	}
+	
+	// Méthode de Bresenham
+	public boolean ligneDeVue(int x0, int y0, int x1, int y1) {
+	    int dx = Math.abs(x1 - x0);
+	    int dy = Math.abs(y1 - y0);
+
+	    int sx = x0 < x1 ? 1 : -1;
+	    int sy = y0 < y1 ? 1 : -1;
+
+	    int err = dx - dy;
+
+	    int x = x0;
+	    int y = y0;
+
+	    while (x != x1 || y != y1) {
+
+	        if (!(x == x0 && y == y0)) {
+	            if (elementBloquant(x,y)) return false;
+	        }
+
+	        int e2 = 2 * err;
+	        if (e2 > -dy) { err -= dy; x += sx; }
+	        if (e2 < dx)  { err += dx; y += sy; }
+	    }
+
+	    return true;
+	}
+	
+	public void calculerChampAction(int x0, int y0, int portee_visuelle, int portee_deplacement) {
 		
 		vision = new int[portee_visuelle*2+1][portee_visuelle*2+1];
 		deplacementPossible = new int[portee_deplacement*2+1][portee_deplacement*2+1];
@@ -915,7 +956,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	        	Position p = new Position(x,y);
 	        	if (p.estValide()) {
 	        		
-		            if (distance(x0, y0, x, y) <= portee_visuelle) {
+		            if ((distance(x0, y0, x, y) <= portee_visuelle) && ligneDeVue(x0,y0,x,y)) {
 		            	
 		            	vision[y - y_deb][x - x_deb] = 1;
 		            	
@@ -944,7 +985,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	        	Position p = new Position(x,y);
 	        	if (p.estValide()) {
 	        		
-		            if (distance(x0, y0, x, y) <= portee_deplacement) {
+		            if ((distance(x0, y0, x, y) <= portee_deplacement) && ligneDeVue(x0,y0,x,y)) {
 		            	
 		            	deplacementPossible[y - y_deb][x - x_deb] = 1;
 		            	
@@ -961,7 +1002,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 	    
 	}
 	
-	void afficherChampAction(int x0, int y0, Graphics g) {
+	public void afficherChampAction(int x0, int y0, Graphics g) {
 		
 		if (vision == null || deplacementPossible == null) {
 			return;
