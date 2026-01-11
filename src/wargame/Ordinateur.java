@@ -135,31 +135,75 @@ public class Ordinateur implements IConfig {
 	
 	
 	private double calculerUtilite(Monstre monstre, Action action){
-		double utilite = 0.0;
-		Position posActuelle = monstre.getPos();
-		
-		double ratioVie = (double) monstre.getPoints() / monstre.getPointsMAX();
-		
-		switch(action.type) {
-			case ATTAQUER:
-				utilite += POIDS_ATTAQUE;
-				break;
-			case SE_RAPPROCHER:
-				utilite += 1.5;
-				break;
-			case FUIR: 
-				utilite -= 2.0;
-				break;
-			case ATTENDRE:
-				utilite =-1.0;
-				break;
-				
-		}
-		
-		return utilite;
-		
+	    double utilite = 0.0;
+	    Position posActuelle = monstre.getPos();
+	    double ratioVie = (double) monstre.getPoints() / monstre.getPointsMAX();
+	    
+	    switch(action.type) {
+	        case ATTAQUER:
+	            utilite += POIDS_ATTAQUE;
+	            
+	            // Bonus si cible faible
+	            if (action.cible != null) {
+	                double ratioPVCible = (double) action.cible.getPoints() / action.cible.getPointsMAX();
+	                utilite += POIDS_PV_BAS * (1.0 - ratioPVCible);
+	            }
+	            
+	            // Malus si monstre faible en corps à corps
+	            if (ratioVie < 0.3 && posActuelle.estVoisine(action.position)) {
+	                utilite -= 2.0;
+	            }
+	            break;
+	            
+	        case SE_RAPPROCHER:
+	            utilite += 1.5;
+	            
+	            // Bonus si on se rapproche vraiment
+	            if (action.cible != null) {
+	                double distApres = distance(action.position, action.cible. getPos());
+	                double distAvant = distance(posActuelle, action.cible.getPos());
+	                
+	                if (distApres < distAvant) {
+	                    utilite += POIDS_DISTANCE * distApres;
+	                } else {
+	                    utilite -= 1.0;
+	                }
+	            }
+	            
+	            // Si faible, préfère fuir
+	            if (ratioVie < 0.3) {
+	                utilite -= POIDS_SAUVER_VIE;
+	            }
+	            break;
+	            
+	        case FUIR:  
+	            if (ratioVie < 0.3) {
+	                utilite += POIDS_SAUVER_VIE;
+	                
+	                Heros herosPlusProche = trouverHerosPlusProcheDeTous(action.position);
+	                if (herosPlusProche != null) {
+	                    double distApres = distance(action. position, herosPlusProche. getPos());
+	                    double distAvant = distance(posActuelle, herosPlusProche.getPos());
+	                    
+	                    if (distApres > distAvant) {
+	                        utilite += 2.0;
+	                    }
+	                }
+	            } else {
+	                utilite -= 2.0;
+	            }
+	            break;
+	            
+	        case ATTENDRE: 
+	            utilite = -1.0;
+	            break;
+	    }
+	    
+	    // Ajouter aléatoire
+	    utilite += (Math.random() - 0.5) * 0.5;
+	    
+	    return utilite;
 	}
-	
 	
 	public Action[] genereActionPossibles(Monstre monstre){
 		Position pos = monstre.getPos();
@@ -213,13 +257,13 @@ public class Ordinateur implements IConfig {
 	
 	public Action[] genereCasesDepl(Monstre monstre,Heros[] herosVisibles){
 		Position pos = monstre.getPos();
-		int porteeDeplacement = monstre.getPorteeDeplacement()*(-1);
+		int porteeDeplacement = monstre.getPorteeDeplacement();
 		
 		Action[] actionsDepl  = new Action[NBACTIONSMAX];
 		int nbdepl = 0; 
  		
-		for(int dy = porteeDeplacement; dy <= porteeDeplacement; dy++){
-			for(int dx = porteeDeplacement; dx <= porteeDeplacement; dx++){
+		for(int dy = -porteeDeplacement; dy <= porteeDeplacement; dy++){
+			for(int dx = -porteeDeplacement; dx <= porteeDeplacement; dx++){
 				
 				int newX = pos.getX()+dx;
 				int newY = pos.getY()+dy;
@@ -240,7 +284,13 @@ public class Ordinateur implements IConfig {
 				}
 			}
 		}
-		return actionsDepl;
+		
+		 Action[] resultat = new Action[nbdepl];
+		 
+		 for (int i = 0; i < nbdepl; i++){
+		        resultat[i] = actionsDepl[i];
+		  }
+		return resultat;
 	} 
 	
 	
