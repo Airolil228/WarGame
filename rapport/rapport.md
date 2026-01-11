@@ -23,13 +23,23 @@ Pour le plan de ce rapport, après cette courte introduction, il y aura une anal
 
 
 ## Les techniques de POO/Java utilisés
-– Les techniques de POO/Java mises en œuvre (héritage, encapsulation, polymorphisme,
-exceptions, etc.),
-### ...
+
+### Interface
+L'interface IConfig est utilisé pour gérer toutes les données importantes globales du jeu tandis que les interfaces ICarte et ISoldat sont spécialisés pour les classes Carte et Soldat respectivement.
+
+### Composition
+Les compositions majoritaires sont celles vers la carte, car c'est cette classe qui va contenir les données principales du jeu et qui va faire fonctionner le tout.
+
+### Héritage
+L'héritage est utilisé à partir de la classe élément afin de définir tout les éléments possibles du jeu
 
 ## Resultat
 
 ![Résultat](./Capture d’écran.png)
+
+### Elements visuels
+Sur cette capture d'écran nous pouvons voir d'abord en haut comme demandé dans le sujet un menu ainsi que des boutons qui contiennent les mêmes fonctionnalités, il est également possible de finir le tour via la touche f et l'on peut sélectionné directement un élément via les touches de 0 à 9 en fonctions du nombre de héros.
+Pour ce qui est du plateau, l'element principal du jeu, (il est représenté par des carrés car nous n'avons pas eu le temps de le réaliser en hexagones) permet de voir les différents éléments du jeu ainsi que de clicker (ce qui géneres un son de click) sur un héros afin de voir son champ de déplacement et son champ visuelle. Pour ce qui est de l'info-bulle, elle permet de voir les informations de l'element sur lequel est la souris.
 
 ## Organisation
 
