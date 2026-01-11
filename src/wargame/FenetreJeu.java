@@ -37,7 +37,7 @@ public class FenetreJeu implements IConfig{
     private static void creationBarreMenu(JMenuBar menuBar, JPanel panelJeu, JFrame jeu, Carte map) {
     	// Créer un menu
         JMenu menu = new JMenu("Menu");
-        
+
         // Créer des éléments de menu
         JMenuItem itemFinDeTour = new JMenuItem("Fin de tour");
         JMenuItem itemRedemarrer = new JMenuItem("Redemarrer");
@@ -391,6 +391,7 @@ public class FenetreJeu implements IConfig{
     private static void actionToucheClavier(JMenuBar menuBar, JPanel panel, JFrame jeu, Carte map) {
     	JRootPane root;
     	
+    	// F : fin de tour
     	// F : fin de tour
         Action actionF = new AbstractAction() {
             @Override

@@ -19,6 +19,8 @@ public class Monstre extends Soldat implements Serializable{
 		return TYPE;
 	}
 	
+	
+	
 	public String toString() {
 		String m = "";
 		TypesM type = this.getTYPE();
