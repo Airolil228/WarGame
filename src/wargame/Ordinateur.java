@@ -2,9 +2,10 @@ package wargame;
 
 import java.util.ArrayList;
 import java.util.List;
+import wargame.Action.TypeAction;
 
 // Pas encore implémenté, pour plus tard ^^
-public class Ordinateur implements IConfig extends Action{
+public class Ordinateur implements IConfig {
 	private int visionGeneral[][]; // cases visibles par l'ordinateur : case visible 1, case non visible 0
 	private int nbMonstresVivants;
 	private int nbHerosVivants;
@@ -84,7 +85,7 @@ public class Ordinateur implements IConfig extends Action{
 		//Jouer monstre 
 	}
 	
-	 private List<Action> genererActionsPossibles(Monstre monstre) {
+	private List<Action> genererActionsPossibles(Monstre monstre) {
 			List<Action> actions = new ArrayList<>();
 			Position pos = monstre.getPos();
 			int porteeDeplacement = monstre. getPorteeDeplacement();
@@ -115,7 +116,7 @@ public class Ordinateur implements IConfig extends Action{
 								actions.add(new Action(TypeAction.SE_RAPPROCHER, newPos, herosPlusProche));
 							} else {
 								// Déplacement de fuite
-								actions.add(new Action(TypeAction. FUIR, newPos, null));
+								actions.add(new Action(TypeAction.FUIR, newPos, null));
 							}
 						}
 					}
@@ -123,10 +124,10 @@ public class Ordinateur implements IConfig extends Action{
 			}
 			
 			// 3. Action d'attente (ne rien faire)
-			actions.add(new Action(TypeAction. ATTENDRE, pos, null));
+			actions.add(new Action(TypeAction.ATTENDRE, pos, null));
 			
 			return actions;
-		}
+	}
 	
 	
 	

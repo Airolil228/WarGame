@@ -1,9 +1,9 @@
 package wargame;
 
 public class Action implements IConfig{
-		private enum TypeAction { ATTAQUER,SE_RAPPROCHER,FUIR,ATTENDRE }
+		public enum TypeAction { ATTAQUER,SE_RAPPROCHER,FUIR,ATTENDRE }
 		
-		TypeAction type;
+		public TypeAction type;
 		Position position;
 		Heros cible;
 		
@@ -12,4 +12,17 @@ public class Action implements IConfig{
 	        this.position = position;
 			this.cible = cible;
 		}
+		
+		public TypeAction getType(){
+			return type;
+		}
+		
+		public Position getPosition(){
+			return position;
+		}
+		
+		public Heros getCible(){ 
+			return cible;
+		}
+		
 	}
