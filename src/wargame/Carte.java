@@ -6,7 +6,8 @@ import java.awt.Image;
 
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 
 
@@ -534,6 +535,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		String ligne = null;
         BufferedReader br;
+        InputStream is;
 		
 		for (int i = 0; i< NB_HEROS;i++) {
 			Position p = trouvePositionVideHeros();
@@ -554,7 +556,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 				th = ISoldat.TypesH.ELF;
 			
 				try {
-					br = new BufferedReader(new FileReader("./name/Elfs"));
+					is = Carte.class.getResourceAsStream("/wargame/name/Elfs");
+					if (is == null) {
+					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					}
+					br = new BufferedReader(new InputStreamReader(is));
+					
 	
 			        for (int j = 0; j <= nom; j++) {
 			            ligne = br.readLine();
@@ -571,7 +578,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 				th = ISoldat.TypesH.HOBBIT;
 			
 				try {
-					br = new BufferedReader(new FileReader("./name/Hobbits"));
+					is = Carte.class.getResourceAsStream("/wargame/name/Hobbits");
+					if (is == null) {
+					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					}
+					br = new BufferedReader(new InputStreamReader(is));
 	
 			        for (int j = 0; j <= nom; j++) {
 			            ligne = br.readLine();
@@ -588,7 +599,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 				th = ISoldat.TypesH.HUMAIN;
 			
 				try {
-					br = new BufferedReader(new FileReader("./name/Humains"));
+					is = Carte.class.getResourceAsStream("/wargame/name/Humains");
+					if (is == null) {
+					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					}
+					br = new BufferedReader(new InputStreamReader(is));
 	
 			        for (int j = 0; j <= nom; j++) {
 			            ligne = br.readLine();
@@ -605,7 +620,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 				th = ISoldat.TypesH.NAIN;
 			
 				try {
-					br = new BufferedReader(new FileReader("./name/Nains"));
+					is = Carte.class.getResourceAsStream("/wargame/name/Nains");
+					if (is == null) {
+					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					}
+					br = new BufferedReader(new InputStreamReader(is));
 	
 			        for (int j = 0; j <= nom; j++) {
 			            ligne = br.readLine();
@@ -638,6 +657,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		String ligne = null;
         BufferedReader br;
+        InputStream is;
 		
 		for (int i = 0; i< NB_MONSTRES;i++) {
 			Position p = trouvePositionVideMonstre();
@@ -658,7 +678,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 				th = ISoldat.TypesM.GOBELIN;
 			
 				try {
-					br = new BufferedReader(new FileReader("./name/Gobelins"));
+					is = Carte.class.getResourceAsStream("/wargame/name/Gobelins");
+					if (is == null) {
+					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					}
+					br = new BufferedReader(new InputStreamReader(is));
 
 			        for (int j = 0; j <= nom; j++) {
 			            ligne = br.readLine();
@@ -675,7 +699,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 				th = ISoldat.TypesM.ORC;
 			
 				try {
-					br = new BufferedReader(new FileReader("./name/Orcs"));
+					is = Carte.class.getResourceAsStream("/wargame/name/Orcs");
+					if (is == null) {
+					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					}
+					br = new BufferedReader(new InputStreamReader(is));
 	
 			        for (int j = 0; j <= nom; j++) {
 			            ligne = br.readLine();
@@ -692,7 +720,11 @@ public class Carte implements ICarte, IConfig, Serializable{
 				th = ISoldat.TypesM.TROLL;
 			
 				try {
-					br = new BufferedReader(new FileReader("./name/Trolls"));
+					is = Carte.class.getResourceAsStream("/wargame/name/Trolls");
+					if (is == null) {
+					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					}
+					br = new BufferedReader(new InputStreamReader(is));
 	
 			        for (int j = 0; j <= nom; j++) {
 			            ligne = br.readLine();

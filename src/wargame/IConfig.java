@@ -38,33 +38,33 @@ public interface IConfig {
 	
 	
 	
-	ImageIcon ECLAIR = new ImageIcon("src/wargame/images/units/eclair.png");
-	ImageIcon COEUR = new ImageIcon("src/wargame/images/units/coeur.png");
-	ImageIcon ORC = new ImageIcon("src/wargame/images/units/Orc.png");
-	ImageIcon TROLL = new ImageIcon("src/wargame/images/units/Troll.png");
-	ImageIcon GOBELIN = new ImageIcon("src/wargame/images/units/Gobelin.png");
-	ImageIcon ELF = new ImageIcon("src/wargame/images/units/Elf.png");
-	ImageIcon NAIN = new ImageIcon("src/wargame/images/units/Nain.png");
-	ImageIcon HUMAIN = new ImageIcon("src/wargame/images/units/Humain.png");
-	ImageIcon HOBBIT = new ImageIcon("src/wargame/images/units/Hobbit.png");
-	ImageIcon PLAINE = new ImageIcon("src/wargame/images/terrain/Plaine.png");
-	ImageIcon PLAINE2 = new ImageIcon("src/wargame/images/terrain/Plaine2.png");
-	ImageIcon EAU = new ImageIcon("src/wargame/images/terrain/Eau.png");
-	ImageIcon LAVA = new ImageIcon("src/wargame/images/terrain/Lava.png");
-	ImageIcon FORET = new ImageIcon("src/wargame/images/terrain/Foret.png");
-	ImageIcon FORET2 = new ImageIcon("src/wargame/images/terrain/Foret2.png");
-	ImageIcon ROCHER = new ImageIcon("src/wargame/images/terrain/Rocher.png");
-	ImageIcon ROCHER2 = new ImageIcon("src/wargame/images/terrain/Rocher2.png");
-	ImageIcon BROUILLARD = new ImageIcon("src/wargame/images/terrain/Brouillard.png");
-	ImageIcon BROUILLARD2 = new ImageIcon("src/wargame/images/terrain/Brouillard2.png");
+	ImageIcon ECLAIR = new ImageIcon(IConfig.class.getResource("/wargame/images/units/eclair.png"));
+	ImageIcon COEUR = new ImageIcon(IConfig.class.getResource("/wargame/images/units/coeur.png"));
+	ImageIcon ORC = new ImageIcon(IConfig.class.getResource("/wargame/images/units/Orc.png"));
+	ImageIcon TROLL = new ImageIcon(IConfig.class.getResource("/wargame/images/units/Troll.png"));
+	ImageIcon GOBELIN = new ImageIcon(IConfig.class.getResource("/wargame/images/units/Gobelin.png"));
+	ImageIcon ELF = new ImageIcon(IConfig.class.getResource("/wargame/images/units/Elf.png"));
+	ImageIcon NAIN = new ImageIcon(IConfig.class.getResource("/wargame/images/units/Nain.png"));
+	ImageIcon HUMAIN = new ImageIcon(IConfig.class.getResource("/wargame/images/units/Humain.png"));
+	ImageIcon HOBBIT = new ImageIcon(IConfig.class.getResource("/wargame/images/units/Hobbit.png"));
+	ImageIcon PLAINE = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Plaine.png"));
+	ImageIcon PLAINE2 = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Plaine2.png"));
+	ImageIcon EAU = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Eau.png"));
+	ImageIcon LAVA = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Lava.png"));
+	ImageIcon FORET = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Foret.png"));
+	ImageIcon FORET2 = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Foret2.png"));
+	ImageIcon ROCHER = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Rocher.png"));
+	ImageIcon ROCHER2 = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Rocher2.png"));
+	ImageIcon BROUILLARD = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Brouillard.png"));
+	ImageIcon BROUILLARD2 = new ImageIcon(IConfig.class.getResource("/wargame/images/terrain/Brouillard2.png"));
 	
-	ImageIcon FOND = new ImageIcon("src/wargame/images/menu/fond.png");
+	ImageIcon FOND = new ImageIcon(IConfig.class.getResource("/wargame/images/menu/fond.png"));
 	
-	ImageIcon TITRE = new ImageIcon("src/wargame/images/menu/titre4.png");
-	ImageIcon BOUTON = new ImageIcon("src/wargame/images/menu/bouton.png");
+	ImageIcon TITRE = new ImageIcon(IConfig.class.getResource("/wargame/images/menu/titre4.png"));
+	ImageIcon BOUTON = new ImageIcon(IConfig.class.getResource("/wargame/images/menu/bouton.png"));
 	
-	ImageIcon VICTOIRE = new ImageIcon("src/wargame/images/menu/Victoire.png");
-	ImageIcon MATCH_NUL = new ImageIcon("src/wargame/images/menu/Match_nul.png");
-	ImageIcon DEFAITE = new ImageIcon("src/wargame/images/menu/Défaite.png");
+	ImageIcon VICTOIRE = new ImageIcon(IConfig.class.getResource("/wargame/images/menu/Victoire.png"));
+	ImageIcon MATCH_NUL = new ImageIcon(IConfig.class.getResource("/wargame/images/menu/Match_nul.png"));
+	ImageIcon DEFAITE = new ImageIcon(IConfig.class.getResource("/wargame/images/menu/Défaite.png"));
 	
 }
