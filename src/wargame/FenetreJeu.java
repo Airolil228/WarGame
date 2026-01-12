@@ -16,6 +16,8 @@ import java.awt.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import javax.swing.Action;
+
 
 public class FenetreJeu implements IConfig{
     private static boolean running = true;
