@@ -722,7 +722,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 				try {
 					is = Carte.class.getResourceAsStream("/wargame/name/Trolls");
 					if (is == null) {
-					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					    throw new RuntimeException("Fichier Trolls introuvable dans le JAR");
 					}
 					br = new BufferedReader(new InputStreamReader(is));
 	
