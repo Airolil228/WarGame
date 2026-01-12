@@ -9,13 +9,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
+
 import java.awt.*;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 /*
  * La classe FenetreJeu contient le main et affiche la carte et d’autres informations du jeu.
@@ -425,7 +420,8 @@ public class FenetreJeu implements IConfig{
     	JRootPane root;
     	
     	// F : fin de tour
-        Action actionF = new AbstractAction() {
+    	// F : fin de tour
+        AbstractAction actionF = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	actionFinDeTour(panel, map);

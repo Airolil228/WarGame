@@ -23,6 +23,7 @@ public class Monstre extends Soldat implements Serializable{
 	public TypesM getTYPE() {
 		return TYPE;
 	}
+
 	/*
 	 * Transformation en chaine de caractere
 	 */

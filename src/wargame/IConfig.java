@@ -38,6 +38,8 @@ public interface IConfig {
 	
 	Color COULEUR_CHAMP_ACTION_VISION = Color.pink; Color COULEUR_CHAMP_ACTION_DEPLACEMENT = Color.red;
 	
+	
+	
 	ImageIcon ECLAIR = new ImageIcon("images/units/eclair.png");
 	ImageIcon COEUR = new ImageIcon("images/units/coeur.png");
 	ImageIcon ORC = new ImageIcon("images/units/Orc.png");

@@ -32,6 +32,12 @@ public class Carte implements ICarte, IConfig, Serializable{
 	private int largeur;
 	private int compteur_tour;
 	private Position select;
+	
+	
+	private Carte map;
+	
+	
+	
 	private enum Etat{
 		EN_COURS,
 		VICTOIRE,
@@ -1519,6 +1525,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 			
 			h.peutRejouer();
 		}
+		/*
 		for (int i=0;i<nbMonstreVivant;i++) {
 			Position p = armeeMonstre[i].getPos();
 			if (!herosACote(p)) {
@@ -1528,6 +1535,10 @@ public class Carte implements ICarte, IConfig, Serializable{
 				setElement(armeeMonstre[i], p2);
 			}
 		}
+		*/
+		// IA :  Jouer le tour des monstres
+		Ordinateur ia = new Ordinateur(hauteur, largeur, this);
+		ia.jouerTour();
 	}
 	
 	/*
@@ -1535,5 +1546,20 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 	}
 	*/
+	
+	public Monstre[] getArmeeMonstre(){
+		return armeeMonstre; 
+	}
+	public Heros[] getArmeeHeros(){
+		return armeeHeros; 
+	}
+	
+	public int getNbHerosVivant() {
+		return nbHerosVivant;
+	}
+
+	public int getNbMonstreVivant() {
+		return nbMonstreVivant;
+	}
 	
 }
