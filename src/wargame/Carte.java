@@ -4,11 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.Serializable;
 
