@@ -1393,23 +1393,6 @@ public class Carte implements ICarte, IConfig, Serializable{
 							//h.peutAttaquer(pos2);
 							h.combat(m);
 							
-							if (pos2.estVoisine(pos)) {
-								try {
-				                    Clip clip = AudioSystem.getClip();
-				                    clip.open(AudioSystem.getAudioInputStream(new File("sons/epee.wav")));
-				                    clip.start();
-				                } catch (Exception e1) {
-				                    e1.printStackTrace();
-				                }
-							}else {
-								try {
-				                    Clip clip = AudioSystem.getClip();
-				                    clip.open(AudioSystem.getAudioInputStream(new File("sons/tir_arc.wav")));
-				                    clip.start();
-				                } catch (Exception e1) {
-				                    e1.printStackTrace();
-				                }
-							}
 							
 							return true;
 						}
@@ -1438,13 +1421,6 @@ public class Carte implements ICarte, IConfig, Serializable{
 						//h.peutAttaquer(pos2);
 						h.combat(m);
 						
-						try {
-		                    Clip clip = AudioSystem.getClip();
-		                    clip.open(AudioSystem.getAudioInputStream(new File("sons/tir_arc.wav")));
-		                    clip.start();
-		                } catch (Exception e1) {
-		                    e1.printStackTrace();
-		                }
 						
 						return true;
 					}
@@ -1476,13 +1452,6 @@ public class Carte implements ICarte, IConfig, Serializable{
 					Heros h = (Heros) getElement(p2);
 					m.combat(h);
 					
-					try {
-	                    Clip clip = AudioSystem.getClip();
-	                    clip.open(AudioSystem.getAudioInputStream(new File("sons/epee.wav")));
-	                    clip.start();
-	                } catch (Exception e1) {
-	                    e1.printStackTrace();
-	                }
 					
 					return true;
 				}
@@ -1508,17 +1477,22 @@ public class Carte implements ICarte, IConfig, Serializable{
 			
 			h.peutRejouer();
 		}
-		/*
+		
 		for (int i=0;i<nbMonstreVivant;i++) {
-			Position p = armeeMonstre[i].getPos();
+			Monstre m = armeeMonstre[i];
+			int pv = m.getPoints();
+			if (pv < m.getPointsMAX()) {
+				m.setPoints(pv + 1);
+			}
+			/*
 			if (!herosACote(p)) {
 				Position p2 = trouvePositionVide(p);
 				setElement(new Plaine(), p);
 				armeeMonstre[i].setPos(p2);
 				setElement(armeeMonstre[i], p2);
 			}
+			*/
 		}
-		*/
 		// IA :  Jouer le tour des monstres
 		Ordinateur ia = new Ordinateur(hauteur, largeur, this);
 		ia.jouerTour();

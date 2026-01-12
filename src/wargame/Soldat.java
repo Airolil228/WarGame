@@ -1,6 +1,10 @@
 package wargame;
 
+import java.io.File;
 import java.io.Serializable;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /*
  * La classe Soldat gère l'ensemble des unités
@@ -71,10 +75,24 @@ public abstract class Soldat extends Element implements ISoldat,Serializable{
 			puissance_coup = (int)(Math.random() * (this.PUISSANCE + 1)); 
 			soldat.pointsDeVie -= puissance_coup;
 			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
+			try {
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(new File("sons/epee.wav")));
+                clip.start();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
 		}else{ // combat à distance
 			puissance_coup = (int)(Math.random() * (this.TIR + 1)); 
 			soldat.pointsDeVie -= puissance_coup;
 			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
+			try {
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(new File("sons/tir_arc.wav")));
+                clip.start();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
 		}
 	}
 	
