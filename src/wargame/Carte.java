@@ -558,7 +558,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 				try {
 					is = Carte.class.getResourceAsStream("/wargame/name/Elfs");
 					if (is == null) {
-					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					    throw new RuntimeException("Fichier Elfs introuvable dans le JAR");
 					}
 					br = new BufferedReader(new InputStreamReader(is));
 					
@@ -580,7 +580,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 				try {
 					is = Carte.class.getResourceAsStream("/wargame/name/Hobbits");
 					if (is == null) {
-					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					    throw new RuntimeException("Fichier Hobbits introuvable dans le JAR");
 					}
 					br = new BufferedReader(new InputStreamReader(is));
 	
@@ -601,7 +601,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 				try {
 					is = Carte.class.getResourceAsStream("/wargame/name/Humains");
 					if (is == null) {
-					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					    throw new RuntimeException("Fichier Humains introuvable dans le JAR");
 					}
 					br = new BufferedReader(new InputStreamReader(is));
 	
@@ -680,7 +680,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 				try {
 					is = Carte.class.getResourceAsStream("/wargame/name/Gobelins");
 					if (is == null) {
-					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					    throw new RuntimeException("Fichier Gobelins introuvable dans le JAR");
 					}
 					br = new BufferedReader(new InputStreamReader(is));
 
@@ -701,7 +701,7 @@ public class Carte implements ICarte, IConfig, Serializable{
 				try {
 					is = Carte.class.getResourceAsStream("/wargame/name/Orcs");
 					if (is == null) {
-					    throw new RuntimeException("Fichier Nains introuvable dans le JAR");
+					    throw new RuntimeException("Fichier Orcs introuvable dans le JAR");
 					}
 					br = new BufferedReader(new InputStreamReader(is));
 	

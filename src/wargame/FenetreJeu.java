@@ -1,8 +1,10 @@
 package wargame;
 
 import java.awt.event.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -529,7 +531,10 @@ public class FenetreJeu implements IConfig{
                 
                 try {
                     Clip clip = AudioSystem.getClip();
-                    clip.open(AudioSystem.getAudioInputStream(new File("wargame/sons/clic.wav")));
+                    
+                    InputStream is = getClass().getResourceAsStream("/wargame/sons/clic.wav");
+                    clip.open(AudioSystem.getAudioInputStream(new BufferedInputStream(is)));
+                    
                     clip.start();
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -699,7 +704,10 @@ public class FenetreJeu implements IConfig{
         Clip clip;
 
         try {
-            AudioInputStream audio = AudioSystem.getAudioInputStream(new File("wargame/sons/music_small_loop1.wav"));
+        	InputStream is = FenetreJeu.class.getResourceAsStream("/wargame/sons/music_small_loop1.wav");
+            if (is == null) throw new RuntimeException("Fichier music_small_loop1.wav introuvable dans le JAR");
+            
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
 
             clip = AudioSystem.getClip();
             clip.open(audio);

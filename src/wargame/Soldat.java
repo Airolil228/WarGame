@@ -1,6 +1,8 @@
 package wargame;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.sound.sampled.AudioSystem;
@@ -70,14 +72,18 @@ public abstract class Soldat extends Element implements ISoldat,Serializable{
 	
 	
 	public void combat_bis(Soldat soldat){
-		int puissance_coup; 
+		int puissance_coup;
+		InputStream is;
 		if(getPos().estVoisine(soldat.getPos())){//corps à corps 
 			puissance_coup = (int)(Math.random() * (this.PUISSANCE + 1)); 
 			soldat.pointsDeVie -= puissance_coup;
 			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
 			try {
                 Clip clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File("src/wargame/sons/epee.wav")));
+                
+                is = getClass().getResourceAsStream("/wargame/sons/epee.wav");
+                clip.open(AudioSystem.getAudioInputStream(new BufferedInputStream(is)));
+                
                 clip.start();
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -88,7 +94,10 @@ public abstract class Soldat extends Element implements ISoldat,Serializable{
 			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
 			try {
                 Clip clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File("src/wargame/sons/tir_arc.wav")));
+                
+                is = getClass().getResourceAsStream("/wargame/sons/tir_arc.wav");
+                clip.open(AudioSystem.getAudioInputStream(new BufferedInputStream(is)));
+                
                 clip.start();
             } catch (Exception e1) {
                 e1.printStackTrace();
