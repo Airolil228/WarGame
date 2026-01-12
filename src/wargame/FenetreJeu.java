@@ -11,6 +11,11 @@ import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 
 import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import javax.swing.Action;
+
 
 /*
  * La classe FenetreJeu contient le main et affiche la carte et d’autres informations du jeu.
