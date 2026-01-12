@@ -75,6 +75,12 @@ public class Ordinateur implements IConfig {
 		}
 	}
 	
+	/**
+	 * Decide et exécute la meilleure action pour un monstre donné.
+	 * Genere toute les actions possibles, calcule leur utilité, choisit la meilleure. 
+	 * 
+	 * @param monstre Le monstre qui doit agir
+	 */
 	
 	private void jouerMonstre(Monstre monstre){
 		Action[] actionsPossibles = genereActionPossibles(monstre); 
@@ -102,7 +108,12 @@ public class Ordinateur implements IConfig {
 			executerAction(monstre, meilleureAction);
 		}
 	}
-	
+	/**
+	 * Exécute une action choisie par l'IA.
+	 * 
+	 * @param monstre Le monstre qui exécute l'action
+	 * @param action L'action à exécuter
+	 */
 	private void executerAction(Monstre monstre, Action action){
 		Position posAvant = new Position(monstre.getPos().getX(), monstre.getPos().getY());
 		
@@ -114,7 +125,7 @@ public class Ordinateur implements IConfig {
 				break;
 				
 			case SE_RAPPROCHER:
-				// Je ne sait pas quoi mettre ici
+				// Dure à trouver 
 				
 			case FUIR:
 				Element destination = map.getElement(action. position);
@@ -133,11 +144,14 @@ public class Ordinateur implements IConfig {
 	
 	
 	/**
+	 * Calcule l'utilité (score) d'une action pour un monstre.
+	 * Plus le score est élevé, plus l'action est intéressante.
 	 * 
-	 * Renvoie l'utilité => quelle action doit faire un monstre choisi afin de finir dans une postion gagnante ?
-	 *  
-	 * 
+	 * @param monstre Le monstre qui envisage l'action
+	 * @param action L'action à evaluer
+	 * @return Le score d'utilite (plus élevé = meilleur)
 	 */
+	
 	private double calculerUtilite(Monstre monstre, Action action){
 		double utilite = 0.0;
 		Position posActuelle = monstre.getPos();
@@ -226,6 +240,11 @@ public class Ordinateur implements IConfig {
 		return utilite;
 	}
 	
+	/**
+	 * Genere toutes les actions possibles pour un monstre.
+	 * @param monstre Le monstre pour lequel générer les actions
+	 * @return Tableau d'actions possibles (attaques, déplacements, attente)
+	 */
 	public Action[] genereActionPossibles(Monstre monstre){
 		Position pos = monstre.getPos();
 		int nbaction = 0;
@@ -268,6 +287,16 @@ public class Ordinateur implements IConfig {
 		
 		return actionsFinal;
 	}
+	
+	/**
+	 * Genere toutes les actions de déplacement possibles pour un monstre.
+	 * Si héros visible :  se rapproche de lui. 
+	 * Si aucun héros visible : se rapproche vers la gauche (où sont les héros).
+	 * 
+	 * @param monstre Le monstre qui veut se déplacer
+	 * @param herosVisibles Tableau des héros visibles par ce monstre
+	 * @return Tableau d'actions de déplacement (SE_RAPPROCHER ou FUIR)
+	 */
 	
 	public Action[] genereCasesDepl(Monstre monstre, Heros[] herosVisibles){
 		
@@ -315,6 +344,12 @@ public class Ordinateur implements IConfig {
 	    return resultat;
 	}
 	
+	/**
+	 * Trouve tous les héros visibles par un monstre (dans sa portée de vision).
+	 * 
+	 * @param monstre Le monstre qui regarde
+	 * @return Tableau des héros visibles (taille exacte, sans null)
+	 */
 	public Heros[] trouverHerosVisibles(Monstre monstre){
 		Heros[] herosVisibles = new Heros[NB_HEROS];
 		int nbTrouves = 0;
