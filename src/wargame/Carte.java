@@ -1477,22 +1477,21 @@ public class Carte implements ICarte, IConfig, Serializable{
 		
 		for (int i=0;i<nbMonstreVivant;i++) {
 			Monstre m = armeeMonstre[i];
+			Position p = m.getPos();
 			int pv = m.getPoints();
 			if (pv < m.getPointsMAX()) {
 				m.setPoints(pv + 1);
 			}
-			/*
 			if (!herosACote(p)) {
 				Position p2 = trouvePositionVide(p);
 				setElement(new Plaine(), p);
 				armeeMonstre[i].setPos(p2);
 				setElement(armeeMonstre[i], p2);
 			}
-			*/
 		}
 		// IA :  Jouer le tour des monstres
-		Ordinateur ia = new Ordinateur(hauteur, largeur, this);
-		ia.jouerTour();
+		/*Ordinateur ia = new Ordinateur(hauteur, largeur, this);
+		ia.jouerTour();*/
 	}
 	
 	/*
