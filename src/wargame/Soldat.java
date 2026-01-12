@@ -77,7 +77,7 @@ public abstract class Soldat extends Element implements ISoldat,Serializable{
 			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
 			try {
                 Clip clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File("sons/epee.wav")));
+                clip.open(AudioSystem.getAudioInputStream(new File("src/wargame/sons/epee.wav")));
                 clip.start();
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -88,7 +88,7 @@ public abstract class Soldat extends Element implements ISoldat,Serializable{
 			System.out.println("Attaque : " + puissance_coup + ", Il reste :" + soldat.pointsDeVie);
 			try {
                 Clip clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(new File("sons/tir_arc.wav")));
+                clip.open(AudioSystem.getAudioInputStream(new File("src/wargame/sons/tir_arc.wav")));
                 clip.start();
             } catch (Exception e1) {
                 e1.printStackTrace();

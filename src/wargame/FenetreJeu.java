@@ -88,7 +88,7 @@ public class FenetreJeu implements IConfig{
 			if(choix == 0 || choix == 1 || choix == 2 ){
 				
 				int slotNumber = choix + 1;
-				File fichier = new File("save/slot"+slotNumber+".wg");
+				File fichier = new File("src/wargame/save/slot"+slotNumber+".wg");
 				if(!fichier.exists()){
 					JOptionPane.showMessageDialog(
 						parent,
@@ -158,7 +158,7 @@ public class FenetreJeu implements IConfig{
         	//Traitement du choix 
         	if(choix == 0 || choix == 1 || choix == 2){
         		int SlotNumber = choix + 1;
-        		File dir = new File("save");
+        		File dir = new File("src/wargame/save");
         		
         		if(!dir.exists()){
         			dir.mkdirs();
@@ -280,7 +280,7 @@ public class FenetreJeu implements IConfig{
 			if(choix == 0 || choix == 1 || choix == 2 ){
 				
 				int slotNumber = choix + 1;
-				File fichier = new File("save/slot"+slotNumber+".wg");
+				File fichier = new File("src/wargame/save/slot"+slotNumber+".wg");
 				if(!fichier.exists()){
 					JOptionPane.showMessageDialog(
 						parent,
@@ -352,7 +352,7 @@ public class FenetreJeu implements IConfig{
         	//Traitement du choix 
         	if(choix == 0 || choix == 1 || choix == 2){
         		int SlotNumber = choix + 1;
-        		File dir = new File("save");
+        		File dir = new File("src/wargame/save");
         		
         		if(!dir.exists()){
         			dir.mkdirs();
@@ -529,7 +529,7 @@ public class FenetreJeu implements IConfig{
                 
                 try {
                     Clip clip = AudioSystem.getClip();
-                    clip.open(AudioSystem.getAudioInputStream(new File("sons/clic.wav")));
+                    clip.open(AudioSystem.getAudioInputStream(new File("src/wargame/sons/clic.wav")));
                     clip.start();
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -699,7 +699,7 @@ public class FenetreJeu implements IConfig{
         Clip clip;
 
         try {
-            AudioInputStream audio = AudioSystem.getAudioInputStream(new File("sons/music_small_loop1.wav"));
+            AudioInputStream audio = AudioSystem.getAudioInputStream(new File("src/wargame/sons/music_small_loop1.wav"));
 
             clip = AudioSystem.getClip();
             clip.open(audio);

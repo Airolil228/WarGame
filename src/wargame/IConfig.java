@@ -38,33 +38,33 @@ public interface IConfig {
 	
 	
 	
-	ImageIcon ECLAIR = new ImageIcon("images/units/eclair.png");
-	ImageIcon COEUR = new ImageIcon("images/units/coeur.png");
-	ImageIcon ORC = new ImageIcon("images/units/Orc.png");
-	ImageIcon TROLL = new ImageIcon("images/units/Troll.png");
-	ImageIcon GOBELIN = new ImageIcon("images/units/Gobelin.png");
-	ImageIcon ELF = new ImageIcon("images/units/Elf.png");
-	ImageIcon NAIN = new ImageIcon("images/units/Nain.png");
-	ImageIcon HUMAIN = new ImageIcon("images/units/Humain.png");
-	ImageIcon HOBBIT = new ImageIcon("images/units/Hobbit.png");
-	ImageIcon PLAINE = new ImageIcon("images/terrain/Plaine.png");
-	ImageIcon PLAINE2 = new ImageIcon("images/terrain/Plaine2.png");
-	ImageIcon EAU = new ImageIcon("images/terrain/Eau.png");
-	ImageIcon LAVA = new ImageIcon("images/terrain/Lava.png");
-	ImageIcon FORET = new ImageIcon("images/terrain/Foret.png");
-	ImageIcon FORET2 = new ImageIcon("images/terrain/Foret2.png");
-	ImageIcon ROCHER = new ImageIcon("images/terrain/Rocher.png");
-	ImageIcon ROCHER2 = new ImageIcon("images/terrain/Rocher2.png");
-	ImageIcon BROUILLARD = new ImageIcon("images/terrain/Brouillard.png");
-	ImageIcon BROUILLARD2 = new ImageIcon("images/terrain/Brouillard2.png");
+	ImageIcon ECLAIR = new ImageIcon("src/wargame/images/units/eclair.png");
+	ImageIcon COEUR = new ImageIcon("src/wargame/images/units/coeur.png");
+	ImageIcon ORC = new ImageIcon("src/wargame/images/units/Orc.png");
+	ImageIcon TROLL = new ImageIcon("src/wargame/images/units/Troll.png");
+	ImageIcon GOBELIN = new ImageIcon("src/wargame/images/units/Gobelin.png");
+	ImageIcon ELF = new ImageIcon("src/wargame/images/units/Elf.png");
+	ImageIcon NAIN = new ImageIcon("src/wargame/images/units/Nain.png");
+	ImageIcon HUMAIN = new ImageIcon("src/wargame/images/units/Humain.png");
+	ImageIcon HOBBIT = new ImageIcon("src/wargame/images/units/Hobbit.png");
+	ImageIcon PLAINE = new ImageIcon("src/wargame/images/terrain/Plaine.png");
+	ImageIcon PLAINE2 = new ImageIcon("src/wargame/images/terrain/Plaine2.png");
+	ImageIcon EAU = new ImageIcon("src/wargame/images/terrain/Eau.png");
+	ImageIcon LAVA = new ImageIcon("src/wargame/images/terrain/Lava.png");
+	ImageIcon FORET = new ImageIcon("src/wargame/images/terrain/Foret.png");
+	ImageIcon FORET2 = new ImageIcon("src/wargame/images/terrain/Foret2.png");
+	ImageIcon ROCHER = new ImageIcon("src/wargame/images/terrain/Rocher.png");
+	ImageIcon ROCHER2 = new ImageIcon("src/wargame/images/terrain/Rocher2.png");
+	ImageIcon BROUILLARD = new ImageIcon("src/wargame/images/terrain/Brouillard.png");
+	ImageIcon BROUILLARD2 = new ImageIcon("src/wargame/images/terrain/Brouillard2.png");
 	
-	ImageIcon FOND = new ImageIcon("images/menu/fond.png");
+	ImageIcon FOND = new ImageIcon("src/wargame/images/menu/fond.png");
 	
-	ImageIcon TITRE = new ImageIcon("images/menu/titre4.png");
-	ImageIcon BOUTON = new ImageIcon("images/menu/bouton.png");
+	ImageIcon TITRE = new ImageIcon("src/wargame/images/menu/titre4.png");
+	ImageIcon BOUTON = new ImageIcon("src/wargame/images/menu/bouton.png");
 	
-	ImageIcon VICTOIRE = new ImageIcon("images/menu/Victoire.png");
-	ImageIcon MATCH_NUL = new ImageIcon("images/menu/Match_nul.png");
-	ImageIcon DEFAITE = new ImageIcon("images/menu/Défaite.png");
+	ImageIcon VICTOIRE = new ImageIcon("src/wargame/images/menu/Victoire.png");
+	ImageIcon MATCH_NUL = new ImageIcon("src/wargame/images/menu/Match_nul.png");
+	ImageIcon DEFAITE = new ImageIcon("src/wargame/images/menu/Défaite.png");
 	
 }

@@ -103,7 +103,7 @@ public class MenuDemarrage extends JPanel implements IConfig{
 			if(choix == 0 || choix == 1 || choix == 2 ){
 				
 				int slotNumber = choix + 1;
-				File fichier = new File("save/slot"+slotNumber+".wg");
+				File fichier = new File("src/wargame/save/slot"+slotNumber+".wg");
 				if(!fichier.exists()){
 					JOptionPane.showMessageDialog(
 						parent,
