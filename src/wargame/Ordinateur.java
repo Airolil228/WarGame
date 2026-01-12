@@ -116,7 +116,6 @@ public class Ordinateur implements IConfig{
 	 * @param action L'action à exécuter
 	 */
 	private void executerAction(Monstre monstre, Action action){
-		Position posAvant = new Position(monstre.getPos().getX(), monstre.getPos().getY());
 		
 		switch(action.type){
 			case ATTAQUER: 

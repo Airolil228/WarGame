@@ -1,6 +1,5 @@
 package wargame;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -56,7 +55,6 @@ public class SauveCharge{
 				throw new IOException("Fichier de sauvegarde invalide n'est pas le type (Carte)");
 			}
 			Carte carte = (Carte) obj;
-			carte.setPanneauJeu(panneauJeu);
 			carte.actuBrouillard();
 			return carte;
 		}

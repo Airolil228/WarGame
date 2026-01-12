@@ -14,7 +14,6 @@ import java.awt.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import javax.swing.Action;
 
 
 /*
@@ -35,7 +34,6 @@ public class FenetreJeu implements IConfig{
     private static int currentMouseX,currentMouseY;
     
     private static Element draggedElement =  null; 
-    private static Element elementSurvole = null; 
     
     /*
      * Méthode principale pour créer la barre de menu
@@ -481,7 +479,6 @@ public class FenetreJeu implements IConfig{
     	jeu.setJMenuBar(menuBar);
     	
     	JPanel panel = new PanneauJeu(map);
-    	map.setPanneauJeu(panel);
     	
     	jeu.setContentPane(main);
     	main.add(panel);
@@ -563,9 +560,6 @@ public class FenetreJeu implements IConfig{
         		if(dragging) {
 	        		currentMouseX = e.getX();
 	        		currentMouseY = e.getY();
-	        		
-	        		int currentCaseX = currentMouseX / NB_PIX_CASE; 
-	        		int currentCaseY = currentMouseY / NB_PIX_CASE;
 	        		
 	        		System.out.println("Drag en cours vers: " + currentMouseY + ", " + currentMouseX);
 	        		panel.repaint(); 
@@ -678,7 +672,6 @@ public class FenetreJeu implements IConfig{
         jeu.setJMenuBar(menuBar);
         
         JPanel panel = new PanneauJeu(map);
-        map.setPanneauJeu(panel);
         
         // Pour accepter les info-bulles
         ToolTipManager.sharedInstance().registerComponent(panel);

@@ -6,15 +6,10 @@ import java.awt.Image;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.JPanel;
-
-import wargame.Plaine.TypePlaine;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
 
 
@@ -34,9 +29,6 @@ public class Carte implements ICarte, IConfig, Serializable{
 	private Position select;
 	
 	
-	private Carte map;
-	
-	
 	
 	private enum Etat{
 		EN_COURS,
@@ -50,7 +42,6 @@ public class Carte implements ICarte, IConfig, Serializable{
 	
 	public static String case_selectionne ; 
 	public static String str_action_Hero = "Aucune Action réalisée";
-	private JPanel panneauJeu;
 	
 	private int deplacementPossible[][];
 	private int vision[][];
@@ -146,13 +137,6 @@ public class Carte implements ICarte, IConfig, Serializable{
 		actuBrouillard();
 	}
 	
-	/**
-	 * Permet de définir le panneau de jeu correspondant (JPanel)
-	 * @param panneau panneau de jeu
-	 */
-	public void setPanneauJeu(JPanel panneau) {
-        this.panneauJeu = panneau;
-    }
 
 	/**
 	 * Permet de récuper le tableau de jeu
@@ -993,7 +977,6 @@ public class Carte implements ICarte, IConfig, Serializable{
 					System.out.println(case_selectionne);
 					 
 					if (h.peutJouer()) {
-						int i,j;
 						int portee_visuelle = h.getPortee();
 						int portee_deplacement = h.getPorteeDeplacement();
 						

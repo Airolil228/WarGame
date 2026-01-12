@@ -2,8 +2,6 @@ package wargame;
 
 import java.io.Serializable;
 
-import wargame.Obstacle.TypeObstacle;
-
 /*
  * La classe Plaine gère l'element de base de la carte
  */

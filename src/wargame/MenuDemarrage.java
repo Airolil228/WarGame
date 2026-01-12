@@ -9,7 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.Component;
 import javax.swing.JOptionPane;
 import java.io.File;
@@ -19,6 +18,7 @@ import java.io.IOException;
  * La classe MenuDemarrage gère le JPanel qui permet d'afficher le menu et ses éléments
  */
 public class MenuDemarrage extends JPanel implements IConfig{
+	private static final long serialVersionUID = 1L;
 	private JButton btnNouvellePartie;
 	private JButton btnChargerPartie;
 	private JButton btnQuitter;

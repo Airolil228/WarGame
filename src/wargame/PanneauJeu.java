@@ -2,7 +2,6 @@ package wargame;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /*
@@ -41,7 +40,7 @@ public class PanneauJeu extends JPanel implements IConfig{
 	
 	
 	private void drawDraggedElement(Graphics g){
-		Element draggedElement = FenetreJeu.getDraggedElement();
+		//Element draggedElement = FenetreJeu.getDraggedElement();
 		int mouseX = FenetreJeu.getCurrentMouseX();
 		int mouseY= FenetreJeu.getCurrentMouseY();
 		

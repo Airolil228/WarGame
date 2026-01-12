@@ -2,8 +2,6 @@ package wargame;
 
 import java.io.Serializable;
 
-import wargame.ISoldat.TypesH;
-
 /*
  * La classe Monstre gère les unités du joueur 2 (joueur ordinateur)
  */

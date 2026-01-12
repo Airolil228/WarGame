@@ -1,9 +1,7 @@
 package wargame;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.io.Serializable;
 
-import wargame.ISoldat.TypesH;
 
 /*
  * La classe Obstacle gère les éléments de la carte qui bloquent les unités
@@ -14,8 +12,8 @@ public class Obstacle extends Element implements Serializable {
 	
 	public enum TypeObstacle {
 		ROCHER (IConfig.COULEUR_ROCHER), FORET (IConfig.COULEUR_FORET), EAU (IConfig.COULEUR_EAU);
-		private final Color COULEUR;
-		TypeObstacle(Color couleur) { COULEUR = couleur; }
+		//private final Color COULEUR;
+		TypeObstacle(Color couleur) { /*COULEUR = couleur;*/ }
 		public static TypeObstacle getObstacleAlea() {
 			return values()[(int)(Math.random()*values().length)];
 		}
